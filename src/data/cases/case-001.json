@@ -22,7 +22,8 @@
       "询问员工与住客",
       "整理证据并核对时间线矛盾",
       "提交有证据支持的最终推理"
-    ]
+    ],
+    "victimLabel": "失踪者"
   },
   "characters": [
     {
@@ -1105,15 +1106,15 @@
     {
       "id": "ending-true-rescue",
       "title": "及时找到",
-      "summary": "412 被打开，苏晚仍有生命体征。周澄被控制，泄密与绑架链条被证据钉死。",
+      "summary": "证据链完整：412 被及时打开，苏晚仍有生命体征。周澄被控制，泄密与转移链条被钉死。",
       "conditions": {
-        "minRank": "A"
+        "minRank": "S"
       }
     },
     {
       "id": "ending-partial",
       "title": "迟来的确认",
-      "summary": "周澄被带走调查，但关键转移路径确认较晚。苏晚最终获救，代价是更长的空白时间。",
+      "summary": "主要责任人方向正确，苏晚最终获救，但关键转移路径或动机证明仍有缺口，结案带有遗憾。",
       "conditions": {
         "personCorrect": true,
         "minRank": "C"

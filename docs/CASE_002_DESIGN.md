@@ -145,15 +145,15 @@ Stop Xu from exposing embezzlement of charity/sponsorship funds.
 ## 8. Timeline Events (correct order)
 
 1. `evt-record-outro` — 许知微录制备用结束语
-2. `evt-confrontation` — 许知微与罗景舟发生对质
+2. `evt-confrontation` — 编辑室发生对质
 3. `evt-incapacitate` — 冲突中许知微昏迷
-4. `evt-lock-take-disc` — 罗景舟锁闭内室并取走资料盘
-5. `evt-edit-schedule` — 罗景舟剪辑录音并修改自动播出队列
-6. `evt-lobby-alibi` — 罗景舟前往大堂制造不在场记录
+4. `evt-lock-take-disc` — 内室被锁闭，资料盘失踪
+5. `evt-edit-schedule` — 有人剪辑录音并改动自动播出队列
+6. `evt-lobby-alibi` — 有人前往大堂留下停留记录
 7. `evt-fake-broadcast` — 00:13 伪造音频自动播出
 8. `evt-discovery` — 实习生和保安发现许知微
 
-No event depends on `timelineSolved`.
+Event labels stay neutral on the perpetrator. No event depends on `timelineSolved`.
 
 ---
 
@@ -168,11 +168,11 @@ No event depends on `timelineSolved`.
 
 **Endings**
 
-| ID                   | Condition                 | Summary                              |
-| -------------------- | ------------------------- | ------------------------------------ |
-| `ending-full-reveal` | minRank A                 | Full proof; Xu saved; disc recovered |
-| `ending-partial`     | personCorrect + minRank C | Luo investigated; chain incomplete   |
-| `ending-wrong-trail` | personCorrect false       | Wrong suspect; truth delayed         |
+| ID                   | Condition                 | Summary                                                                |
+| -------------------- | ------------------------- | ---------------------------------------------------------------------- |
+| `ending-full-reveal` | minRank S                 | Full proof; Xu saved; disc recovered                                   |
+| `ending-partial`     | personCorrect + minRank C | Person correct but chain incomplete (includes A/B/C with right person) |
+| `ending-wrong-trail` | personCorrect false       | Wrong suspect; truth delayed                                           |
 
 ---
 

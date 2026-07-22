@@ -1,11 +1,9 @@
 import { el, assetUrl } from '../utils/dom.js';
 import { navigate } from '../router.js';
-import { getCaseIndex, loadCase } from '../systems/case-loader.js';
-import { getState, startCase, hasActiveSave } from '../state/game-state.js';
-import { saveGame, readBestRanks } from '../state/save-manager.js';
-import { showToast } from '../components/toast.js';
+import { getCaseIndex } from '../systems/case-loader.js';
+import { getState, hasActiveSave } from '../state/game-state.js';
+import { readBestRanks, getCaseEnding } from '../state/save-manager.js';
 import { renderEmptyBlock } from '../components/status-block.js';
-import { confirmNewCaseStart } from '../utils/progress-guard.js';
 
 function difficultyLabel(value) {
   const map = {
@@ -16,34 +14,6 @@ function difficultyLabel(value) {
   return map[value] || value;
 }
 
-function enterCaseBriefing(item, { isActive }) {
-  // Resume in-progress case without wiping progress.
-  if (isActive) {
-    navigate(`/case/${item.id}`);
-    return;
-  }
-
-  if (
-    !confirmNewCaseStart(
-      getState(),
-      '已有进行中的调查进度，进入该案简报并重新开始将清空当前进度。确定继续吗？',
-    )
-  ) {
-    showToast('已取消重新开始');
-    return;
-  }
-
-  const loaded = loadCase(item.id);
-  if (!loaded.ok) {
-    showToast('案件数据无效，无法开始');
-    console.error(loaded.error);
-    return;
-  }
-  startCase(item.id, loaded.data);
-  saveGame();
-  navigate(`/case/${item.id}`);
-}
-
 export function renderCaseSelectView(root) {
   const cases = getCaseIndex();
   const state = getState();
@@ -51,12 +21,62 @@ export function renderCaseSelectView(root) {
 
   const cards = cases.map((item) => {
     const isActive = state.caseId === item.id && hasActiveSave(state);
+    const archivedEnding = getCaseEnding(item.id);
     const cover = el('img', {
       className: 'case-card__cover',
       src: assetUrl(item.coverImage),
       alt: `${item.titleZh} 封面`,
       loading: 'lazy',
     });
+
+    const actions = [
+      el(
+        'button',
+        {
+          className: 'btn btn--primary',
+          type: 'button',
+          on: {
+            click: () => {
+              if (isActive) {
+                navigate('/investigation');
+                return;
+              }
+              navigate(`/case/${item.id}`);
+            },
+          },
+        },
+        isActive ? '继续本案' : '进入简报',
+      ),
+      el(
+        'button',
+        {
+          className: 'btn',
+          type: 'button',
+          on: {
+            click: () => {
+              navigate(`/case/${item.id}`);
+            },
+          },
+        },
+        '查看详情',
+      ),
+    ];
+
+    if (archivedEnding?.endingId) {
+      actions.push(
+        el(
+          'button',
+          {
+            className: 'btn btn--ghost',
+            type: 'button',
+            on: {
+              click: () => navigate(`/ending/${item.id}`),
+            },
+          },
+          '回顾结局',
+        ),
+      );
+    }
 
     return el(
       'article',
@@ -88,7 +108,9 @@ export function renderCaseSelectView(root) {
               className: 'status-pill',
               text: isActive
                 ? '进行中'
-                : bestRanks[item.id] || (state.completed && state.caseId === item.id)
+                : bestRanks[item.id] ||
+                    archivedEnding ||
+                    (state.completed && state.caseId === item.id)
                   ? '已完成'
                   : '未开始',
             }),
@@ -97,32 +119,7 @@ export function renderCaseSelectView(root) {
               text: bestRanks[item.id] ? `最佳评价：${bestRanks[item.id]}` : '最佳评价：—',
             }),
           ]),
-          el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1rem' } }, [
-            el(
-              'button',
-              {
-                className: 'btn btn--primary',
-                type: 'button',
-                on: {
-                  click: () => enterCaseBriefing(item, { isActive }),
-                },
-              },
-              isActive ? '继续本案' : '进入简报',
-            ),
-            el(
-              'button',
-              {
-                className: 'btn',
-                type: 'button',
-                on: {
-                  click: () => {
-                    navigate(`/case/${item.id}`);
-                  },
-                },
-              },
-              '查看详情',
-            ),
-          ]),
+          el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1rem' } }, actions),
         ]),
       ],
     );
@@ -134,7 +131,7 @@ export function renderCaseSelectView(root) {
         el('p', { className: 'eyebrow', text: 'Case Files' }),
         el('h1', { id: 'cases-title', text: '案件选择' }),
         el('p', {
-          text: '选择要调查的案件。进度按案件分别记录最佳评价；同一时间仅保留一份进行中的存档。',
+          text: '选择要调查的案件。进度按案件分别记录最佳评价与结局；同一时间仅保留一份进行中的存档。“查看详情”不会清空进度。',
         }),
       ]),
       cases.length

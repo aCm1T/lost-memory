@@ -22,7 +22,8 @@
       "询问员工与财务联系人",
       "弄清 00:13 播出内容的真实性质",
       "提交有证据支持的最终推理"
-    ]
+    ],
+    "victimLabel": "当事人"
   },
   "characters": [
     {
@@ -299,9 +300,6 @@
                   "clue": "clue-access-log"
                 },
                 {
-                  "clue": "clue-disc-catalog"
-                },
-                {
                   "topic": "topic-he-patrol"
                 }
               ]
@@ -317,7 +315,7 @@
       "id": "loc-lobby",
       "name": "广播台大堂",
       "nameEn": "Lobby",
-      "description": "夜间接待与临时会客区。罗景舟刻意在此留下可验证痕迹。",
+      "description": "夜间接待与临时会客区。桌上与前台留有可核对的停留痕迹。",
       "image": "assets/images/locations/radio-lobby.svg",
       "unlockConditions": [],
       "hotspots": [
@@ -560,7 +558,7 @@
       "type": "physical",
       "image": "",
       "shortDescription": "失踪资料盘被藏在备份柜夹层。",
-      "detailDescription": "盘面仍有许知微标签。罗景舟显然打算稍后再取回销毁或改写。",
+      "detailDescription": "盘面仍有许知微标签。夹层位置隐蔽，更像临时藏匿而非常规备份。",
       "source": "loc-equipment-corridor",
       "relatedCharacterIds": ["char-luo-jingzhou", "char-xu-zhiwei"],
       "relatedLocationIds": ["loc-equipment-corridor"],
@@ -1009,8 +1007,8 @@
       },
       {
         "id": "evt-confrontation",
-        "label": "许知微与罗景舟发生对质",
-        "description": "约 23:46，双方因账目公开问题在编辑室争执。",
+        "label": "编辑室发生对质",
+        "description": "约 23:46，编辑室方向出现压低的争执。",
         "unlockConditions": [
           {
             "any": [
@@ -1050,8 +1048,8 @@
       },
       {
         "id": "evt-lock-take-disc",
-        "label": "罗景舟锁闭内室并取走资料盘",
-        "description": "内室被从外侧锁上，原始资料盘随即失踪。",
+        "label": "内室被锁闭，资料盘失踪",
+        "description": "内室被从外侧锁上，原始资料盘随即不见。",
         "unlockConditions": [
           {
             "any": [
@@ -1077,7 +1075,7 @@
       },
       {
         "id": "evt-edit-schedule",
-        "label": "罗景舟剪辑录音并修改自动播出队列",
+        "label": "有人剪辑录音并改动自动播出队列",
         "description": "接近午夜，备用结束语被剪成短版并排入 00:13 自动播出。",
         "unlockConditions": [
           {
@@ -1101,8 +1099,8 @@
       },
       {
         "id": "evt-lobby-alibi",
-        "label": "罗景舟前往大堂制造不在场记录",
-        "description": "约 00:05，罗景舟出现在大堂并留下小票与登记。",
+        "label": "有人前往大堂留下停留记录",
+        "description": "约 00:05，有人出现在大堂并留下小票与登记。",
         "unlockConditions": [
           {
             "any": [
@@ -1136,7 +1134,7 @@
       {
         "id": "evt-discovery",
         "label": "实习生和保安发现许知微",
-        "description": "约 00:24 林雾察觉无人回应，00:31 贺原打开内室。",
+        "description": "林雾察觉无人回应后呼叫保安；00:31 贺原打开内室。",
         "unlockConditions": []
       }
     ],
@@ -1250,6 +1248,22 @@
       {
         "id": "clue-master-key",
         "label": "保安万能卡使用记录"
+      },
+      {
+        "id": "clue-waveform-cut",
+        "label": "波形剪辑断点"
+      },
+      {
+        "id": "clue-calib-tone",
+        "label": "背景校准音痕迹"
+      },
+      {
+        "id": "clue-fake-invoice",
+        "label": "虚假发票复印件"
+      },
+      {
+        "id": "clue-access-log",
+        "label": "设备区门禁记录"
       }
     ],
     "correct": {
@@ -1277,15 +1291,15 @@
     {
       "id": "ending-full-reveal",
       "title": "回声落地",
-      "summary": "证据链完整闭合：00:13 是剪辑后的自动播出，而非现场讲话。许知微获救，资料盘被找回，虚假赞助与侵吞问题一并曝光，罗景舟被控制。",
+      "summary": "证据链完整闭合：00:13 是剪辑后的自动播出，而非现场讲话。许知微获救，资料盘被找回，虚假赞助与侵吞问题一并曝光，责任人被控制。",
       "conditions": {
-        "minRank": "A"
+        "minRank": "S"
       }
     },
     {
       "id": "ending-partial",
       "title": "未完成的频率",
-      "summary": "罗景舟进入调查程序，许知微也脱离危险，但部分伪造播出或账目环节仍不够扎实，结案带有遗憾。",
+      "summary": "主要责任人方向正确，许知微脱离危险，但伪造播出或账目环节仍有缺口，结案带有遗憾。",
       "conditions": {
         "personCorrect": true,
         "minRank": "C"

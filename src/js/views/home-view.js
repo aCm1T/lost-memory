@@ -7,26 +7,41 @@ import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 import { playSfx } from '../systems/audio-system.js';
 import { confirmNewCaseStart } from '../utils/progress-guard.js';
 
-function beginFirstCase() {
-  const firstCase = getCaseIndex()[0];
-  if (!firstCase) {
+function restartCurrentOrChooseCase() {
+  const state = getState();
+  const cases = getCaseIndex();
+  if (!cases.length) {
     showToast('暂无可用案件');
     return;
   }
-  if (!confirmNewCaseStart(getState())) {
-    showToast('已取消开始新游戏');
+
+  const currentId = state.caseId;
+  const shouldRestartCurrent =
+    Boolean(currentId) && (hasActiveSave(state) || Boolean(state.completed && state.endingId));
+
+  if (!shouldRestartCurrent) {
+    playSfx('click');
+    navigate('/cases');
+    showToast('请选择要调查的案件');
     return;
   }
-  const loaded = loadCase(firstCase.id);
+
+  if (!confirmNewCaseStart(state, '重新开始当前案件将清空现有进度。确定继续吗？')) {
+    showToast('已取消重新开始');
+    return;
+  }
+
+  const loaded = loadCase(currentId);
   if (!loaded.ok) {
     showToast('案件数据无法加载');
     console.error(loaded.error);
     return;
   }
-  startCase(firstCase.id, loaded.data);
+
+  startCase(currentId, loaded.data);
   saveGame();
   playSfx('click');
-  navigate(`/case/${firstCase.id}`);
+  navigate(`/case/${currentId}`);
 }
 
 export function renderHomeView(root) {
@@ -65,9 +80,9 @@ export function renderHomeView(root) {
       {
         className: canContinue ? 'btn' : 'btn btn--primary',
         type: 'button',
-        on: { click: beginFirstCase },
+        on: { click: restartCurrentOrChooseCase },
       },
-      canContinue ? '重新开始' : '开始游戏',
+      canContinue || canReviewEnding ? '重新开始' : '开始游戏',
     ),
     continueBtn,
   ];

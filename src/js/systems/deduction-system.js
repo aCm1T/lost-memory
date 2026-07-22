@@ -1,5 +1,5 @@
 import { getState, setState } from '../state/game-state.js';
-import { recordBestRank } from '../state/save-manager.js';
+import { recordBestRank, recordCaseEnding } from '../state/save-manager.js';
 
 const RANK_ORDER = ['C', 'B', 'A', 'S'];
 
@@ -201,22 +201,34 @@ export function submitDeduction(caseData, submission) {
   const finalEvaluation = evaluateDeduction(caseData, submission, finalState);
   const finalEnding = selectEnding(caseData, finalEvaluation);
 
+  const lastDeduction = {
+    ...finalEvaluation,
+    endingId: finalEnding?.id || null,
+    message: '推理已提交。',
+    at: new Date().toISOString(),
+  };
+
   setState({
     deductionAttempts: attempts,
     deductionWrongAttempts: wrongAttempts,
     rank: finalEvaluation.rank,
     endingId: finalEnding?.id || null,
     completed: true,
-    lastDeduction: {
-      ...finalEvaluation,
-      endingId: finalEnding?.id || null,
-      message: '推理已提交。',
-      at: new Date().toISOString(),
-    },
+    lastDeduction,
   });
 
-  if (getState().caseId && finalEvaluation.rank) {
-    recordBestRank(getState().caseId, finalEvaluation.rank);
+  const caseId = getState().caseId;
+  if (caseId && finalEvaluation.rank) {
+    recordBestRank(caseId, finalEvaluation.rank);
+  }
+  if (caseId && finalEnding) {
+    recordCaseEnding(caseId, {
+      endingId: finalEnding.id,
+      rank: finalEvaluation.rank,
+      title: finalEnding.title,
+      summary: finalEnding.summary,
+      lastDeduction,
+    });
   }
 
   return {

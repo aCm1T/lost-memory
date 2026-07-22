@@ -23,7 +23,12 @@ import {
   submitDeduction,
 } from '../src/js/systems/deduction-system.js';
 import { needsNewCaseConfirmation } from '../src/js/utils/progress-guard.js';
-import { recordBestRank, readBestRanks } from '../src/js/state/save-manager.js';
+import {
+  recordBestRank,
+  readBestRanks,
+  recordCaseEnding,
+  getCaseEnding,
+} from '../src/js/state/save-manager.js';
 import { CREDIT_ITEMS } from '../src/js/views/credits-view.js';
 
 const root = resolve(process.cwd());
@@ -225,6 +230,57 @@ describe('case-002 clear path', () => {
     expect(result.completed).toBe(false);
     expect(result.message).not.toContain('监控');
   });
+
+  it('maps A-rank complete answers to partial ending, not full reveal', () => {
+    setState({
+      timelineSolved: true,
+      flags: {},
+      discoveredClueIds: [
+        'clue-auto-queue',
+        'clue-email-draft',
+        'clue-workstation-cache',
+        'clue-mic-log',
+      ],
+    });
+    const evaluation = evaluateDeduction(case002, {
+      personId: 'char-luo-jingzhou',
+      motiveId: 'motive-cover-embezzlement',
+      methodId: 'method-incapacitate-fake-live',
+      evidenceIds: ['clue-auto-queue', 'clue-email-draft', 'clue-workstation-cache'],
+    });
+    expect(evaluation.rank).toBe('A');
+    expect(selectEnding(case002, evaluation).id).toBe('ending-partial');
+  });
+
+  it('maps person+method-only answers to B and partial ending', () => {
+    setState({ timelineSolved: true });
+    const result = submitDeduction(case002, {
+      personId: 'char-luo-jingzhou',
+      motiveId: 'motive-ratings',
+      methodId: 'method-incapacitate-fake-live',
+      evidenceIds: ['clue-auto-queue', 'clue-workstation-cache'],
+    });
+    expect(result.completed).toBe(true);
+    expect(result.evaluation.rank).toBe('B');
+    expect(result.ending.id).toBe('ending-partial');
+  });
+
+  it('keeps timeline event labels free of the culprit name', () => {
+    for (const event of case002.timeline.events) {
+      expect(event.label).not.toContain('罗景舟');
+    }
+    const hidden = case002.clues.find((clue) => clue.id === 'clue-hidden-disc');
+    expect(hidden.detailDescription).not.toContain('显然打算');
+  });
+
+  it('exposes all accepted-evidence-group clues in evidenceOptions', () => {
+    const optionIds = new Set(case002.deduction.evidenceOptions.map((option) => option.id));
+    for (const group of case002.deduction.correct.acceptedEvidenceGroups) {
+      for (const clueId of group) {
+        expect(optionIds.has(clueId)).toBe(true);
+      }
+    }
+  });
 });
 
 describe('case-select / save compatibility helpers', () => {
@@ -235,6 +291,23 @@ describe('case-select / save compatibility helpers', () => {
     const ranks = readBestRanks(storage);
     expect(ranks['case-001']).toBe('A');
     expect(ranks['case-002']).toBe('S');
+  });
+
+  it('archives endings per case for later review', () => {
+    const storage = memoryStorage();
+    recordCaseEnding(
+      'case-002',
+      {
+        endingId: 'ending-full-reveal',
+        rank: 'S',
+        title: '回声落地',
+        summary: 'test',
+        lastDeduction: { rank: 'S' },
+      },
+      storage,
+    );
+    expect(getCaseEnding('case-002', storage).endingId).toBe('ending-full-reveal');
+    expect(getCaseEnding('case-001', storage)).toBeNull();
   });
 
   it('still requires confirmation when switching away from an in-progress case', () => {

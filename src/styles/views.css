@@ -91,15 +91,16 @@ html[data-motion='off'] .dialogue-entry {
 }
 
 .home-hero__stage::after {
-  content: '407';
+  content: 'CASE';
   position: absolute;
   right: 8%;
   bottom: 12%;
   font-family: var(--font-display);
-  font-size: clamp(4rem, 18vw, 8rem);
+  font-size: clamp(3.5rem, 14vw, 7rem);
   color: rgba(232, 238, 245, 0.06);
   line-height: 1;
   pointer-events: none;
+  letter-spacing: 0.08em;
 }
 
 .home-hero__fragment {

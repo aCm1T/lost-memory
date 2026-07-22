@@ -102,7 +102,7 @@ export function submitTimeline(caseData, state = getState()) {
     ok: true,
     solved: true,
     reason: 'correct',
-    message: '时间线验证通过。412 号房与后续推理条件已解锁。',
+    message: '时间线验证通过。最终推理条件已解锁。',
     order: expected,
   };
 }

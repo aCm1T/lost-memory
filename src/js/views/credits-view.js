@@ -6,6 +6,7 @@ export const CREDIT_ITEMS = [
   'Lost Memory /《失落的记忆》— 原创互动推理项目',
   '概念 · 设计 · 实现：aCm1T',
   '第一案：《407 号房的失踪者》 / The Vanishing at Room 407',
+  '第二案：《零点十三分的回声》 / The Echo at 00:13',
   '字体：Instrument Serif、Source Sans 3（Google Fonts · SIL OFL）',
   '占位封面、角色与场景图、PWA 图标：项目原创 SVG',
   '音频：可选本地文件；缺失时回退为程序音效',

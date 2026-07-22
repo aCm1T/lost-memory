@@ -8,5 +8,15 @@
     "estimatedMinutes": 45,
     "coverImage": "assets/images/cases/case-001-cover.svg",
     "status": "available"
+  },
+  {
+    "id": "case-002",
+    "title": "The Echo at 00:13",
+    "titleZh": "零点十三分的回声",
+    "summary": "星港广播台隔音室门锁完好，主持人许知微却陷入昏迷。00:13 的结束语仍在播出——那真的是直播吗？",
+    "difficulty": "hard",
+    "estimatedMinutes": 55,
+    "coverImage": "assets/images/cases/case-002-cover.svg",
+    "status": "available"
   }
 ]

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="唐朔">
+  <rect width="128" height="128" fill="#1a2332"/>
+  <circle cx="64" cy="48" r="28" fill="#7a6a5a"/>
+  <ellipse cx="64" cy="112" rx="40" ry="28" fill="#7a6a5a"/>
+  <text x="64" y="52" text-anchor="middle" fill="#e8eef5" font-size="18" font-family="Georgia, serif">唐</text>
+</svg>

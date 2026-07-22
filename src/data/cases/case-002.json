@@ -1,0 +1,1357 @@
+{
+  "id": "case-002",
+  "title": "The Echo at 00:13",
+  "titleZh": "零点十三分的回声",
+  "summary": "星港广播台隔音室门锁完好，主持人许知微却陷入昏迷。00:13 的结束语仍在播出——那真的是直播吗？",
+  "difficulty": "hard",
+  "estimatedMinutes": 55,
+  "coverImage": "assets/images/cases/case-002-cover.svg",
+  "briefing": {
+    "background": "凌晨 00:31，星港广播台深夜调查节目主持人许知微被发现昏迷在编辑室附属的隔音内室中。内室门锁闭，节目的一块原始资料盘不见了。\n\n奇怪的是，00:13 时，许知微的声音仍通过广播播出了一段结束语。许多工作人员与听众相信那是直播，因此认定她在 00:13 仍然清醒。\n\n执行制作人罗景舟从约 00:05 起便出现在大堂，留下监控、访客记录与消费小票作为不在场证明。\n\n你需要在记忆与回声互相覆盖之前，弄清那一晚真正发生的事。",
+    "time": "某年冬夜，约 23:40–00:31",
+    "place": "星港广播台（Starport Radio）直播区、播控与大堂",
+    "victim": {
+      "id": "char-xu-zhiwei",
+      "name": "许知微",
+      "nameEn": "Xu Zhiwei",
+      "role": "调查节目主持人",
+      "summary": "被发现昏迷于锁闭的隔音内室；原始资料盘失踪；00:13 仍有“她的声音”播出。"
+    },
+    "objectives": [
+      "搜查直播间、编辑室、播控室与设备区",
+      "询问员工与财务联系人",
+      "弄清 00:13 播出内容的真实性质",
+      "提交有证据支持的最终推理"
+    ]
+  },
+  "characters": [
+    {
+      "id": "char-xu-zhiwei",
+      "name": "许知微",
+      "nameEn": "Xu Zhiwei",
+      "role": "调查节目主持人",
+      "portrait": "assets/images/characters/xu-zhiwei.svg",
+      "bio": "主持深夜调查节目。目前无法应答，只能通过笔记、录音与他人口供了解她。",
+      "personality": "尖锐、坚持原则",
+      "relation": "受害者",
+      "interviewable": false,
+      "status": "unavailable"
+    },
+    {
+      "id": "char-luo-jingzhou",
+      "name": "罗景舟",
+      "nameEn": "Luo Jingzhou",
+      "role": "执行制作人",
+      "portrait": "assets/images/characters/luo-jingzhou.svg",
+      "bio": "负责节目商务与流程。自称 00:05 后一直在大堂，强调“声音还在播，人就还在”。",
+      "personality": "冷静、专业、说辞周全",
+      "relation": "重点对象",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-tang-shuo",
+      "name": "唐朔",
+      "nameEn": "Tang Shuo",
+      "role": "音响工程师",
+      "portrait": "assets/images/characters/tang-shuo.svg",
+      "bio": "熟悉自动播出系统与校准流程。对自己曾短暂离岗一事闪烁其词。",
+      "personality": "技术型、紧张、怕担责",
+      "relation": "技术证人",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-lin-wu",
+      "name": "林雾",
+      "nameEn": "Lin Wu",
+      "role": "夜班实习生",
+      "portrait": "assets/images/characters/lin-wu.svg",
+      "bio": "最先发现主持人不再回应。记得声音与情绪，却记不准钟点。",
+      "personality": "诚实、慌张、时间感差",
+      "relation": "发现异常的第一人",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-he-yuan",
+      "name": "贺原",
+      "nameEn": "He Yuan",
+      "role": "夜班保安",
+      "portrait": "assets/images/characters/he-yuan.svg",
+      "bio": "掌握门禁与巡逻记录，持有万能卡。因开门发现现场而成为怀疑对象。",
+      "personality": "刻板、防备、按规程说话",
+      "relation": "门禁与开门记录保管人",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-xia-yu",
+      "name": "夏予",
+      "nameEn": "Xia Yu",
+      "role": "节目财务联系人",
+      "portrait": "assets/images/characters/xia-yu.svg",
+      "bio": "掌握赞助账目与公益款项往来。担心职业后果，起初不愿深谈。",
+      "personality": "谨慎、信息准确、需要安全感",
+      "relation": "账目知情者",
+      "interviewable": true,
+      "status": "available"
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc-studio-a",
+      "name": "直播间 A",
+      "nameEn": "Studio A",
+      "description": "深夜调查节目的主直播间。话筒、提示灯与主持人桌面仍保持着“随时可开播”的样子。",
+      "image": "assets/images/locations/studio-a.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-studio-mic",
+          "label": "麦克风状态板",
+          "x": 28,
+          "y": 42,
+          "unlockConditions": [],
+          "revealsClues": ["clue-mic-log"],
+          "setsFlags": [],
+          "description": "系统记录显示 00:13 前后直播话筒从未打开。"
+        },
+        {
+          "id": "hot-studio-desk",
+          "label": "主持人桌面",
+          "x": 55,
+          "y": 58,
+          "unlockConditions": [],
+          "revealsClues": ["clue-email-draft"],
+          "setsFlags": [],
+          "description": "未发送的定时邮件草稿停在屏幕保护前。"
+        },
+        {
+          "id": "hot-studio-monitor",
+          "label": "返听监听",
+          "x": 78,
+          "y": 36,
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-auto-queue"
+                },
+                {
+                  "clue": "clue-broadcast-file"
+                }
+              ]
+            }
+          ],
+          "revealsClues": ["clue-calib-tone"],
+          "setsFlags": [],
+          "description": "回放 00:13 播出段落时，能听见一段不该出现在直播的校准音底噪。"
+        }
+      ]
+    },
+    {
+      "id": "loc-edit-suite-b",
+      "name": "编辑室 B",
+      "nameEn": "Edit Suite B",
+      "description": "剪辑与试录空间。内侧连着一间隔音内室，正是发现许知微的地方。",
+      "image": "assets/images/locations/edit-suite-b.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-edit-recorder",
+          "label": "试录机",
+          "x": 22,
+          "y": 48,
+          "unlockConditions": [],
+          "revealsClues": ["clue-backup-take", "clue-outro-export"],
+          "setsFlags": [],
+          "description": "本地目录里有一份 23:40 导出的备用结束语。"
+        },
+        {
+          "id": "hot-edit-daw",
+          "label": "剪辑工程",
+          "x": 48,
+          "y": 40,
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-backup-take"
+                },
+                {
+                  "clue": "clue-auto-queue"
+                }
+              ]
+            }
+          ],
+          "revealsClues": ["clue-waveform-cut", "clue-broadcast-file"],
+          "setsFlags": [],
+          "description": "工程时间线上有明显剪辑断点，导出文件与 00:13 播出一致。"
+        },
+        {
+          "id": "hot-edit-workstation",
+          "label": "制作人工作站",
+          "x": 72,
+          "y": 52,
+          "unlockConditions": [],
+          "revealsClues": ["clue-workstation-cache"],
+          "setsFlags": [],
+          "description": "缓存显示罗景舟账号在接近午夜时打开过自动播出配置。"
+        },
+        {
+          "id": "hot-edit-inner",
+          "label": "隔音内室门",
+          "x": 88,
+          "y": 62,
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_inner_inspected"],
+          "description": "内室曾从外侧锁闭。现场无血腥描写，只有被匆忙安置过的痕迹。"
+        }
+      ]
+    },
+    {
+      "id": "loc-control-room",
+      "name": "播控室",
+      "nameEn": "Control Room",
+      "description": "自动播出、终端登录与设备维护日志集中在此。",
+      "image": "assets/images/locations/control-room.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-ctrl-queue",
+          "label": "自动播出队列",
+          "x": 35,
+          "y": 45,
+          "unlockConditions": [],
+          "revealsClues": ["clue-auto-queue"],
+          "setsFlags": [],
+          "description": "00:13 有一条预排的“结束语”条目，执行账号可追溯。"
+        },
+        {
+          "id": "hot-ctrl-login",
+          "label": "终端登录表",
+          "x": 62,
+          "y": 38,
+          "unlockConditions": [],
+          "revealsClues": ["clue-terminal-login"],
+          "setsFlags": [],
+          "description": "23:58–00:03 罗景舟账号登录播控终端。"
+        },
+        {
+          "id": "hot-ctrl-maint",
+          "label": "维护记录夹",
+          "x": 78,
+          "y": 68,
+          "unlockConditions": [
+            {
+              "clue": "clue-calib-tone"
+            }
+          ],
+          "revealsClues": ["clue-maint-log"],
+          "setsFlags": [],
+          "description": "校准音源设备在 23:45 后已断电停用。"
+        }
+      ]
+    },
+    {
+      "id": "loc-equipment-corridor",
+      "name": "设备走廊",
+      "nameEn": "Equipment Corridor",
+      "description": "通往服务器柜与备份存放的后勤走廊，门禁独立。",
+      "image": "assets/images/locations/equipment-corridor.svg",
+      "unlockConditions": [
+        {
+          "any": [
+            {
+              "clue": "clue-terminal-login"
+            },
+            {
+              "clue": "clue-access-log"
+            },
+            {
+              "flag": "flag_luo_operated"
+            }
+          ]
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hot-equip-panel",
+          "label": "门禁面板",
+          "x": 30,
+          "y": 50,
+          "unlockConditions": [],
+          "revealsClues": ["clue-access-log"],
+          "setsFlags": [],
+          "description": "00:01 左右有罗景舟权限刷入设备区。"
+        },
+        {
+          "id": "hot-equip-cache",
+          "label": "备份柜夹层",
+          "x": 68,
+          "y": 58,
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-access-log"
+                },
+                {
+                  "clue": "clue-disc-catalog"
+                },
+                {
+                  "topic": "topic-he-patrol"
+                }
+              ]
+            }
+          ],
+          "revealsClues": ["clue-hidden-disc", "clue-disc-catalog"],
+          "setsFlags": ["flag_disc_trail"],
+          "description": "夹层里藏着失踪的原始资料盘。"
+        }
+      ]
+    },
+    {
+      "id": "loc-lobby",
+      "name": "广播台大堂",
+      "nameEn": "Lobby",
+      "description": "夜间接待与临时会客区。罗景舟刻意在此留下可验证痕迹。",
+      "image": "assets/images/locations/radio-lobby.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-lobby-receipt",
+          "label": "咖啡小票",
+          "x": 42,
+          "y": 62,
+          "unlockConditions": [],
+          "revealsClues": ["clue-lobby-receipt"],
+          "setsFlags": [],
+          "description": "00:07 打印的大堂咖啡小票，收款备注写着罗景舟。"
+        },
+        {
+          "id": "hot-lobby-visitor",
+          "label": "访客登记",
+          "x": 68,
+          "y": 40,
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_lobby_checked"],
+          "description": "登记显示罗景舟约 00:05 在前台签字留驻。"
+        },
+        {
+          "id": "hot-lobby-xia-bag",
+          "label": "夏予留下的文件袋",
+          "x": 22,
+          "y": 48,
+          "unlockConditions": [
+            {
+              "flag": "flag_xia_opened_up"
+            }
+          ],
+          "revealsClues": ["clue-fake-invoice"],
+          "setsFlags": [],
+          "description": "袋中有虚假发票复印件，指向公益款项异常。"
+        }
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue-mic-log",
+      "name": "麦克风未开日志",
+      "type": "record",
+      "image": "",
+      "shortDescription": "00:13 直播话筒未打开。",
+      "detailDescription": "Studio A 话筒状态板记录：00:10–00:16 主话筒始终为关闭。若结束语来自现场，系统应有开麦事件。",
+      "source": "loc-studio-a",
+      "relatedCharacterIds": ["char-xu-zhiwei", "char-tang-shuo"],
+      "relatedLocationIds": ["loc-studio-a"],
+      "relatedTime": "00:13",
+      "isKey": true
+    },
+    {
+      "id": "clue-auto-queue",
+      "name": "自动播出队列",
+      "type": "record",
+      "image": "",
+      "shortDescription": "00:13 被预排了一条结束语。",
+      "detailDescription": "播控自动队列在 00:13 执行条目“OUTRO_FINAL”。条目创建时间落在接近午夜，执行账号可与制作人工作站对应。",
+      "source": "loc-control-room",
+      "relatedCharacterIds": ["char-luo-jingzhou", "char-tang-shuo"],
+      "relatedLocationIds": ["loc-control-room"],
+      "relatedTime": "00:13",
+      "isKey": true
+    },
+    {
+      "id": "clue-outro-export",
+      "name": "结束语导出时间",
+      "type": "time",
+      "image": "",
+      "shortDescription": "备用结束语于 23:40 导出。",
+      "detailDescription": "试录机本地导出戳记为 23:40。该文件早于任何“00:13 直播”叙述。",
+      "source": "loc-edit-suite-b",
+      "relatedCharacterIds": ["char-xu-zhiwei"],
+      "relatedLocationIds": ["loc-edit-suite-b"],
+      "relatedTime": "23:40",
+      "isKey": true
+    },
+    {
+      "id": "clue-backup-take",
+      "name": "备用结束语原始文件",
+      "type": "document",
+      "image": "",
+      "shortDescription": "许知微 23:40 左右的试录原片。",
+      "detailDescription": "文件名标注 backup_outro。内容与后来广播中的结束语高度重合，但更长、含口误与停顿。",
+      "source": "loc-edit-suite-b",
+      "relatedCharacterIds": ["char-xu-zhiwei"],
+      "relatedLocationIds": ["loc-edit-suite-b"],
+      "relatedTime": "23:40",
+      "isKey": true
+    },
+    {
+      "id": "clue-calib-tone",
+      "name": "背景校准音痕迹",
+      "type": "environment",
+      "image": "",
+      "shortDescription": "播出段落含不该出现的校准音。",
+      "detailDescription": "00:13 播出音频底层叠着一段低频校准音与空调稳态噪声，更像编辑室试录环境，而非正式直播干净通路。",
+      "source": "loc-studio-a",
+      "relatedCharacterIds": ["char-tang-shuo"],
+      "relatedLocationIds": ["loc-studio-a", "loc-edit-suite-b"],
+      "relatedTime": "录制时段早于 00:13",
+      "isKey": true
+    },
+    {
+      "id": "clue-maint-log",
+      "name": "校准设备维护记录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "校准音源在 23:45 后已停用。",
+      "detailDescription": "维护夹写明：夜班在 23:45 完成例行断电。若音频含该校准音，录制必早于断电。",
+      "source": "loc-control-room",
+      "relatedCharacterIds": ["char-tang-shuo"],
+      "relatedLocationIds": ["loc-control-room"],
+      "relatedTime": "23:45",
+      "isKey": true
+    },
+    {
+      "id": "clue-waveform-cut",
+      "name": "波形剪辑断点",
+      "type": "photo",
+      "image": "",
+      "shortDescription": "工程里可见硬切与淡入拼接点。",
+      "detailDescription": "DAW 工程在结束语中段有两处不自然硬切，去掉了口误，保留“谢谢收听，我们下期见”的干净版本。",
+      "source": "loc-edit-suite-b",
+      "relatedCharacterIds": ["char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-edit-suite-b"],
+      "relatedTime": "约 00:00–00:04",
+      "isKey": true
+    },
+    {
+      "id": "clue-broadcast-file",
+      "name": "00:13 播出文件",
+      "type": "document",
+      "image": "",
+      "shortDescription": "自动播出实际推送的音频文件。",
+      "detailDescription": "哈希与时长与剪辑工程导出一致，并与备用原片共享相同背景细节。",
+      "source": "loc-edit-suite-b",
+      "relatedCharacterIds": ["char-luo-jingzhou", "char-xu-zhiwei"],
+      "relatedLocationIds": ["loc-edit-suite-b", "loc-control-room"],
+      "relatedTime": "00:13",
+      "isKey": true
+    },
+    {
+      "id": "clue-sponsor-ledger",
+      "name": "赞助账目摘要",
+      "type": "document",
+      "image": "",
+      "shortDescription": "公益相关赞助款项流向异常。",
+      "detailDescription": "夏予提供的摘要显示多笔“社区听力关爱”赞助未入公示账户，经手备注指向执行制作人。",
+      "source": "char-xia-yu",
+      "relatedCharacterIds": ["char-xia-yu", "char-luo-jingzhou", "char-xu-zhiwei"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "案发前数周",
+      "isKey": true
+    },
+    {
+      "id": "clue-fake-invoice",
+      "name": "虚假发票复印件",
+      "type": "document",
+      "image": "",
+      "shortDescription": "发票抬头与合同主体对不上。",
+      "detailDescription": "复印件显示供应商名称拼写错误、印章模糊，金额却已从公益专项划出。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-xia-yu", "char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "案发前",
+      "isKey": true
+    },
+    {
+      "id": "clue-email-draft",
+      "name": "定时邮件草稿",
+      "type": "communication",
+      "image": "",
+      "shortDescription": "许知微准备公开账目。",
+      "detailDescription": "草稿收件人为台内监察与财务组，正文写明“罗景舟经手的虚假赞助与发票”，计划于次日早晨发送。",
+      "source": "loc-studio-a",
+      "relatedCharacterIds": ["char-xu-zhiwei", "char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-studio-a"],
+      "relatedTime": "案发前晚",
+      "isKey": true
+    },
+    {
+      "id": "clue-disc-catalog",
+      "name": "资料盘目录",
+      "type": "document",
+      "image": "",
+      "shortDescription": "盘内含账目扫描与采访原片。",
+      "detailDescription": "目录列出 sponsor_scan、invoice_set、interview_raw。这正是许知微准备公开的证据包。",
+      "source": "loc-equipment-corridor",
+      "relatedCharacterIds": ["char-xu-zhiwei", "char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-equipment-corridor"],
+      "relatedTime": "案发当晚",
+      "isKey": true
+    },
+    {
+      "id": "clue-terminal-login",
+      "name": "播控终端登录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "罗景舟账号于午夜前后登录。",
+      "detailDescription": "登录窗口 23:58–00:03，操作包含打开自动播出配置面板。",
+      "source": "loc-control-room",
+      "relatedCharacterIds": ["char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-control-room"],
+      "relatedTime": "23:58–00:03",
+      "isKey": true
+    },
+    {
+      "id": "clue-workstation-cache",
+      "name": "制作人工作站缓存",
+      "type": "record",
+      "image": "",
+      "shortDescription": "剪辑与队列修改留在缓存中。",
+      "detailDescription": "最近项目指向 backup_outro 工程，并写入自动播出条目 OUTRO_FINAL。",
+      "source": "loc-edit-suite-b",
+      "relatedCharacterIds": ["char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-edit-suite-b"],
+      "relatedTime": "约 00:00–00:04",
+      "isKey": true
+    },
+    {
+      "id": "clue-access-log",
+      "name": "设备区门禁记录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "罗景舟权限刷入设备走廊。",
+      "detailDescription": "00:01 刷卡成功进入设备走廊。该时段与资料盘失踪高度重合。",
+      "source": "loc-equipment-corridor",
+      "relatedCharacterIds": ["char-luo-jingzhou", "char-he-yuan"],
+      "relatedLocationIds": ["loc-equipment-corridor"],
+      "relatedTime": "00:01",
+      "isKey": true
+    },
+    {
+      "id": "clue-hidden-disc",
+      "name": "藏匿的资料盘",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "失踪资料盘被藏在备份柜夹层。",
+      "detailDescription": "盘面仍有许知微标签。罗景舟显然打算稍后再取回销毁或改写。",
+      "source": "loc-equipment-corridor",
+      "relatedCharacterIds": ["char-luo-jingzhou", "char-xu-zhiwei"],
+      "relatedLocationIds": ["loc-equipment-corridor"],
+      "relatedTime": "00:01 后",
+      "isKey": true
+    },
+    {
+      "id": "clue-lobby-receipt",
+      "name": "大堂消费小票",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "00:07 罗景舟的咖啡小票。",
+      "detailDescription": "证明他在大堂留下了可验证痕迹，但不能证明此前未进入制作区。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-luo-jingzhou"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "00:07",
+      "isKey": false
+    },
+    {
+      "id": "clue-master-key",
+      "name": "保安万能卡使用记录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "贺原用万能卡打开内室。",
+      "detailDescription": "红鲱鱼：记录显示 00:31 依规程应急开门。此前无异常刷卡，不能单独指向贺原作案。",
+      "source": "char-he-yuan",
+      "relatedCharacterIds": ["char-he-yuan"],
+      "relatedLocationIds": ["loc-edit-suite-b"],
+      "relatedTime": "00:31",
+      "isKey": false
+    }
+  ],
+  "dialogues": [
+    {
+      "characterId": "char-luo-jingzhou",
+      "topics": [
+        {
+          "id": "topic-luo-role",
+          "question": "你今晚的职责是什么？",
+          "answer": "执行制作。协调流程、盯商务节点。直播本身有唐朔在播控，我不必一直守着话筒。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-luo-alibi",
+          "question": "00:05 之后你在哪里？",
+          "answer": "我一直在大堂。小票、登记、监控都能证明。结束语还在播的时候，我怎么可能人在隔音室？",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_luo_alibi_claimed"]
+        },
+        {
+          "id": "topic-luo-voice",
+          "question": "你为何认定 00:13 是直播？",
+          "answer": "因为那是她的声音，听众也都听见了。声音在，人就在——这不是很清楚吗？",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-luo-queue",
+          "question": "自动播出队列是谁改的？",
+          "answer": "系统有时会预排垫乐。你别把技术细节说成阴谋。我没必要去碰那些。",
+          "unlockConditions": [
+            {
+              "clue": "clue-auto-queue"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-luo-finance",
+          "question": "许知微是不是要公开你的账目问题？",
+          "answer": "……那是她的误解。赞助结构复杂，外人不懂。她最近压力大，容易把正常调账想成丑闻。",
+          "unlockConditions": [
+            {
+              "flag": "flag_motive_finance"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-luo-disc",
+          "question": "资料盘为什么在设备区夹层？",
+          "answer": "我不知道你在说什么。备份混乱很常见，实习生也会乱塞。",
+          "unlockConditions": [
+            {
+              "clue": "clue-hidden-disc"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-tang-shuo",
+      "topics": [
+        {
+          "id": "topic-tang-system",
+          "question": "自动播出系统怎么工作？",
+          "answer": "可以预排音频到整点或指定分钟。正式直播开麦是另一条通路。两者同时成立时，听众很难单靠耳朵分辨。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-tang-absent",
+          "question": "午夜前后你一直在岗吗？",
+          "answer": "……我离开过十几分钟。去吸烟区。我不该离岗，但如果因此被当成凶手，我不认。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_tang_absent"]
+        },
+        {
+          "id": "topic-tang-quarrel",
+          "question": "你有没有听见编辑室争执？",
+          "answer": "大约十一点四十五前后，编辑室方向有压低的争吵。我没进去。我只想着别被发现离岗。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "flag": "flag_tang_absent"
+                },
+                {
+                  "clue": "clue-email-draft"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": ["flag_heard_quarrel"]
+        },
+        {
+          "id": "topic-tang-calib",
+          "question": "校准音为什么会出现在播出里？",
+          "answer": "正式直播不该有那段。如果出现了，更像编辑室试录环境被剪进成品。维护记录能对上断电时间。",
+          "unlockConditions": [
+            {
+              "clue": "clue-calib-tone"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-tang-login",
+          "question": "谁能改自动播出队列？",
+          "answer": "有播控权限的人。罗景舟有制作人账号。我离岗那段时间，终端并不在我眼前。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-auto-queue"
+                },
+                {
+                  "clue": "clue-terminal-login"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-lin-wu",
+      "topics": [
+        {
+          "id": "topic-lin-first",
+          "question": "你怎么发现不对劲的？",
+          "answer": "结束语播完后我去送水，敲门没人应。隔音室里静得可怕。我去喊了贺原。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-voice",
+          "question": "00:13 的声音听起来怎样？",
+          "answer": "很像直播，语气稳。可我后来说不准具体是几点——我当时没看表，只觉得“刚刚还在说话”。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-time",
+          "question": "你确定发现异常的时间吗？",
+          "answer": "大概十二点二十多？也许更晚。我真的不确定。我只记得自己很害怕。",
+          "unlockConditions": [
+            {
+              "topic": "topic-lin-first"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-voices",
+          "question": "更早时有没有听见争吵？",
+          "answer": "编辑室那边好像有人压着嗓子争。我以为是对节目节奏吵架，没敢靠近。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_heard_quarrel"]
+        },
+        {
+          "id": "topic-lin-luo",
+          "question": "你看见罗景舟去过大堂吗？",
+          "answer": "后来在大堂看见他了，他很镇定，还安慰我“声音还在播，许老师大概只是太累”。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-lobby-receipt"
+                },
+                {
+                  "flag": "flag_lobby_checked"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-he-yuan",
+      "topics": [
+        {
+          "id": "topic-he-open",
+          "question": "你怎么打开隔音内室的？",
+          "answer": "实习生报告无人应答后，我按应急规程使用万能卡。开门时间是 00:31，有记录。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-master-key"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-patrol",
+          "question": "设备走廊的巡逻情况？",
+          "answer": "午夜后我例行看过门禁面板。有制作人权限刷入记录。夹层我不随便翻，那是备份柜。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-access-log"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-key",
+          "question": "万能卡今晚是否有其他使用？",
+          "answer": "没有。只有 00:31 这一次应急开门。你们别因为我拿得到钥匙就先定罪。",
+          "unlockConditions": [
+            {
+              "clue": "clue-master-key"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": ["flag_he_suspected"]
+        },
+        {
+          "id": "topic-he-found",
+          "question": "发现许知微时现场如何？",
+          "answer": "她失去意识，但还有呼吸。内室从外侧锁着。我没有移动她，只呼叫了救护流程。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_inner_inspected"]
+        },
+        {
+          "id": "topic-he-luo",
+          "question": "罗景舟有没有要求你保密？",
+          "answer": "他强调先稳住外部口径，说“别让听众以为直播出人命”。这像公关，不像认罪。",
+          "unlockConditions": [
+            {
+              "flag": "flag_luo_alibi_claimed"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-xia-yu",
+      "topics": [
+        {
+          "id": "topic-xia-relation",
+          "question": "你和节目财务是什么关系？",
+          "answer": "我对接赞助结算与公益专项公示。许知微最近一直向我要原始底稿。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-xia-ledger",
+          "question": "赞助账目有没有问题？",
+          "answer": "……有。多笔公益相关款项没有按公示路径入账。我带来了摘要，但我说出来可能丢工作。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-sponsor-ledger"],
+          "setsFlags": ["flag_xia_opened_up"]
+        },
+        {
+          "id": "topic-xia-xu",
+          "question": "许知微准备怎样公开？",
+          "answer": "她说下一期会念账，还写了定时邮件。她让我今晚别走远，必要时作证。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-sponsor-ledger"
+                },
+                {
+                  "clue": "clue-email-draft"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-xia-invoice",
+          "question": "虚假发票从哪里来？",
+          "answer": "我把复印件放在大堂文件袋里了。你去看。我不敢带回家。",
+          "unlockConditions": [
+            {
+              "flag": "flag_xia_opened_up"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-xia-luo",
+          "question": "这些问题能指向罗景舟吗？",
+          "answer": "经手链路写着他。许知微也是这么判断的。我只负责数字，不负责定罪。",
+          "unlockConditions": [
+            {
+              "all": [
+                {
+                  "clue": "clue-sponsor-ledger"
+                },
+                {
+                  "clue": "clue-email-draft"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "id": "link-not-live",
+      "clueIds": ["clue-auto-queue", "clue-mic-log"],
+      "result": "contradiction",
+      "message": "00:13 有自动播出条目，同时直播话筒未打开——那不是现场讲话。",
+      "setsFlags": ["flag_not_live"]
+    },
+    {
+      "id": "link-early-recording",
+      "clueIds": ["clue-calib-tone", "clue-maint-log"],
+      "result": "inference",
+      "message": "播出段落含校准音，而校准设备在 23:45 后已停用——录音必更早。",
+      "setsFlags": ["flag_early_recording"]
+    },
+    {
+      "id": "link-edited-broadcast",
+      "clueIds": ["clue-broadcast-file", "clue-backup-take"],
+      "result": "corroboration",
+      "message": "广播文件与备用原片共享背景细节，说明 00:13 版本来自更早素材的剪辑。",
+      "setsFlags": ["flag_edited_broadcast"]
+    },
+    {
+      "id": "link-motive",
+      "clueIds": ["clue-sponsor-ledger", "clue-email-draft"],
+      "result": "corroboration",
+      "message": "账目异常与许知微的公开草稿闭合：存在阻止曝光的动机。",
+      "setsFlags": ["flag_motive_finance"]
+    },
+    {
+      "id": "link-luo-operated",
+      "clueIds": ["clue-workstation-cache", "clue-auto-queue"],
+      "result": "inference",
+      "message": "工作站缓存与自动队列互相印证：罗景舟完成了剪辑与定时播出安排。",
+      "setsFlags": ["flag_luo_operated"]
+    },
+    {
+      "id": "link-disc-trail",
+      "clueIds": ["clue-access-log", "clue-hidden-disc"],
+      "result": "corroboration",
+      "message": "门禁记录与藏匿资料盘共同指向：有人进入设备区并处理物证。",
+      "setsFlags": ["flag_disc_trail"]
+    },
+    {
+      "id": "link-edit-time",
+      "clueIds": ["clue-waveform-cut", "clue-outro-export"],
+      "result": "corroboration",
+      "message": "导出时间与波形断点一起说明：结束语先被录下，再被修剪。",
+      "setsFlags": []
+    },
+    {
+      "id": "link-access-opportunity",
+      "clueIds": ["clue-terminal-login", "clue-access-log"],
+      "result": "corroboration",
+      "message": "播控登录与设备区刷卡把操作机会钉在同一时间窗。",
+      "setsFlags": []
+    },
+    {
+      "id": "link-fraud",
+      "clueIds": ["clue-fake-invoice", "clue-sponsor-ledger"],
+      "result": "corroboration",
+      "message": "虚假发票与账目摘要互相支持，公益款项问题不是孤立疑点。",
+      "setsFlags": ["flag_motive_finance"]
+    },
+    {
+      "id": "link-red-herring-key",
+      "clueIds": ["clue-master-key", "clue-lobby-receipt"],
+      "result": "none",
+      "message": "暂无明显关联。万能卡记录解释的是 00:31 应急开门，小票只说明大堂停留。",
+      "setsFlags": []
+    }
+  ],
+  "timeline": {
+    "events": [
+      {
+        "id": "evt-record-outro",
+        "label": "许知微录制备用结束语",
+        "description": "约 23:40，许知微在编辑室完成备用结束语试录并导出。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-backup-take"
+              },
+              {
+                "clue": "clue-outro-export"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-confrontation",
+        "label": "许知微与罗景舟发生对质",
+        "description": "约 23:46，双方因账目公开问题在编辑室争执。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "flag": "flag_heard_quarrel"
+              },
+              {
+                "all": [
+                  {
+                    "clue": "clue-email-draft"
+                  },
+                  {
+                    "clue": "clue-sponsor-ledger"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-incapacitate",
+        "label": "冲突中许知微昏迷",
+        "description": "约 23:52，争执升级后许知微失去意识，但仍有可救治的生命体征。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "flag": "flag_inner_inspected"
+              },
+              {
+                "topic": "topic-he-found"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-lock-take-disc",
+        "label": "罗景舟锁闭内室并取走资料盘",
+        "description": "内室被从外侧锁上，原始资料盘随即失踪。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-hidden-disc"
+              },
+              {
+                "clue": "clue-disc-catalog"
+              },
+              {
+                "all": [
+                  {
+                    "flag": "flag_inner_inspected"
+                  },
+                  {
+                    "clue": "clue-access-log"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-edit-schedule",
+        "label": "罗景舟剪辑录音并修改自动播出队列",
+        "description": "接近午夜，备用结束语被剪成短版并排入 00:13 自动播出。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-workstation-cache"
+              },
+              {
+                "all": [
+                  {
+                    "clue": "clue-auto-queue"
+                  },
+                  {
+                    "clue": "clue-waveform-cut"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-lobby-alibi",
+        "label": "罗景舟前往大堂制造不在场记录",
+        "description": "约 00:05，罗景舟出现在大堂并留下小票与登记。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-lobby-receipt"
+              },
+              {
+                "flag": "flag_lobby_checked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-fake-broadcast",
+        "label": "00:13 伪造音频自动播出",
+        "description": "系统按队列播放剪辑后的结束语，制造“仍在直播”的假象。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-auto-queue"
+              },
+              {
+                "flag": "flag_not_live"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-discovery",
+        "label": "实习生和保安发现许知微",
+        "description": "约 00:24 林雾察觉无人回应，00:31 贺原打开内室。",
+        "unlockConditions": []
+      }
+    ],
+    "correctOrder": [
+      "evt-record-outro",
+      "evt-confrontation",
+      "evt-incapacitate",
+      "evt-lock-take-disc",
+      "evt-edit-schedule",
+      "evt-lobby-alibi",
+      "evt-fake-broadcast",
+      "evt-discovery"
+    ]
+  },
+  "deduction": {
+    "personOptions": [
+      {
+        "id": "char-luo-jingzhou",
+        "label": "罗景舟"
+      },
+      {
+        "id": "char-tang-shuo",
+        "label": "唐朔"
+      },
+      {
+        "id": "char-he-yuan",
+        "label": "贺原"
+      },
+      {
+        "id": "char-lin-wu",
+        "label": "林雾"
+      },
+      {
+        "id": "char-xia-yu",
+        "label": "夏予"
+      }
+    ],
+    "motiveOptions": [
+      {
+        "id": "motive-cover-embezzlement",
+        "label": "掩盖公益款项侵吞和虚假赞助账目"
+      },
+      {
+        "id": "motive-ratings",
+        "label": "制造节目事故炒作收听率"
+      },
+      {
+        "id": "motive-jealousy",
+        "label": "因私人感情纠纷报复"
+      },
+      {
+        "id": "motive-silence-intern",
+        "label": "阻止实习生举报离岗问题"
+      }
+    ],
+    "methodOptions": [
+      {
+        "id": "method-incapacitate-fake-live",
+        "label": "使许知微失去行动能力后锁入隔音室，利用提前录制并剪辑的音频制造 00:13 仍在直播的不在场假象"
+      },
+      {
+        "id": "method-live-collapse",
+        "label": "许知微在真正直播中突然昏迷，音频仍是现场"
+      },
+      {
+        "id": "method-security-lock",
+        "label": "保安用万能卡将其锁入并伪造播出记录"
+      },
+      {
+        "id": "method-remote-hack",
+        "label": "外部黑客远程注入无法验证的伪造语音"
+      }
+    ],
+    "evidenceOptions": [
+      {
+        "id": "clue-auto-queue",
+        "label": "自动播出队列"
+      },
+      {
+        "id": "clue-mic-log",
+        "label": "麦克风未开日志"
+      },
+      {
+        "id": "clue-email-draft",
+        "label": "定时邮件草稿"
+      },
+      {
+        "id": "clue-workstation-cache",
+        "label": "制作人工作站缓存"
+      },
+      {
+        "id": "clue-backup-take",
+        "label": "备用结束语原始文件"
+      },
+      {
+        "id": "clue-broadcast-file",
+        "label": "00:13 播出文件"
+      },
+      {
+        "id": "clue-sponsor-ledger",
+        "label": "赞助账目摘要"
+      },
+      {
+        "id": "clue-hidden-disc",
+        "label": "藏匿的资料盘"
+      },
+      {
+        "id": "clue-terminal-login",
+        "label": "播控终端登录"
+      },
+      {
+        "id": "clue-master-key",
+        "label": "保安万能卡使用记录"
+      }
+    ],
+    "correct": {
+      "personId": "char-luo-jingzhou",
+      "motiveId": "motive-cover-embezzlement",
+      "methodId": "method-incapacitate-fake-live",
+      "requiredEvidenceIds": ["clue-auto-queue", "clue-email-draft", "clue-workstation-cache"],
+      "acceptedEvidenceGroups": [
+        ["clue-auto-queue", "clue-mic-log"],
+        ["clue-backup-take", "clue-broadcast-file", "clue-waveform-cut", "clue-calib-tone"],
+        ["clue-email-draft", "clue-sponsor-ledger", "clue-fake-invoice"],
+        ["clue-workstation-cache", "clue-terminal-login", "clue-access-log", "clue-hidden-disc"]
+      ]
+    },
+    "scoring": {
+      "maxWrongSubmitsForS": 1,
+      "requiredContradictionFlags": [
+        "flag_not_live",
+        "flag_edited_broadcast",
+        "flag_motive_finance"
+      ]
+    }
+  },
+  "endings": [
+    {
+      "id": "ending-full-reveal",
+      "title": "回声落地",
+      "summary": "证据链完整闭合：00:13 是剪辑后的自动播出，而非现场讲话。许知微获救，资料盘被找回，虚假赞助与侵吞问题一并曝光，罗景舟被控制。",
+      "conditions": {
+        "minRank": "A"
+      }
+    },
+    {
+      "id": "ending-partial",
+      "title": "未完成的频率",
+      "summary": "罗景舟进入调查程序，许知微也脱离危险，但部分伪造播出或账目环节仍不够扎实，结案带有遗憾。",
+      "conditions": {
+        "personCorrect": true,
+        "minRank": "C"
+      }
+    },
+    {
+      "id": "ending-wrong-trail",
+      "title": "错误的指向",
+      "summary": "调查压力落在保安或音响工程师身上。真正的剪辑与藏盘路径被拖延，真相晚了一步才被追回。",
+      "conditions": {
+        "personCorrect": false
+      }
+    }
+  ],
+  "flags": [
+    {
+      "id": "flag_not_live",
+      "description": "确认 00:13 并非现场讲话"
+    },
+    {
+      "id": "flag_early_recording",
+      "description": "确认音频录制早于案发"
+    },
+    {
+      "id": "flag_edited_broadcast",
+      "description": "确认广播版本由较早素材剪辑"
+    },
+    {
+      "id": "flag_motive_finance",
+      "description": "掌握财务曝光动机"
+    },
+    {
+      "id": "flag_luo_operated",
+      "description": "确认罗景舟操作剪辑与队列"
+    },
+    {
+      "id": "flag_disc_trail",
+      "description": "找到资料盘藏匿轨迹"
+    },
+    {
+      "id": "flag_luo_alibi_claimed",
+      "description": "罗景舟声称 00:05 后一直在大堂"
+    },
+    {
+      "id": "flag_tang_absent",
+      "description": "唐朔承认短暂离岗"
+    },
+    {
+      "id": "flag_he_suspected",
+      "description": "贺原因万能卡受到怀疑压力"
+    },
+    {
+      "id": "flag_xia_opened_up",
+      "description": "夏予同意提供账目信息"
+    },
+    {
+      "id": "flag_heard_quarrel",
+      "description": "有人证实编辑室争执"
+    },
+    {
+      "id": "flag_inner_inspected",
+      "description": "已检查隔音内室情况"
+    },
+    {
+      "id": "flag_lobby_checked",
+      "description": "已核对接大堂登记痕迹"
+    }
+  ]
+}

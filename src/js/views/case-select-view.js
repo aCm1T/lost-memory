@@ -88,7 +88,7 @@ export function renderCaseSelectView(root) {
               className: 'status-pill',
               text: isActive
                 ? '进行中'
-                : state.completed && state.caseId === item.id
+                : bestRanks[item.id] || (state.completed && state.caseId === item.id)
                   ? '已完成'
                   : '未开始',
             }),
@@ -133,7 +133,9 @@ export function renderCaseSelectView(root) {
       el('header', { className: 'view-header' }, [
         el('p', { className: 'eyebrow', text: 'Case Files' }),
         el('h1', { id: 'cases-title', text: '案件选择' }),
-        el('p', { text: '第一版包含一个完整案件。列表结构已预留扩展。' }),
+        el('p', {
+          text: '选择要调查的案件。进度按案件分别记录最佳评价；同一时间仅保留一份进行中的存档。',
+        }),
       ]),
       cases.length
         ? el('div', { className: 'case-grid' }, cards)

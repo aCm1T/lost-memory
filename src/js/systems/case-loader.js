@@ -1,10 +1,12 @@
 import caseIndex from '../../data/case-index.json';
 import case001 from '../../data/cases/case-001.json';
+import case002 from '../../data/cases/case-002.json';
 import { assetUrl } from '../utils/dom.js';
 import { assertCaseValid, validateCaseData } from '../utils/validation.js';
 
 const caseModules = {
   'case-001': case001,
+  'case-002': case002,
 };
 
 const cache = new Map();

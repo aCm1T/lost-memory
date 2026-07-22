@@ -4,18 +4,23 @@
 
 **在线试玩：** https://acm1t.github.io/lost-memory/
 
-第一案：**《407 号房的失踪者》**（The Vanishing at Room 407）
+## 案件
+
+| ID         | 标题                                             | 难度 | 预计时长 |
+| ---------- | ------------------------------------------------ | ---- | -------- |
+| `case-001` | 《407 号房的失踪者》 / The Vanishing at Room 407 | 普通 | ~45 分钟 |
+| `case-002` | 《零点十三分的回声》 / The Echo at 00:13         | 困难 | ~55 分钟 |
 
 ## 特点
 
 - 无需账号、后端或运行时 AI；打开页面即可游玩
 - 场景调查、人物询问、证据关联、时间线与最终推理
-- 本地存档与设置；可选 PWA / 离线壳缓存
+- 多案件数据包扩展；本地存档与设置；可选 PWA / 离线壳缓存
 - 为 GitHub Pages 子路径设计（Hash 路由 + `base: '/lost-memory/'`）
 
 ## 当前状态
 
-v1.0 发布就绪（Phase 1–10）。进度与验收见 [发布检查清单](docs/RELEASE_CHECKLIST.md)、[QA 清单](docs/QA_CHECKLIST.md)。
+v1.1 内容更新：第二案可玩。进度与验收见 [发布检查清单](docs/RELEASE_CHECKLIST.md)、[QA 清单](docs/QA_CHECKLIST.md)。
 
 ## 本地开发
 
@@ -57,6 +62,7 @@ npm run validate:case
 - [游戏设计](docs/GAME_DESIGN.md)
 - [技术设计](docs/TECHNICAL_DESIGN.md)
 - [第一案设计](docs/CASE_001_DESIGN.md)
+- [第二案设计](docs/CASE_002_DESIGN.md)
 - [案件编写指南](docs/CASE_AUTHORING.md)
 - [部署指南](docs/DEPLOYMENT.md)
 - [QA 清单](docs/QA_CHECKLIST.md)

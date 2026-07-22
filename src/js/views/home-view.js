@@ -132,14 +132,14 @@ export function renderHomeView(root) {
         ]),
         el('p', {
           className: 'home-hero__lead',
-          text: '一个人的记忆可能不可靠，但物证和时间不会撒谎。在港灯酒店的雨夜，还原 407 号房的失踪真相。',
+          text: '一个人的记忆可能不可靠，但物证和时间不会撒谎。调查现场、核对证词、拼回那一夜真正发生过的事。',
         }),
         el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1.5rem' } }, buttons),
       ]),
       el('div', { className: 'home-hero__stage', attrs: { 'aria-hidden': 'true' } }, [
         el('p', {
           className: 'home-hero__fragment',
-          text: '“门锁完好。房间空了。手表停在 22:37。”',
+          text: '“听见一个人的声音，不等于那个人在那个时刻说话。”',
         }),
       ]),
     ]),

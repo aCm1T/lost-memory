@@ -233,7 +233,7 @@ export function submitDeduction(caseData, submission) {
 
 function buildRetryMessage(evaluation) {
   if (!evaluation.personCorrect) {
-    return '主要责任人判断似乎有偏差。再核对证词与监控时间差。';
+    return '主要责任人判断似乎有偏差。再核对证词与关键时间记录。';
   }
   if (!evaluation.motiveCorrect && !evaluation.methodCorrect) {
     return '人物方向大致正确，但动机与过程仍对不上关键物证。';

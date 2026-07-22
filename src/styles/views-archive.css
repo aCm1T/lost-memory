@@ -1,0 +1,212 @@
+.archive-shell,
+.timeline-shell {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  min-height: 2.25rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  background: var(--color-bg-deep);
+}
+
+.chip.is-active,
+.chip[aria-pressed='true'] {
+  color: var(--color-accent-hot);
+  border-color: var(--color-accent);
+  background: var(--color-bg-elevated);
+}
+
+.archive-layout {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.clue-card-grid {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.clue-card {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-4);
+  text-align: left;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: rgba(30, 41, 56, 0.72);
+  color: var(--color-text);
+}
+
+.clue-card.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+.clue-card.is-pinned {
+  background: rgba(36, 48, 68, 0.92);
+}
+
+.clue-card__type {
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.clue-card__summary {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.clue-card__pin {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent-hot);
+  font-size: 0.75rem;
+}
+
+.archive-side {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.clue-detail h2 {
+  margin-bottom: var(--space-3);
+}
+
+.compare-slots {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+.compare-slot {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 21, 32, 0.45);
+}
+
+.compare-result {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border-left: 3px solid var(--color-border);
+  background: rgba(15, 21, 32, 0.35);
+}
+
+.compare-result--contradiction {
+  border-left-color: var(--color-danger);
+}
+
+.compare-result--corroboration,
+.compare-result--inference {
+  border-left-color: var(--color-success);
+}
+
+.compare-result--none {
+  border-left-color: var(--color-text-muted);
+}
+
+.resolved-links {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.resolved-links li {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.resolved-links strong {
+  color: var(--color-text);
+}
+
+.timeline-board {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.timeline-row {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: rgba(30, 41, 56, 0.72);
+}
+
+.timeline-row.is-solved {
+  border-color: var(--color-success);
+}
+
+.timeline-row__index {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent-hot);
+  font-family: var(--font-display);
+}
+
+.timeline-row__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.timeline-feedback {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.timeline-feedback.is-ok {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.timeline-feedback.is-bad {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+@media (min-width: 900px) {
+  .archive-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.95fr);
+    align-items: start;
+  }
+
+  .timeline-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .compare-slots {
+    grid-template-columns: 1fr 1fr;
+  }
+}

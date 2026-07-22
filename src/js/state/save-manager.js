@@ -11,6 +11,7 @@ export function serializeSave(state = getState()) {
     flags: state.flags || {},
     discoveredClueIds: [...(state.discoveredClueIds || [])],
     pinnedClueIds: [...(state.pinnedClueIds || [])],
+    resolvedLinkIds: [...(state.resolvedLinkIds || [])],
     inspectedHotspotIds: [...(state.inspectedHotspotIds || [])],
     askedTopicIds: [...(state.askedTopicIds || [])],
     dialogueHistory: [...(state.dialogueHistory || [])],

@@ -842,7 +842,7 @@
       "id": "link-watch-gap",
       "clueIds": ["clue-stopped-watch", "clue-elevator-cam"],
       "result": "corroboration",
-      "message": "手表停走时间落在周澄上楼之后，争执 recap 更站得住。",
+      "message": "手表停走时间落在周澄上楼之后，争执时间线更站得住。",
       "setsFlags": ["flag_time_gap"]
     },
     {

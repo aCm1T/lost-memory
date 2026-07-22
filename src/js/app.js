@@ -8,6 +8,8 @@ import { renderCaseSelectView } from './views/case-select-view.js';
 import { renderBriefingView } from './views/briefing-view.js';
 import { renderInvestigationView } from './views/investigation-view.js';
 import { renderPeopleView, renderDialogueView } from './views/dialogue-view.js';
+import { renderArchiveView } from './views/archive-view.js';
+import { renderTimelineView } from './views/timeline-view.js';
 import { renderSettingsView } from './views/settings-view.js';
 import { renderCreditsView } from './views/credits-view.js';
 
@@ -70,6 +72,16 @@ function boot() {
   registerRoute('/dialogue/:characterId', async ({ params }) => {
     setState({ view: 'dialogue' });
     mount((root) => renderDialogueView(root, params.characterId));
+  });
+
+  registerRoute('/archive', async () => {
+    setState({ view: 'archive' });
+    mount(renderArchiveView);
+  });
+
+  registerRoute('/timeline', async () => {
+    setState({ view: 'timeline' });
+    mount(renderTimelineView);
   });
 
   registerRoute('/settings', async () => {

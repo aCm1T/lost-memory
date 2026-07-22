@@ -6,16 +6,8 @@ export function renderGameNav(active) {
   const items = [
     { id: 'investigation', label: '调查', href: '/investigation' },
     { id: 'people', label: '询问', href: '/people' },
-    {
-      id: 'archive',
-      label: '档案',
-      onClick: () => showToast('证据档案将在 Phase 5 开放'),
-    },
-    {
-      id: 'timeline',
-      label: '时间线',
-      onClick: () => showToast('时间线分析将在 Phase 5 开放'),
-    },
+    { id: 'archive', label: '档案', href: '/archive' },
+    { id: 'timeline', label: '时间线', href: '/timeline' },
     {
       id: 'deduction',
       label: '推理',

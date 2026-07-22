@@ -1,0 +1,33 @@
+{
+  "name": "Lost Memory",
+  "short_name": "Lost Memory",
+  "description": "纯前端互动推理游戏《失落的记忆》",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "/lost-memory/",
+  "scope": "/lost-memory/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f1520",
+  "theme_color": "#1a2332",
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lost Memory">
+  <rect width="64" height="64" rx="8" fill="#1a2332"/>
+  <path d="M18 40 V24 h8 c6 0 10 3 10 8 s-4 8-10 8 H18zm8-5 h3 c2.5 0 4-1.2 4-3s-1.5-3-4-3h-3v6z" fill="#c4a574"/>
+  <circle cx="44" cy="28" r="7" fill="none" stroke="#8fa3b8" stroke-width="3"/>
+  <path d="M49 33 L55 40" stroke="#8fa3b8" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,1165 @@
+{
+  "id": "case-001",
+  "title": "The Vanishing at Room 407",
+  "titleZh": "407 号房的失踪者",
+  "summary": "港灯酒店 407 房门锁完好，房客苏晚却消失无踪。证词互相矛盾，时间不会说谎。",
+  "difficulty": "normal",
+  "estimatedMinutes": 45,
+  "coverImage": "assets/images/cases/case-001-cover.svg",
+  "briefing": {
+    "background": "自由摄影师苏晚入住港灯酒店 407 房。23:30 过后，夜班经理林岳在接到扰民投诉、多次敲门无应后，用万能钥匙打开房门。门锁呈内侧扣死状态，房内空无一人。苏晚的手机与未完成的工作还留在桌上。没有明显撬动痕迹，也没有血迹。\n\n你是受雇的合同调查员，需要在酒店声誉与苏晚安危一并失控之前，把这个雨夜重新拼完整。",
+    "time": "某年秋夜，约 20:40–23:32",
+    "place": "港灯酒店（Harborlight Hotel）4 楼与大堂",
+    "victim": {
+      "id": "char-su-wan",
+      "name": "苏晚",
+      "nameEn": "Su Wan",
+      "role": "失踪房客 / 自由摄影师",
+      "summary": "入住 407。门锁完好，人却消失；手机留在房内。"
+    },
+    "objectives": [
+      "搜查 407 房及周边区域",
+      "询问员工与住客",
+      "整理证据并核对时间线矛盾",
+      "提交有证据支持的最终推理"
+    ]
+  },
+  "characters": [
+    {
+      "id": "char-su-wan",
+      "name": "苏晚",
+      "nameEn": "Su Wan",
+      "role": "失踪房客 / 摄影师",
+      "portrait": "assets/images/characters/su-wan.svg",
+      "bio": "自由摄影师，因拍摄任务入住 407。目前下落不明，只能通过遗留物了解她。",
+      "personality": "认真、原则性强",
+      "relation": "失踪者",
+      "interviewable": false,
+      "status": "missing"
+    },
+    {
+      "id": "char-zhou-cheng",
+      "name": "周澄",
+      "nameEn": "Zhou Cheng",
+      "role": "苏晚的业务搭档",
+      "portrait": "assets/images/characters/zhou-cheng.svg",
+      "bio": "与苏晚合作接商业摄影单。自称当晚只在大堂停留。",
+      "personality": "克制、热心、说辞熟练",
+      "relation": "搭档 / 重点对象",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-lin-yue",
+      "name": "林岳",
+      "nameEn": "Lin Yue",
+      "role": "酒店夜班经理",
+      "portrait": "assets/images/characters/lin-yue.svg",
+      "bio": "负责夜班运营与应急开门。强调酒店流程，不愿放大监控盲区。",
+      "personality": "专业、护短、措辞谨慎",
+      "relation": "发现现场的管理者",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-chen-xia",
+      "name": "陈夏",
+      "nameEn": "Chen Xia",
+      "role": "夜班保洁",
+      "portrait": "assets/images/characters/chen-xia.svg",
+      "bio": "负责楼层清洁。起初回避服役楼梯相关问题。",
+      "personality": "紧张、回避，受压后可能说真话",
+      "relation": "可能目击关键移动",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-fang-yu",
+      "name": "方予",
+      "nameEn": "Fang Yu",
+      "role": "405 房客人",
+      "portrait": "assets/images/characters/fang-yu.svg",
+      "bio": "隔壁住客。清楚听见争执声，但对具体钟点记忆模糊。",
+      "personality": "合作、叙述生动、时间感差",
+      "relation": "邻房证人",
+      "interviewable": true,
+      "status": "available"
+    },
+    {
+      "id": "char-he-lan",
+      "name": "何岚",
+      "nameEn": "He Lan",
+      "role": "前台文员",
+      "portrait": "assets/images/characters/he-lan.svg",
+      "bio": "掌管访客记录、通话与门卡日志。回答偏事实，少做推断。",
+      "personality": "精确、克制",
+      "relation": "前台记录保管人",
+      "interviewable": true,
+      "status": "available"
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc-room-407",
+      "name": "407 号房",
+      "nameEn": "Room 407",
+      "description": "苏晚失踪的房间。门锁曾呈内侧扣死，桌上仍留着未完成的工作。",
+      "image": "assets/images/locations/room-407.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-407-phone",
+          "label": "手机",
+          "x": 72,
+          "y": 48,
+          "unlockConditions": [],
+          "revealsClues": ["clue-phone-draft"],
+          "setsFlags": [],
+          "description": "屏幕停在一条未发送草稿。"
+        },
+        {
+          "id": "hot-407-cups",
+          "label": "茶杯",
+          "x": 40,
+          "y": 58,
+          "unlockConditions": [],
+          "revealsClues": ["clue-two-cups"],
+          "setsFlags": [],
+          "description": "两只杯子，茶渍深浅不同。"
+        },
+        {
+          "id": "hot-407-watch",
+          "label": "床下",
+          "x": 28,
+          "y": 78,
+          "unlockConditions": [],
+          "revealsClues": ["clue-stopped-watch"],
+          "setsFlags": [],
+          "description": "一只表停在 22:37。"
+        },
+        {
+          "id": "hot-407-latch",
+          "label": "门闩",
+          "x": 8,
+          "y": 42,
+          "unlockConditions": [],
+          "revealsClues": ["clue-latch-fiber"],
+          "setsFlags": ["flag_fake_lock"],
+          "description": "内闩缝里挂着细纤维。"
+        },
+        {
+          "id": "hot-407-laptop",
+          "label": "笔记本",
+          "x": 58,
+          "y": 40,
+          "unlockConditions": [],
+          "revealsClues": ["clue-usb-leak"],
+          "setsFlags": ["flag_motive_leak"],
+          "description": "外接盘里有关于泄密的笔记。"
+        },
+        {
+          "id": "hot-407-trash",
+          "label": "纸篓",
+          "x": 82,
+          "y": 70,
+          "unlockConditions": [
+            {
+              "clue": "clue-two-cups"
+            }
+          ],
+          "revealsClues": ["clue-sedative-blister"],
+          "setsFlags": [],
+          "description": "撕开的铝箔药板残片。"
+        }
+      ]
+    },
+    {
+      "id": "loc-corridor-4f",
+      "name": "4 楼走廊",
+      "nameEn": "4F Corridor",
+      "description": "连接客房、电梯与服役楼梯。地毯上还留着未干的泥点。",
+      "image": "assets/images/locations/corridor-4f.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-cor-405",
+          "label": "405 房门",
+          "x": 30,
+          "y": 50,
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_met_fang_door"],
+          "description": "可以由此联系方予。"
+        },
+        {
+          "id": "hot-cor-stair-door",
+          "label": "服役楼梯门",
+          "x": 78,
+          "y": 45,
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_stair_noticed"],
+          "description": "门缝渗着湿气与泥痕。"
+        },
+        {
+          "id": "hot-cor-cart",
+          "label": "保洁车",
+          "x": 55,
+          "y": 68,
+          "unlockConditions": [],
+          "revealsClues": ["clue-cash-envelope"],
+          "setsFlags": ["flag_chen_pressured"],
+          "description": "车斗夹层里有一封未署名现金袋。"
+        }
+      ]
+    },
+    {
+      "id": "loc-lobby",
+      "name": "酒店大堂",
+      "nameEn": "Hotel Lobby",
+      "description": "前台、访客登记与公共监控摘要所在。",
+      "image": "assets/images/locations/lobby.svg",
+      "unlockConditions": [],
+      "hotspots": [
+        {
+          "id": "hot-lobby-log",
+          "label": "访客簿",
+          "x": 35,
+          "y": 55,
+          "unlockConditions": [],
+          "revealsClues": ["clue-front-call-log"],
+          "setsFlags": [],
+          "description": "记录着晚间来电与到访。"
+        },
+        {
+          "id": "hot-lobby-cam-board",
+          "label": "监控摘要板",
+          "x": 68,
+          "y": 40,
+          "unlockConditions": [],
+          "revealsClues": ["clue-elevator-cam", "clue-lobby-cam"],
+          "setsFlags": [],
+          "description": "打印出的关键帧时间戳。"
+        },
+        {
+          "id": "hot-lobby-zhou-shoes",
+          "label": "周澄的鞋",
+          "x": 50,
+          "y": 80,
+          "unlockConditions": [
+            {
+              "flag": "flag_stair_noticed"
+            }
+          ],
+          "revealsClues": ["clue-zhou-shoes"],
+          "setsFlags": [],
+          "description": "鞋底纹路仍带着潮泥。"
+        }
+      ]
+    },
+    {
+      "id": "loc-service-stair",
+      "name": "服役楼梯",
+      "nameEn": "Service Stairwell",
+      "description": "监控覆盖不足的后勤通道。",
+      "image": "assets/images/locations/service-stair.svg",
+      "unlockConditions": [
+        {
+          "any": [
+            {
+              "flag": "flag_stair_noticed"
+            },
+            {
+              "flag": "flag_time_gap"
+            },
+            {
+              "clue": "clue-chen-stair-sight"
+            }
+          ]
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hot-stair-print",
+          "label": "湿鞋印",
+          "x": 45,
+          "y": 70,
+          "unlockConditions": [],
+          "revealsClues": ["clue-stair-print"],
+          "setsFlags": [],
+          "description": "下行方向的新鲜鞋印。"
+        }
+      ]
+    },
+    {
+      "id": "loc-room-412",
+      "name": "412 号房（装修）",
+      "nameEn": "Room 412",
+      "description": "长期关闭的装修房。门卡记录显示当晚有异常刷卡。",
+      "image": "assets/images/locations/room-412.svg",
+      "unlockConditions": [
+        {
+          "any": [
+            {
+              "timelineSolved": true
+            },
+            {
+              "clue": "clue-card-log-412"
+            }
+          ]
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hot-412-presence",
+          "label": "墙角垫被",
+          "x": 60,
+          "y": 65,
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_412_found"],
+          "description": "有人被安置过的痕迹，非血腥场面。"
+        },
+        {
+          "id": "hot-412-sleeve",
+          "label": "门卡卡套",
+          "x": 25,
+          "y": 40,
+          "unlockConditions": [],
+          "revealsClues": ["clue-card-log-412"],
+          "setsFlags": [],
+          "description": "临时卡套掉在粉尘里。"
+        }
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue-phone-draft",
+      "name": "未发送的手机草稿",
+      "type": "communication",
+      "image": "",
+      "shortDescription": "草稿提到泄密与周澄。",
+      "detailDescription": "“如果你再卖一次客户的图……明天我就去说。周澄，别逼我。”发送失败，停留在 22:33。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": ["char-su-wan", "char-zhou-cheng"],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "22:33",
+      "isKey": true
+    },
+    {
+      "id": "clue-two-cups",
+      "name": "两只茶杯",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "房内有第二人饮茶痕迹。",
+      "detailDescription": "一杯见底，一杯只动过几口。不像独自熬夜的用量。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": ["char-su-wan"],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "22:20-22:36",
+      "isKey": true
+    },
+    {
+      "id": "clue-sedative-blister",
+      "name": "镇静药片残板",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "纸篓里的处方药铝板。",
+      "detailDescription": "缺了两粒。说明书指向常见镇静成分，可溶于热水。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": ["char-zhou-cheng", "char-su-wan"],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "22:20-22:36",
+      "isKey": true
+    },
+    {
+      "id": "clue-stopped-watch",
+      "name": "停走的手表",
+      "type": "time",
+      "image": "",
+      "shortDescription": "表针停在 22:37。",
+      "detailDescription": "表镜有撞击痕，掉在床沿下方。它提供了一个比证词更硬的时间锚点。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": ["char-su-wan"],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "22:37",
+      "isKey": true
+    },
+    {
+      "id": "clue-latch-fiber",
+      "name": "门闩纤维",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "内闩缝中的细线。",
+      "detailDescription": "符合自门外用细绳套闩再抽离的手法，用来伪造“室内反锁”。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": [],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "22:47",
+      "isKey": true
+    },
+    {
+      "id": "clue-elevator-cam",
+      "name": "电梯监控 22:18",
+      "type": "photo",
+      "image": "",
+      "shortDescription": "周澄进入电梯上行。",
+      "detailDescription": "时间戳 22:18。画面中的背包与衣着与周澄当晚一致。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-zhou-cheng"],
+      "relatedLocationIds": ["loc-lobby", "loc-corridor-4f"],
+      "relatedTime": "22:18",
+      "isKey": true
+    },
+    {
+      "id": "clue-lobby-cam",
+      "name": "大堂监控 22:50",
+      "type": "photo",
+      "image": "",
+      "shortDescription": "周澄重新出现在大堂。",
+      "detailDescription": "22:50 他在前台附近询问宵夜，神态平静。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-zhou-cheng", "char-he-lan"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "22:50",
+      "isKey": true
+    },
+    {
+      "id": "clue-card-log-412",
+      "name": "412 临时卡记录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "22:12 出现 412 刷卡。",
+      "detailDescription": "以“器材暂存”名义发放的临时权限，在 22:12 于 412 产生刷卡成功记录。",
+      "source": "char-he-lan",
+      "relatedCharacterIds": ["char-zhou-cheng", "char-lin-yue", "char-he-lan"],
+      "relatedLocationIds": ["loc-room-412"],
+      "relatedTime": "22:12",
+      "isKey": true
+    },
+    {
+      "id": "clue-stair-print",
+      "name": "服役楼梯湿鞋印",
+      "type": "environment",
+      "image": "",
+      "shortDescription": "下行鞋印尚未干透。",
+      "detailDescription": "纹路与周澄鞋底吻合的可能性极高。",
+      "source": "loc-service-stair",
+      "relatedCharacterIds": ["char-zhou-cheng"],
+      "relatedLocationIds": ["loc-service-stair"],
+      "relatedTime": "22:38-22:46",
+      "isKey": true
+    },
+    {
+      "id": "clue-usb-leak",
+      "name": "泄密笔记副本",
+      "type": "document",
+      "image": "",
+      "shortDescription": "苏晚掌握盗卖照片证据。",
+      "detailDescription": "笔记列出客户禁发照片外流渠道，并标注“周澄经手”。",
+      "source": "loc-room-407",
+      "relatedCharacterIds": ["char-su-wan", "char-zhou-cheng"],
+      "relatedLocationIds": ["loc-room-407"],
+      "relatedTime": "案发前",
+      "isKey": true
+    },
+    {
+      "id": "clue-front-call-log",
+      "name": "晚间来电记录",
+      "type": "record",
+      "image": "",
+      "shortDescription": "21:10 周澄来电确认苏晚入住。",
+      "detailDescription": "前台记录：周澄询问苏晚是否办理入住，并称稍晚送镜头。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-zhou-cheng", "char-he-lan"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "21:10",
+      "isKey": false
+    },
+    {
+      "id": "clue-cash-envelope",
+      "name": "保洁车里的现金袋",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "未署名现金，夹在陈夏工车中。",
+      "detailDescription": "数额不大，但足够构成压力。袋面铅笔字：别多嘴。",
+      "source": "loc-corridor-4f",
+      "relatedCharacterIds": ["char-chen-xia", "char-zhou-cheng"],
+      "relatedLocationIds": ["loc-corridor-4f"],
+      "relatedTime": "当晚",
+      "isKey": false
+    },
+    {
+      "id": "clue-fang-argument",
+      "name": "方予的争执证词",
+      "type": "testimony",
+      "image": "",
+      "shortDescription": "405 听见男女争执。",
+      "detailDescription": "方予坚称听见压低的争吵，但把时间记成“大概 23 点左右”。",
+      "source": "char-fang-yu",
+      "relatedCharacterIds": ["char-fang-yu", "char-su-wan"],
+      "relatedLocationIds": ["loc-room-407", "loc-corridor-4f"],
+      "relatedTime": "约 21:50（证人记忆有误）",
+      "isKey": false
+    },
+    {
+      "id": "clue-chen-stair-sight",
+      "name": "陈夏的楼梯目击",
+      "type": "testimony",
+      "image": "",
+      "shortDescription": "有人搀扶下行经过服役楼梯。",
+      "detailDescription": "陈夏最终承认看见一名男子搀着几乎站不稳的人走向 412 方向。",
+      "source": "char-chen-xia",
+      "relatedCharacterIds": ["char-chen-xia", "char-zhou-cheng", "char-su-wan"],
+      "relatedLocationIds": ["loc-service-stair", "loc-room-412"],
+      "relatedTime": "22:38-22:46",
+      "isKey": true
+    },
+    {
+      "id": "clue-zhou-shoes",
+      "name": "周澄潮泥鞋底",
+      "type": "physical",
+      "image": "",
+      "shortDescription": "鞋底纹路带潮泥。",
+      "detailDescription": "与服役楼梯鞋印对比后可相互印证。",
+      "source": "loc-lobby",
+      "relatedCharacterIds": ["char-zhou-cheng"],
+      "relatedLocationIds": ["loc-lobby", "loc-service-stair"],
+      "relatedTime": "22:50 后仍可见",
+      "isKey": false
+    },
+    {
+      "id": "clue-flashlight",
+      "name": "失踪的维修手电",
+      "type": "environment",
+      "image": "",
+      "shortDescription": "林岳班次少了一把手电。",
+      "detailDescription": "红鲱鱼：手电被林岳用于屋顶漏水处理，与失踪无关。",
+      "source": "char-lin-yue",
+      "relatedCharacterIds": ["char-lin-yue", "char-he-lan"],
+      "relatedLocationIds": ["loc-lobby"],
+      "relatedTime": "当晚较早",
+      "isKey": false
+    }
+  ],
+  "dialogues": [
+    {
+      "characterId": "char-zhou-cheng",
+      "topics": [
+        {
+          "id": "topic-zhou-relation",
+          "question": "你和苏晚是什么关系？",
+          "answer": "搭档。这两年商业单都一起接，她负责拍摄，我负责谈客户。今晚我只是来还一只镜头。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-zhou-arrival",
+          "question": "你今晚什么时候到的酒店？",
+          "answer": "大概十点多一点吧。我在大堂等她下来，谁知道她一直不回消息。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-zhou-alibi",
+          "question": "案发时段你在哪里？",
+          "answer": "我一直待在大堂。你可以问前台，我还问过宵夜。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": ["flag_zhou_alibi_claimed"]
+        },
+        {
+          "id": "topic-zhou-argument",
+          "question": "你们吵架了吗？",
+          "answer": "没有。我们合作很好，不至于为工作拍桌子。谁说听见争执，大概听错了。",
+          "unlockConditions": [
+            {
+              "clue": "clue-fang-argument"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-zhou-412",
+          "question": "你为什么需要 412 的权限？",
+          "answer": "器材暂存而已。装修房空着，林经理说可以临时放三脚架箱子。我很快就下来了。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "clue": "clue-card-log-412"
+                },
+                {
+                  "flag": "flag_time_gap"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-zhou-leak",
+          "question": "苏晚是不是要揭发你盗卖照片？",
+          "answer": "……那是误会。客户图外流跟我无关。她最近压力大，爱胡思乱想。",
+          "unlockConditions": [
+            {
+              "flag": "flag_motive_leak"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-zhou-shoes",
+          "question": "你的鞋为什么是湿的？",
+          "answer": "外面下雨，我从停车场走进来而已。",
+          "unlockConditions": [
+            {
+              "clue": "clue-zhou-shoes"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-lin-yue",
+      "topics": [
+        {
+          "id": "topic-lin-open",
+          "question": "你怎么打开 407 的？",
+          "answer": "客人投诉噪音后我去敲门，无人应答。按规程使用万能钥匙。门闩是从里面扣上的状态。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-cameras",
+          "question": "监控有没有盲区？",
+          "answer": "电梯和大堂很清楚。服役楼梯……覆盖一般，雨夜更别指望看清。这不是缺陷，是老楼结构问题。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-cards",
+          "question": "临时门卡怎么发放？",
+          "answer": "商务需求可以发短期权限。今晚有人为拍摄器材申请过 412 暂存。细节何岚有日志。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "flag": "flag_time_gap"
+                },
+                {
+                  "clue": "clue-elevator-cam"
+                }
+              ]
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-zhou-help",
+          "question": "周澄有没有请你帮忙上楼？",
+          "answer": "他问过苏晚房间号。我没有陪他上去。经理不能随便带外人闯客房。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-lin-flashlight",
+          "question": "维修手电呢？",
+          "answer": "我拿去看屋顶漏水了，跟 407 无关。何岚能证明报修单。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-flashlight"],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-chen-xia",
+      "topics": [
+        {
+          "id": "topic-chen-rounds",
+          "question": "你今晚的清洁路线？",
+          "answer": "九点多打扫过 4 楼走廊。407 里有打字声，我没敲门。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-chen-407",
+          "question": "407 有没有异常动静？",
+          "answer": "后来安静了。我只想快点收工，没多听。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-chen-stair",
+          "question": "服役楼梯上你看见了谁？",
+          "answer": "……我看见一个男人搀着人往下走，像是去 412。他说别多嘴，还塞给我一袋钱。我害怕。",
+          "unlockConditions": [
+            {
+              "flag": "flag_chen_pressured"
+            }
+          ],
+          "revealsClues": ["clue-chen-stair-sight"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-chen-cash",
+          "question": "保洁车上的现金袋是怎么回事？",
+          "answer": "不是我的。有人塞进来的。我本来想扔掉。",
+          "unlockConditions": [
+            {
+              "clue": "clue-cash-envelope"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": ["flag_chen_pressured"]
+        }
+      ]
+    },
+    {
+      "characterId": "char-fang-yu",
+      "topics": [
+        {
+          "id": "topic-fang-heard",
+          "question": "你听见了什么？",
+          "answer": "男女争执，压着嗓子，但能听出急。后来一声闷响，再之后就没了。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-fang-argument"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-fang-time",
+          "question": "确切是几点？",
+          "answer": "我没看表……印象里很晚，大概十一点？也可能更早。我真的不确定。",
+          "unlockConditions": [
+            {
+              "clue": "clue-fang-argument"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-fang-corridor",
+          "question": "走廊里有没有人影？",
+          "answer": "我只敢从猫眼看了一下，影影绰绰，看不清脸。",
+          "unlockConditions": [],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    },
+    {
+      "characterId": "char-he-lan",
+      "topics": [
+        {
+          "id": "topic-he-visitor",
+          "question": "今晚访客与入住记录？",
+          "answer": "苏晚傍晚入住。周澄 21:10 来电确认，22:05 左右本人到大堂。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-front-call-log"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-call",
+          "question": "能提供通话与登记细节吗？",
+          "answer": "可以。来电记录与纸质备注都在。他声称要还镜头。",
+          "unlockConditions": [],
+          "revealsClues": ["clue-front-call-log"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-card",
+          "question": "412 的刷卡日志呢？",
+          "answer": "22:12 有一次成功刷卡，权限备注是器材暂存。申请人登记为周澄。",
+          "unlockConditions": [
+            {
+              "any": [
+                {
+                  "topic": "topic-lin-cards"
+                },
+                {
+                  "flag": "flag_time_gap"
+                },
+                {
+                  "clue": "clue-elevator-cam"
+                }
+              ]
+            }
+          ],
+          "revealsClues": ["clue-card-log-412"],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-lobby",
+          "question": "22:50 前后周澄在大堂怎样？",
+          "answer": "他问宵夜，笑得很自然。如果只看这一段，谁都挑不出错。",
+          "unlockConditions": [
+            {
+              "clue": "clue-lobby-cam"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        },
+        {
+          "id": "topic-he-flashlight",
+          "question": "手电报修单在吗？",
+          "answer": "在。林经理早些时候登记屋顶渗水，手电借出有记录。",
+          "unlockConditions": [
+            {
+              "clue": "clue-flashlight"
+            }
+          ],
+          "revealsClues": [],
+          "setsFlags": []
+        }
+      ]
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "id": "link-time-gap",
+      "clueIds": ["clue-elevator-cam", "clue-lobby-cam"],
+      "result": "contradiction",
+      "message": "周澄的“一直待在大堂”说法，盖不住 22:18 上行与 22:50 回到大厅之间的缺口。",
+      "setsFlags": ["flag_time_gap"]
+    },
+    {
+      "id": "link-watch-gap",
+      "clueIds": ["clue-stopped-watch", "clue-elevator-cam"],
+      "result": "corroboration",
+      "message": "手表停走时间落在周澄上楼之后，争执时间线更站得住。",
+      "setsFlags": ["flag_time_gap"]
+    },
+    {
+      "id": "link-fake-lock",
+      "clueIds": ["clue-latch-fiber", "clue-phone-draft"],
+      "result": "inference",
+      "message": "房间并非不可逃离的密室；更像有人离开后伪造内锁，并留下未完成的控诉。",
+      "setsFlags": ["flag_fake_lock"]
+    },
+    {
+      "id": "link-motive",
+      "clueIds": ["clue-phone-draft", "clue-usb-leak"],
+      "result": "corroboration",
+      "message": "苏晚掌握泄密证据，并准备揭发周澄——动机链闭合。",
+      "setsFlags": ["flag_motive_leak"]
+    },
+    {
+      "id": "link-shoes",
+      "clueIds": ["clue-stair-print", "clue-zhou-shoes"],
+      "result": "corroboration",
+      "message": "楼梯鞋印与周澄鞋底相互印证。",
+      "setsFlags": []
+    },
+    {
+      "id": "link-method-412",
+      "clueIds": ["clue-card-log-412", "clue-chen-stair-sight"],
+      "result": "inference",
+      "message": "临时卡与目击共同指向：有人经服役楼梯进入 412。",
+      "setsFlags": []
+    },
+    {
+      "id": "link-unrelated-flashlight",
+      "clueIds": ["clue-flashlight", "clue-front-call-log"],
+      "result": "none",
+      "message": "暂无明显关联。手电失踪更像班次物管问题。",
+      "setsFlags": []
+    }
+  ],
+  "timeline": {
+    "events": [
+      {
+        "id": "evt-su-returns",
+        "label": "苏晚回到 407 工作",
+        "description": "约 20:40，苏晚返回房间继续处理照片。",
+        "unlockConditions": [
+          {
+            "clue": "clue-phone-draft"
+          }
+        ]
+      },
+      {
+        "id": "evt-zhou-arrives",
+        "label": "周澄抵达大厅",
+        "description": "约 22:05，周澄进入大堂并询问苏晚房间。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-front-call-log"
+              },
+              {
+                "topic": "topic-he-visitor"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-zhou-upstairs",
+        "label": "周澄上行至 4 楼",
+        "description": "22:18 电梯监控拍到周澄上行。",
+        "unlockConditions": [
+          {
+            "clue": "clue-elevator-cam"
+          }
+        ]
+      },
+      {
+        "id": "evt-confrontation",
+        "label": "407 内争执与下药",
+        "description": "争执发生，茶中被混入镇静药物。",
+        "unlockConditions": [
+          {
+            "all": [
+              {
+                "clue": "clue-two-cups"
+              },
+              {
+                "clue": "clue-sedative-blister"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-move-412",
+        "label": "经服役楼梯转移至 412",
+        "description": "苏晚被转移隐藏进装修房。",
+        "unlockConditions": [
+          {
+            "any": [
+              {
+                "clue": "clue-chen-stair-sight"
+              },
+              {
+                "clue": "clue-stair-print"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "evt-stage-lock",
+        "label": "伪造内锁并离开",
+        "description": "有人从外侧伪造门闩后离开 407。",
+        "unlockConditions": [
+          {
+            "clue": "clue-latch-fiber"
+          }
+        ]
+      },
+      {
+        "id": "evt-lobby-alibi",
+        "label": "大厅伪装停留",
+        "description": "22:50 周澄若无其事出现在大堂。",
+        "unlockConditions": [
+          {
+            "clue": "clue-lobby-cam"
+          }
+        ]
+      },
+      {
+        "id": "evt-manager-open",
+        "label": "林岳打开 407 发现失踪",
+        "description": "23:32 经理用万能钥匙进入空房。",
+        "unlockConditions": []
+      }
+    ],
+    "correctOrder": [
+      "evt-su-returns",
+      "evt-zhou-arrives",
+      "evt-zhou-upstairs",
+      "evt-confrontation",
+      "evt-move-412",
+      "evt-stage-lock",
+      "evt-lobby-alibi",
+      "evt-manager-open"
+    ]
+  },
+  "deduction": {
+    "personOptions": [
+      {
+        "id": "char-zhou-cheng",
+        "label": "周澄"
+      },
+      {
+        "id": "char-lin-yue",
+        "label": "林岳"
+      },
+      {
+        "id": "char-chen-xia",
+        "label": "陈夏"
+      },
+      {
+        "id": "char-fang-yu",
+        "label": "方予"
+      },
+      {
+        "id": "char-he-lan",
+        "label": "何岚"
+      }
+    ],
+    "motiveOptions": [
+      {
+        "id": "motive-silence-leak",
+        "label": "阻止苏晚揭发盗卖照片"
+      },
+      {
+        "id": "motive-theft",
+        "label": "抢劫设备与现金"
+      },
+      {
+        "id": "motive-affair",
+        "label": "掩盖婚外关系"
+      },
+      {
+        "id": "motive-hotel-cover",
+        "label": "酒店为掩盖事故而转移房客"
+      }
+    ],
+    "methodOptions": [
+      {
+        "id": "method-sedate-move-412",
+        "label": "下药后经服役楼梯藏入 412，并伪造内锁"
+      },
+      {
+        "id": "method-window-escape",
+        "label": "苏晚自行从窗户离开"
+      },
+      {
+        "id": "method-master-key",
+        "label": "经理用万能钥匙带走苏晚"
+      },
+      {
+        "id": "method-never-returned",
+        "label": "苏晚根本未回到酒店"
+      }
+    ],
+    "evidenceOptions": [
+      {
+        "id": "clue-elevator-cam",
+        "label": "电梯监控 22:18"
+      },
+      {
+        "id": "clue-lobby-cam",
+        "label": "大堂监控 22:50"
+      },
+      {
+        "id": "clue-usb-leak",
+        "label": "泄密笔记副本"
+      },
+      {
+        "id": "clue-latch-fiber",
+        "label": "门闩纤维"
+      },
+      {
+        "id": "clue-card-log-412",
+        "label": "412 临时卡记录"
+      },
+      {
+        "id": "clue-chen-stair-sight",
+        "label": "陈夏的楼梯目击"
+      },
+      {
+        "id": "clue-stopped-watch",
+        "label": "停走的手表"
+      },
+      {
+        "id": "clue-flashlight",
+        "label": "失踪的维修手电"
+      }
+    ],
+    "correct": {
+      "personId": "char-zhou-cheng",
+      "motiveId": "motive-silence-leak",
+      "methodId": "method-sedate-move-412",
+      "requiredEvidenceIds": ["clue-elevator-cam", "clue-usb-leak", "clue-latch-fiber"],
+      "acceptedEvidenceGroups": [
+        ["clue-elevator-cam", "clue-lobby-cam", "clue-stopped-watch"],
+        ["clue-usb-leak", "clue-phone-draft"],
+        ["clue-latch-fiber", "clue-card-log-412", "clue-chen-stair-sight", "clue-stair-print"]
+      ]
+    },
+    "scoring": {
+      "maxWrongSubmitsForS": 1,
+      "requiredContradictionFlags": ["flag_time_gap", "flag_fake_lock", "flag_motive_leak"]
+    }
+  },
+  "endings": [
+    {
+      "id": "ending-true-rescue",
+      "title": "及时找到",
+      "summary": "412 被打开，苏晚仍有生命体征。周澄被控制，泄密与绑架链条被证据钉死。",
+      "conditions": {
+        "minRank": "A"
+      }
+    },
+    {
+      "id": "ending-partial",
+      "title": "迟来的确认",
+      "summary": "周澄被带走调查，但关键转移路径确认较晚。苏晚最终获救，代价是更长的空白时间。",
+      "conditions": {
+        "personCorrect": true,
+        "minRank": "C"
+      }
+    },
+    {
+      "id": "ending-missed",
+      "title": "错误的方向",
+      "summary": "调查压力落在错误对象上。真正的转移路径被拖延到天亮之后。",
+      "conditions": {
+        "personCorrect": false
+      }
+    }
+  ],
+  "flags": [
+    {
+      "id": "flag_time_gap",
+      "description": "发现周澄不在场时间缺口"
+    },
+    {
+      "id": "flag_fake_lock",
+      "description": "发现伪造内锁痕迹"
+    },
+    {
+      "id": "flag_chen_pressured",
+      "description": "发现陈夏被买通/恐吓"
+    },
+    {
+      "id": "flag_motive_leak",
+      "description": "掌握泄密动机"
+    },
+    {
+      "id": "flag_stair_noticed",
+      "description": "注意到服役楼梯异常"
+    },
+    {
+      "id": "flag_met_fang_door",
+      "description": "在走廊接触方予房门"
+    },
+    {
+      "id": "flag_412_found",
+      "description": "在 412 发现安置痕迹"
+    },
+    {
+      "id": "flag_zhou_alibi_claimed",
+      "description": "周澄声称一直待在大堂"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ Use this list before tagging a release. Automated rows were verified in Phase 10
 | --------------------------- | ------------------------------------------------------------------------- | ------ |
 | Lint                        | `npm run lint`                                                            | Pass   |
 | Format                      | `npm run format:check`                                                    | Pass   |
-| Unit / system tests         | `npm test` (43)                                                           | Pass   |
+| Unit / system tests         | `npm test` (45)                                                           | Pass   |
 | Case data validation        | `npm run validate:case`                                                   | Pass   |
 | Production build            | `npm run build`                                                           | Pass   |
 | Pages base path in build    | `dist/index.html` asset URLs under `/lost-memory/`                        | Pass   |

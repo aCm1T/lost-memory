@@ -1,8 +1,10 @@
 import { el, assetUrl } from '../utils/dom.js';
 import { navigate } from '../router.js';
 import { getCaseSummary, loadCase } from '../systems/case-loader.js';
-import { getState, startCase, setCaseLoadError } from '../state/game-state.js';
+import { getState, startCase, setCaseLoadError, hasActiveSave } from '../state/game-state.js';
 import { saveGame } from '../state/save-manager.js';
+import { confirmNewCaseStart } from '../utils/progress-guard.js';
+import { showToast } from '../components/toast.js';
 
 function renderError(root, title, message, caseId) {
   root.append(
@@ -39,7 +41,21 @@ export function renderBriefingView(root, caseId) {
 
   const caseData = loaded.data;
   const state = getState();
-  if (state.caseId !== caseId || !state.startedAt) {
+  const sameCaseStarted = state.caseId === caseId && Boolean(state.startedAt);
+
+  if (!sameCaseStarted) {
+    if (hasActiveSave(state)) {
+      if (
+        !confirmNewCaseStart(
+          state,
+          '已有进行中的调查进度，打开该案简报并开始将清空当前进度。确定继续吗？',
+        )
+      ) {
+        showToast('已取消开始新案件');
+        navigate('/cases');
+        return;
+      }
+    }
     startCase(caseId, caseData);
     saveGame();
   }

@@ -207,7 +207,6 @@ export function peekSave(storage = getLocalStorage()) {
 export function getContinuePath(state = getState()) {
   if (!state?.caseId) return '/cases';
   if (state.completed) return '/ending';
-  if (state.currentLocationId) return '/investigation';
   return '/investigation';
 }
 

@@ -34,7 +34,10 @@ export function renderSettingsView(root) {
   const persist = (patch) => {
     updateSettings(patch);
     saveSettings();
-    saveGame();
+    // Avoid writing a phantom case-less save when the player only tweaks settings.
+    if (getState().caseId) {
+      saveGame();
+    }
     playSfx('click');
   };
 

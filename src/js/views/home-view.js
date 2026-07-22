@@ -5,6 +5,29 @@ import { hasSave, loadGame, saveGame, getContinuePath } from '../state/save-mana
 import { showToast } from '../components/toast.js';
 import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 import { playSfx } from '../systems/audio-system.js';
+import { confirmNewCaseStart } from '../utils/progress-guard.js';
+
+function beginFirstCase() {
+  const firstCase = getCaseIndex()[0];
+  if (!firstCase) {
+    showToast('暂无可用案件');
+    return;
+  }
+  if (!confirmNewCaseStart(getState())) {
+    showToast('已取消开始新游戏');
+    return;
+  }
+  const loaded = loadCase(firstCase.id);
+  if (!loaded.ok) {
+    showToast('案件数据无法加载');
+    console.error(loaded.error);
+    return;
+  }
+  startCase(firstCase.id, loaded.data);
+  saveGame();
+  playSfx('click');
+  navigate(`/case/${firstCase.id}`);
+}
 
 export function renderHomeView(root) {
   const state = getState();
@@ -40,29 +63,11 @@ export function renderHomeView(root) {
     el(
       'button',
       {
-        className: 'btn btn--primary',
+        className: canContinue ? 'btn' : 'btn btn--primary',
         type: 'button',
-        on: {
-          click: () => {
-            const firstCase = getCaseIndex()[0];
-            if (!firstCase) {
-              showToast('暂无可用案件');
-              return;
-            }
-            const loaded = loadCase(firstCase.id);
-            if (!loaded.ok) {
-              showToast('案件数据无法加载');
-              console.error(loaded.error);
-              return;
-            }
-            startCase(firstCase.id, loaded.data);
-            saveGame();
-            playSfx('click');
-            navigate(`/case/${firstCase.id}`);
-          },
-        },
+        on: { click: beginFirstCase },
       },
-      '开始游戏',
+      canContinue ? '重新开始' : '开始游戏',
     ),
     continueBtn,
   ];

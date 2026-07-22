@@ -1,10 +1,11 @@
 import { el, assetUrl } from '../utils/dom.js';
 import { navigate } from '../router.js';
 import { getCaseIndex, loadCase } from '../systems/case-loader.js';
-import { getState, startCase } from '../state/game-state.js';
+import { getState, startCase, hasActiveSave } from '../state/game-state.js';
 import { saveGame, readBestRanks } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { renderEmptyBlock } from '../components/status-block.js';
+import { confirmNewCaseStart } from '../utils/progress-guard.js';
 
 function difficultyLabel(value) {
   const map = {
@@ -15,13 +16,41 @@ function difficultyLabel(value) {
   return map[value] || value;
 }
 
+function enterCaseBriefing(item, { isActive }) {
+  // Resume in-progress case without wiping progress.
+  if (isActive) {
+    navigate(`/case/${item.id}`);
+    return;
+  }
+
+  if (
+    !confirmNewCaseStart(
+      getState(),
+      '已有进行中的调查进度，进入该案简报并重新开始将清空当前进度。确定继续吗？',
+    )
+  ) {
+    showToast('已取消重新开始');
+    return;
+  }
+
+  const loaded = loadCase(item.id);
+  if (!loaded.ok) {
+    showToast('案件数据无效，无法开始');
+    console.error(loaded.error);
+    return;
+  }
+  startCase(item.id, loaded.data);
+  saveGame();
+  navigate(`/case/${item.id}`);
+}
+
 export function renderCaseSelectView(root) {
   const cases = getCaseIndex();
   const state = getState();
   const bestRanks = readBestRanks();
 
   const cards = cases.map((item) => {
-    const isActive = state.caseId === item.id && state.startedAt && !state.completed;
+    const isActive = state.caseId === item.id && hasActiveSave(state);
     const cover = el('img', {
       className: 'case-card__cover',
       src: assetUrl(item.coverImage),
@@ -75,20 +104,10 @@ export function renderCaseSelectView(root) {
                 className: 'btn btn--primary',
                 type: 'button',
                 on: {
-                  click: () => {
-                    const loaded = loadCase(item.id);
-                    if (!loaded.ok) {
-                      showToast('案件数据无效，无法开始');
-                      console.error(loaded.error);
-                      return;
-                    }
-                    startCase(item.id, loaded.data);
-                    saveGame();
-                    navigate(`/case/${item.id}`);
-                  },
+                  click: () => enterCaseBriefing(item, { isActive }),
                 },
               },
-              '进入简报',
+              isActive ? '继续本案' : '进入简报',
             ),
             el(
               'button',

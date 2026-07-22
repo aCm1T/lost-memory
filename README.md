@@ -8,6 +8,7 @@
 
 - Phase 1：产品 / 技术 / 第一案设计文档完成
 - Phase 2：Vite 项目骨架、Hash 路由、首页与案件选择完成
+- Phase 3：案件 JSON、数据校验、加载器、完整简报与调查概览完成
 
 ## 本地开发
 
@@ -40,3 +41,4 @@ npm run validate:case
 - [游戏设计](docs/GAME_DESIGN.md)
 - [技术设计](docs/TECHNICAL_DESIGN.md)
 - [第一案设计](docs/CASE_001_DESIGN.md)
+- [案件编写指南](docs/CASE_AUTHORING.md)

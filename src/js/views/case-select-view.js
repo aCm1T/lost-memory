@@ -1,6 +1,6 @@
 import { el, assetUrl } from '../utils/dom.js';
 import { navigate } from '../router.js';
-import { getCaseIndex } from '../systems/case-loader.js';
+import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 import { getState, startCase } from '../state/game-state.js';
 import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
@@ -74,7 +74,13 @@ export function renderCaseSelectView(root) {
                 type: 'button',
                 on: {
                   click: () => {
-                    startCase(item.id);
+                    const loaded = loadCase(item.id);
+                    if (!loaded.ok) {
+                      showToast('案件数据无效，无法开始');
+                      console.error(loaded.error);
+                      return;
+                    }
+                    startCase(item.id, loaded.data);
                     saveGame();
                     navigate(`/case/${item.id}`);
                   },
@@ -89,7 +95,6 @@ export function renderCaseSelectView(root) {
                 type: 'button',
                 on: {
                   click: () => {
-                    showToast('完整调查将在后续阶段解锁');
                     navigate(`/case/${item.id}`);
                   },
                 },

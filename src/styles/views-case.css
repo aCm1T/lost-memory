@@ -1,0 +1,127 @@
+.briefing-cover-wrap {
+  margin-bottom: var(--space-5);
+}
+
+.briefing-cover {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+}
+
+.briefing-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.briefing-aside {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(15, 21, 32, 0.45);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+}
+
+.briefing-aside h2,
+.section-title {
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+.briefing-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-4);
+}
+
+.briefing-facts dt {
+  color: var(--color-accent);
+}
+
+.briefing-facts dd,
+.briefing-objectives,
+.briefing-stats {
+  color: var(--color-text-muted);
+}
+
+.briefing-objectives,
+.briefing-stats {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 1.1rem;
+  list-style: decimal;
+}
+
+.briefing-stats {
+  list-style: disc;
+}
+
+.progress-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: rgba(30, 41, 56, 0.72);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.overview-grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.overview-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: rgba(30, 41, 56, 0.72);
+}
+
+.overview-card.is-locked {
+  opacity: 0.62;
+}
+
+.overview-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+}
+
+.overview-card__portrait {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+}
+
+.overview-card--person {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.overview-card__meta {
+  margin-top: var(--space-2);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .briefing-grid {
+    grid-template-columns: 1.4fr 0.9fr;
+    align-items: start;
+  }
+
+  .overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -6,6 +6,7 @@ import { setState } from './state/game-state.js';
 import { renderHomeView } from './views/home-view.js';
 import { renderCaseSelectView } from './views/case-select-view.js';
 import { renderBriefingView } from './views/briefing-view.js';
+import { renderInvestigationView } from './views/investigation-view.js';
 import { renderSettingsView } from './views/settings-view.js';
 import { renderCreditsView } from './views/credits-view.js';
 
@@ -53,6 +54,11 @@ function boot() {
   registerRoute('/case/:id', async ({ params }) => {
     setState({ view: 'briefing' });
     mount((root) => renderBriefingView(root, params.id));
+  });
+
+  registerRoute('/investigation', async () => {
+    setState({ view: 'investigation' });
+    mount(renderInvestigationView);
   });
 
   registerRoute('/settings', async () => {

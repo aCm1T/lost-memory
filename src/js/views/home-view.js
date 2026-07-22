@@ -3,7 +3,7 @@ import { navigate } from '../router.js';
 import { hasActiveSave, startCase, getState } from '../state/game-state.js';
 import { hasSave, loadGame, saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
-import { getCaseIndex } from '../systems/case-loader.js';
+import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 
 export function renderHomeView(root) {
   const state = getState();
@@ -23,8 +23,8 @@ export function renderHomeView(root) {
             showToast('没有可继续的存档');
             return;
           }
-          navigate('/cases');
-          showToast('已读取存档（完整调查流程将在后续阶段开放）');
+          navigate('/investigation');
+          showToast('已读取存档');
         },
       },
     },
@@ -56,7 +56,13 @@ export function renderHomeView(root) {
                     showToast('暂无可用案件');
                     return;
                   }
-                  startCase(firstCase.id);
+                  const loaded = loadCase(firstCase.id);
+                  if (!loaded.ok) {
+                    showToast('案件数据无法加载');
+                    console.error(loaded.error);
+                    return;
+                  }
+                  startCase(firstCase.id, loaded.data);
                   saveGame();
                   navigate(`/case/${firstCase.id}`);
                 },

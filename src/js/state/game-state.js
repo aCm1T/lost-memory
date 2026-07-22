@@ -4,6 +4,7 @@ function createInitialState() {
   return {
     dataVersion: DATA_VERSION,
     caseId: null,
+    caseTitle: null,
     view: 'home',
     flags: {},
     discoveredClueIds: [],
@@ -20,6 +21,7 @@ function createInitialState() {
     startedAt: null,
     updatedAt: null,
     completed: false,
+    caseLoadError: null,
   };
 }
 
@@ -75,9 +77,11 @@ export function hasActiveSave(snapshot = state) {
   return Boolean(snapshot.caseId && snapshot.startedAt && !snapshot.completed);
 }
 
-export function startCase(caseId) {
+export function startCase(caseId, meta = {}) {
   return setState({
     caseId,
+    caseTitle: meta.titleZh || meta.title || null,
+    caseLoadError: null,
     startedAt: new Date().toISOString(),
     completed: false,
     flags: {},
@@ -92,6 +96,10 @@ export function startCase(caseId) {
     endingId: null,
     rank: null,
   });
+}
+
+export function setCaseLoadError(message) {
+  return setState({ caseLoadError: message });
 }
 
 export function createInitialStateForTests() {

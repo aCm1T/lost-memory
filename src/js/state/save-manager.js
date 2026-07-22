@@ -5,6 +5,7 @@ export function serializeSave(state = getState()) {
   return {
     dataVersion: DATA_VERSION,
     caseId: state.caseId,
+    caseTitle: state.caseTitle || null,
     flags: state.flags || {},
     discoveredClueIds: [...(state.discoveredClueIds || [])],
     pinnedClueIds: [...(state.pinnedClueIds || [])],

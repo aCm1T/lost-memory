@@ -2,14 +2,14 @@
 
 ## 1. Goals & Constraints
 
-| Constraint | Implementation stance |
-| --- | --- |
-| No runtime AI | All narrative in static JSON/assets |
-| No backend | Static site only |
+| Constraint           | Implementation stance                             |
+| -------------------- | ------------------------------------------------- |
+| No runtime AI        | All narrative in static JSON/assets               |
+| No backend           | Static site only                                  |
 | GitHub Pages subpath | Vite `base: '/lost-memory/'`; relative asset URLs |
-| Refresh-safe routing | Hash router only (`#/…`) |
-| Offline-friendly | Optional PWA later; must not break updates |
-| Privacy | Saves in `localStorage` only; no trackers |
+| Refresh-safe routing | Hash router only (`#/…`)                          |
+| Offline-friendly     | Optional PWA later; must not break updates        |
+| Privacy              | Saves in `localStorage` only; no trackers         |
 
 Stack: **HTML5 + CSS3 + JavaScript ES Modules + JSON + Vite + Vitest + ESLint + Prettier**. No React/Vue/Angular.
 
@@ -37,23 +37,23 @@ index.html
 
 ## 3. Module Responsibilities
 
-| Module | Responsibility |
-| --- | --- |
-| `app.js` | Boot, register routes, wire global UI shell |
-| `router.js` | Parse `location.hash`, guard invalid routes, restore safe view after refresh |
-| `game-state.js` | In-memory state: flags, clues, topics, hotspot progress, timeline order, settings |
-| `save-manager.js` | Serialize/deserialize, version migrate/reset, corrupt recovery |
-| `case-loader.js` | Load index + case JSON, run validation, expose current case |
-| `investigation-system.js` | Hotspot availability, inspect actions, unlock side effects |
-| `dialogue-system.js` | Topic gates, ask flow, history |
-| `clue-system.js` | Discover, pin, filter helpers |
-| `evidence-link-system.js` | Pairwise link lookup from case data |
-| `timeline-system.js` | Reorder + validate event order |
-| `deduction-system.js` | Score submission, pick ending, compute rank |
-| `audio-system.js` | BGM/SFX with gesture unlock, mute, missing-file tolerance |
-| `validation.js` / `scripts/validate-case-data.js` | Schema & reference integrity |
-| Views / components | DOM rendering only; call systems for logic |
-| `dom.js`, `constants.js` | Shared helpers |
+| Module                                            | Responsibility                                                                    |
+| ------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `app.js`                                          | Boot, register routes, wire global UI shell                                       |
+| `router.js`                                       | Parse `location.hash`, guard invalid routes, restore safe view after refresh      |
+| `game-state.js`                                   | In-memory state: flags, clues, topics, hotspot progress, timeline order, settings |
+| `save-manager.js`                                 | Serialize/deserialize, version migrate/reset, corrupt recovery                    |
+| `case-loader.js`                                  | Load index + case JSON, run validation, expose current case                       |
+| `investigation-system.js`                         | Hotspot availability, inspect actions, unlock side effects                        |
+| `dialogue-system.js`                              | Topic gates, ask flow, history                                                    |
+| `clue-system.js`                                  | Discover, pin, filter helpers                                                     |
+| `evidence-link-system.js`                         | Pairwise link lookup from case data                                               |
+| `timeline-system.js`                              | Reorder + validate event order                                                    |
+| `deduction-system.js`                             | Score submission, pick ending, compute rank                                       |
+| `audio-system.js`                                 | BGM/SFX with gesture unlock, mute, missing-file tolerance                         |
+| `validation.js` / `scripts/validate-case-data.js` | Schema & reference integrity                                                      |
+| Views / components                                | DOM rendering only; call systems for logic                                        |
+| `dom.js`, `constants.js`                          | Shared helpers                                                                    |
 
 ---
 
@@ -219,12 +219,12 @@ Hash routes only:
 
 ## 8. UI Shell & Responsive Breakpoints
 
-| Breakpoint | Layout |
-| --- | --- |
-| ≥1024px | Investigation multi-pane shell |
-| 768–1023px | Compressed panes / collapsible side |
-| ≤767px | Single column + bottom nav + drawers |
-| 320px | Minimum supported width |
+| Breakpoint | Layout                               |
+| ---------- | ------------------------------------ |
+| ≥1024px    | Investigation multi-pane shell       |
+| 768–1023px | Compressed panes / collapsible side  |
+| ≤767px     | Single column + bottom nav + drawers |
+| 320px      | Minimum supported width              |
 
 Shared components: modal (focus trap), toast (`aria-live`), clue card, progress indicator.
 
@@ -237,17 +237,17 @@ Shared components: modal (focus trap), toast (`aria-live`), clue card, progress 
 export default defineConfig({
   base: '/lost-memory/',
   // …
-})
+});
 ```
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Local Vite server |
-| `npm run build` | Static output to `dist/` |
-| `npm run preview` | Preview production build |
-| `npm test` | Vitest |
-| `npm run lint` | ESLint |
-| `npm run format:check` | Prettier check |
+| Command                 | Purpose                     |
+| ----------------------- | --------------------------- |
+| `npm run dev`           | Local Vite server           |
+| `npm run build`         | Static output to `dist/`    |
+| `npm run preview`       | Preview production build    |
+| `npm test`              | Vitest                      |
+| `npm run lint`          | ESLint                      |
+| `npm run format:check`  | Prettier check              |
 | `npm run validate:case` | Case JSON validation script |
 
 GitHub Actions (Phase 9): on push to `main`, build and deploy `dist/` with official Pages actions. No private servers or secrets required for build.
@@ -276,14 +276,14 @@ If PWA risks v1 stability, document deferral in roadmap and ship Pages without S
 
 ## 12. Testing Strategy
 
-| Area | Tests |
-| --- | --- |
+| Area            | Tests                                       |
+| --------------- | ------------------------------------------- |
 | Case validation | Duplicates, broken refs, unreachable ending |
-| Save manager | Round-trip, corrupt JSON, version mismatch |
-| Clue / dialogue | Unlock predicates, discover side effects |
-| Evidence links | Pair results & flags |
-| Timeline | Correct/incorrect orders |
-| Deduction | Score matrix, ending selection |
+| Save manager    | Round-trip, corrupt JSON, version mismatch  |
+| Clue / dialogue | Unlock predicates, discover side effects    |
+| Evidence links  | Pair results & flags                        |
+| Timeline        | Correct/incorrect orders                    |
+| Deduction       | Score matrix, ending selection              |
 
 Manual checklist (Phase 10): Chromium/Firefox, mobile viewport, new/continue/delete, wrong/right deduction, refresh on hash routes, Pages base path, offline cache if SW enabled, muted audio path.
 

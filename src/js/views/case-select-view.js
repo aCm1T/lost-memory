@@ -1,0 +1,117 @@
+import { el, assetUrl } from '../utils/dom.js';
+import { navigate } from '../router.js';
+import { getCaseIndex } from '../systems/case-loader.js';
+import { getState, startCase } from '../state/game-state.js';
+import { saveGame } from '../state/save-manager.js';
+import { showToast } from '../components/toast.js';
+
+function difficultyLabel(value) {
+  const map = {
+    easy: '简单',
+    normal: '普通',
+    hard: '困难',
+  };
+  return map[value] || value;
+}
+
+export function renderCaseSelectView(root) {
+  const cases = getCaseIndex();
+  const state = getState();
+
+  const cards = cases.map((item) => {
+    const isActive = state.caseId === item.id && state.startedAt && !state.completed;
+    const cover = el('img', {
+      className: 'case-card__cover',
+      src: assetUrl(item.coverImage),
+      alt: `${item.titleZh} 封面`,
+      loading: 'lazy',
+    });
+
+    return el(
+      'article',
+      {
+        className: 'case-card',
+        attrs: { 'aria-labelledby': `case-title-${item.id}` },
+      },
+      [
+        cover,
+        el('div', {}, [
+          el('p', { className: 'eyebrow', text: item.id }),
+          el('h2', {
+            className: 'case-card__title',
+            id: `case-title-${item.id}`,
+            text: item.title,
+          }),
+          el('p', { className: 'case-card__title-zh', text: item.titleZh }),
+          el('p', { text: item.summary }),
+          el('div', { className: 'case-card__meta' }, [
+            el('span', {
+              className: 'status-pill',
+              text: `难度：${difficultyLabel(item.difficulty)}`,
+            }),
+            el('span', {
+              className: 'status-pill',
+              text: `预计 ${item.estimatedMinutes} 分钟`,
+            }),
+            el('span', {
+              className: 'status-pill',
+              text: isActive
+                ? '进行中'
+                : state.completed && state.caseId === item.id
+                  ? '已完成'
+                  : '未开始',
+            }),
+            el('span', {
+              className: 'status-pill',
+              text: '最佳评价：—',
+            }),
+          ]),
+          el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1rem' } }, [
+            el(
+              'button',
+              {
+                className: 'btn btn--primary',
+                type: 'button',
+                on: {
+                  click: () => {
+                    startCase(item.id);
+                    saveGame();
+                    navigate(`/case/${item.id}`);
+                  },
+                },
+              },
+              '进入简报',
+            ),
+            el(
+              'button',
+              {
+                className: 'btn',
+                type: 'button',
+                on: {
+                  click: () => {
+                    showToast('完整调查将在后续阶段解锁');
+                    navigate(`/case/${item.id}`);
+                  },
+                },
+              },
+              '查看详情',
+            ),
+          ]),
+        ]),
+      ],
+    );
+  });
+
+  root.append(
+    el('section', { className: 'view', attrs: { 'aria-labelledby': 'cases-title' } }, [
+      el('header', { className: 'view-header' }, [
+        el('p', { className: 'eyebrow', text: 'Case Files' }),
+        el('h1', { id: 'cases-title', text: '案件选择' }),
+        el('p', { text: '第一版包含一个完整案件。列表结构已预留扩展。' }),
+      ]),
+      cases.length
+        ? el('div', { className: 'case-grid' }, cards)
+        : el('div', { className: 'empty-state', text: '暂无案件。' }),
+    ]),
+  );
+}

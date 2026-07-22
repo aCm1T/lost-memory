@@ -1,0 +1,26 @@
+{
+  "name": "lost-memory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lost Memory — a pure front-end interactive mystery game",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate:case": "node scripts/validate-case-data.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "vite": "^6.2.2",
+    "vitest": "^3.0.8"
+  }
+}

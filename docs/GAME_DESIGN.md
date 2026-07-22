@@ -23,13 +23,13 @@ The game ships as a pure static front-end. All story content is authored offline
 
 Players should feel like an investigator reconstructing a night that no single witness remembers cleanly.
 
-| Goal | Design response |
-| --- | --- |
-| Agency | Choose where to investigate, whom to ask, what to compare |
-| Fairness | Every critical conclusion is backed by at least one clue |
-| Clarity | Tasks, progress, and unlocks are visible |
-| Tension | Testimony conflicts and incomplete memory create doubt |
-| Closure | Final deduction yields graded endings and a clear explanation |
+| Goal     | Design response                                               |
+| -------- | ------------------------------------------------------------- |
+| Agency   | Choose where to investigate, whom to ask, what to compare     |
+| Fairness | Every critical conclusion is backed by at least one clue      |
+| Clarity  | Tasks, progress, and unlocks are visible                      |
+| Tension  | Testimony conflicts and incomplete memory create doubt        |
+| Closure  | Final deduction yields graded endings and a clear explanation |
 
 Estimated playtime for Case 001: **35–50 minutes**.
 
@@ -100,17 +100,17 @@ Scoring produces ranks (S / A / B / C) and at least two endings (e.g. truth reve
 
 ## 5. Case Structure (v1)
 
-| Field | Case 001 target |
-| --- | --- |
-| Case | `case-001` — The Vanishing at Room 407 / 《407 号房的失踪者》 |
-| Characters | 5 interviewable + 1 missing person (via notes/clues) |
-| Locations | 4–5 |
-| Clues | 12–15 |
-| Dialogue topics | 15+ |
-| Timeline events | 6–8 ordered events |
-| Key contradictions | 3+ |
-| Endings | 2+ |
-| Difficulty | Normal |
+| Field              | Case 001 target                                               |
+| ------------------ | ------------------------------------------------------------- |
+| Case               | `case-001` — The Vanishing at Room 407 / 《407 号房的失踪者》 |
+| Characters         | 5 interviewable + 1 missing person (via notes/clues)          |
+| Locations          | 4–5                                                           |
+| Clues              | 12–15                                                         |
+| Dialogue topics    | 15+                                                           |
+| Timeline events    | 6–8 ordered events                                            |
+| Key contradictions | 3+                                                            |
+| Endings            | 2+                                                            |
+| Difficulty         | Normal                                                        |
 
 Full truth, timeline, lies, and proof chain: see `docs/CASE_001_DESIGN.md`.
 
@@ -150,12 +150,12 @@ Red herrings exist but resolve and do not block the true proof chain.
 
 ## 8. Audio Direction
 
-| Layer | Role |
-| --- | --- |
-| BGM | Low, tense ambient loop (optional placeholder silence if needed) |
-| UI click | Light archival “stamp/click” |
-| Clue found | Soft discovery chime |
-| Correct / wrong | Distinct short confirm / reject tones |
+| Layer           | Role                                                             |
+| --------------- | ---------------------------------------------------------------- |
+| BGM             | Low, tense ambient loop (optional placeholder silence if needed) |
+| UI click        | Light archival “stamp/click”                                     |
+| Clue found      | Soft discovery chime                                             |
+| Correct / wrong | Distinct short confirm / reject tones                            |
 
 Audio starts only after first user gesture; missing files must not break gameplay; settings persist.
 
@@ -163,19 +163,19 @@ Audio starts only after first user gesture; missing files must not break gamepla
 
 ## 9. Page / View Map
 
-| Route (hash) | Purpose |
-| --- | --- |
-| `#/home` | Title, New / Continue / Cases / Settings / Credits |
-| `#/cases` | Case list (extensible; v1 has one case) |
-| `#/case/:id` | Briefing |
-| `#/investigation` | Locations, hotspots, progress |
-| `#/dialogue/:characterId` | Interview |
-| `#/archive` | Clues, filters, compare |
-| `#/timeline` | Event ordering |
-| `#/deduction` | Final form + confirm |
-| `#/ending` | Result, rank, explanation |
-| `#/settings` | Audio, motion, text speed, language stub, wipe save |
-| `#/credits` | Credits |
+| Route (hash)              | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| `#/home`                  | Title, New / Continue / Cases / Settings / Credits  |
+| `#/cases`                 | Case list (extensible; v1 has one case)             |
+| `#/case/:id`              | Briefing                                            |
+| `#/investigation`         | Locations, hotspots, progress                       |
+| `#/dialogue/:characterId` | Interview                                           |
+| `#/archive`               | Clues, filters, compare                             |
+| `#/timeline`              | Event ordering                                      |
+| `#/deduction`             | Final form + confirm                                |
+| `#/ending`                | Result, rank, explanation                           |
+| `#/settings`              | Audio, motion, text speed, language stub, wipe save |
+| `#/credits`               | Credits                                             |
 
 Desktop investigation: top bar + left nav + center stage + right progress + bottom utility nav.  
 Mobile: single column, bottom nav, panels as drawers/modals, no horizontal page scroll.
@@ -184,19 +184,19 @@ Mobile: single column, bottom nav, panels as drawers/modals, no horizontal page 
 
 ## 10. Implementation Task List (by phase)
 
-| Phase | Scope |
-| --- | --- |
-| 0 | Repo inspection |
-| 1 | Design docs + Case 001 truth (this phase) |
-| 2 | Vite skeleton, hash router, home/cases, lint/test/build |
-| 3 | Case JSON, validation, loader, state, briefing |
-| 4 | Investigation + dialogue + unlocks |
-| 5 | Archive, evidence links, timeline |
-| 6 | Deduction, scoring, endings, full clear path |
-| 7 | Save, settings, audio |
-| 8 | Visual polish, responsive, a11y |
-| 9 | PWA + GitHub Pages Actions |
-| 10 | Full QA, README/CREDITS/LICENSE, release checklist |
+| Phase | Scope                                                   |
+| ----- | ------------------------------------------------------- |
+| 0     | Repo inspection                                         |
+| 1     | Design docs + Case 001 truth (this phase)               |
+| 2     | Vite skeleton, hash router, home/cases, lint/test/build |
+| 3     | Case JSON, validation, loader, state, briefing          |
+| 4     | Investigation + dialogue + unlocks                      |
+| 5     | Archive, evidence links, timeline                       |
+| 6     | Deduction, scoring, endings, full clear path            |
+| 7     | Save, settings, audio                                   |
+| 8     | Visual polish, responsive, a11y                         |
+| 9     | PWA + GitHub Pages Actions                              |
+| 10    | Full QA, README/CREDITS/LICENSE, release checklist      |
 
 ---
 

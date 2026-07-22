@@ -1,0 +1,12 @@
+[
+  {
+    "id": "case-001",
+    "title": "The Vanishing at Room 407",
+    "titleZh": "407 号房的失踪者",
+    "summary": "港灯酒店 407 房门锁完好，房客苏晚却消失无踪。证词互相矛盾，时间不会说谎。",
+    "difficulty": "normal",
+    "estimatedMinutes": 45,
+    "coverImage": "assets/images/cases/case-001-cover.svg",
+    "status": "available"
+  }
+]

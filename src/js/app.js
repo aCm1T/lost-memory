@@ -7,6 +7,7 @@ import { renderHomeView } from './views/home-view.js';
 import { renderCaseSelectView } from './views/case-select-view.js';
 import { renderBriefingView } from './views/briefing-view.js';
 import { renderInvestigationView } from './views/investigation-view.js';
+import { renderPeopleView, renderDialogueView } from './views/dialogue-view.js';
 import { renderSettingsView } from './views/settings-view.js';
 import { renderCreditsView } from './views/credits-view.js';
 
@@ -59,6 +60,16 @@ function boot() {
   registerRoute('/investigation', async () => {
     setState({ view: 'investigation' });
     mount(renderInvestigationView);
+  });
+
+  registerRoute('/people', async () => {
+    setState({ view: 'people' });
+    mount(renderPeopleView);
+  });
+
+  registerRoute('/dialogue/:characterId', async ({ params }) => {
+    setState({ view: 'dialogue' });
+    mount((root) => renderDialogueView(root, params.characterId));
   });
 
   registerRoute('/settings', async () => {

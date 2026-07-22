@@ -132,7 +132,7 @@ export function renderBriefingView(root, caseId) {
           ]),
           el('p', {
             className: 'placeholder-note',
-            text: '案件数据已校验并载入。场景热点与对话交互将在 Phase 4 完整开放；当前可查看调查概览。',
+            text: '案件数据已校验并载入。进入调查后可点击场景热点与询问人物。',
           }),
         ]),
       ],

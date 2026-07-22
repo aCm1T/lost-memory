@@ -1,15 +1,23 @@
-import { el, assetUrl } from '../utils/dom.js';
+import { el, assetUrl, clear } from '../utils/dom.js';
 import { navigate } from '../router.js';
-import { getLoadedCase, loadCase } from '../systems/case-loader.js';
+import { loadCase, getLoadedCase } from '../systems/case-loader.js';
 import { getState } from '../state/game-state.js';
-import { evaluateConditions } from '../utils/conditions.js';
 import { saveGame } from '../state/save-manager.js';
+import { showToast } from '../components/toast.js';
+import { openModal } from '../components/modal.js';
+import { renderGameNav } from '../components/game-nav.js';
+import {
+  getInvestigationProgress,
+  getLocationById,
+  inspectHotspot,
+  listLocations,
+  listVisibleHotspots,
+  selectLocation,
+} from '../systems/investigation-system.js';
+import { listInterviewableCharacters } from '../systems/dialogue-system.js';
+import { getDiscoveredClues } from '../systems/clue-system.js';
 
-/**
- * Phase 3 overview shell: proves case load + progress wiring.
- * Full hotspot / dialogue interaction arrives in Phase 4.
- */
-export function renderInvestigationView(root) {
+function ensureCaseOrRedirect(root) {
   const state = getState();
   if (!state.caseId) {
     root.append(
@@ -27,7 +35,7 @@ export function renderInvestigationView(root) {
         ),
       ]),
     );
-    return;
+    return null;
   }
 
   const loaded = loadCase(state.caseId);
@@ -36,112 +44,309 @@ export function renderInvestigationView(root) {
       el('section', { className: 'view panel' }, [
         el('h1', { text: '案件加载失败' }),
         el('p', { text: loaded.error }),
-        el(
-          'button',
-          {
-            className: 'btn btn--primary',
-            type: 'button',
-            on: { click: () => navigate('/home') },
-          },
-          '返回首页',
-        ),
       ]),
     );
-    return;
+    return null;
   }
 
-  const caseData = getLoadedCase(state.caseId);
-  const context = {
-    flags: state.flags,
-    discoveredClueIds: state.discoveredClueIds,
-    askedTopicIds: state.askedTopicIds,
-    timelineSolved: state.timelineSolved,
-  };
+  return getLoadedCase(state.caseId);
+}
 
-  const locationCards = caseData.locations.map((location) => {
-    const unlocked = evaluateConditions(location.unlockConditions, context);
-    return el('article', { className: `overview-card${unlocked ? '' : ' is-locked'}` }, [
-      el('img', {
-        className: 'overview-card__image',
-        src: assetUrl(location.image),
-        alt: location.name,
-      }),
-      el('div', {}, [
-        el('h3', { text: location.name }),
-        el('p', { text: location.description }),
-        el('p', {
-          className: 'overview-card__meta',
-          text: unlocked ? `可调查点 ${location.hotspots.length}` : '尚未解锁（条件未满足）',
-        }),
-      ]),
-    ]);
-  });
-
-  const people = caseData.characters
-    .filter((character) => character.interviewable)
-    .map((character) => {
-      const dialogue = caseData.dialogues.find((entry) => entry.characterId === character.id);
-      const openTopics = (dialogue?.topics || []).filter((topic) =>
-        evaluateConditions(topic.unlockConditions, context),
-      );
-      return el('article', { className: 'overview-card overview-card--person' }, [
-        el('img', {
-          className: 'overview-card__portrait',
-          src: assetUrl(character.portrait),
-          alt: `${character.name} 肖像`,
-        }),
-        el('div', {}, [
-          el('h3', { text: character.name }),
-          el('p', { text: character.role }),
-          el('p', {
-            className: 'overview-card__meta',
-            text: `可问话题 ${openTopics.length}/${dialogue?.topics.length || 0}`,
-          }),
-        ]),
-      ]);
-    });
-
-  saveGame();
-
-  root.append(
-    el('section', { className: 'view', attrs: { 'aria-labelledby': 'invest-title' } }, [
-      el('header', { className: 'view-header' }, [
-        el('p', { className: 'eyebrow', text: 'Investigation Overview' }),
-        el('h1', { id: 'invest-title', text: caseData.titleZh }),
-        el('p', {
-          text: '概览已从案件 JSON 载入。热点调查与人物询问交互将在下一阶段实现。',
-        }),
-      ]),
-      el('div', { className: 'progress-strip', attrs: { 'aria-label': '调查进度' } }, [
-        el('span', { text: `线索 ${state.discoveredClueIds.length}/${caseData.clues.length}` }),
-        el('span', { text: `已查热点 ${state.inspectedHotspotIds.length}` }),
-        el('span', { text: `已问话题 ${state.askedTopicIds.length}` }),
-        el('span', { text: state.timelineSolved ? '时间线：已验证' : '时间线：未完成' }),
-      ]),
-      el('h2', { className: 'section-title', text: '场景' }),
-      el('div', { className: 'overview-grid' }, locationCards),
-      el('h2', { className: 'section-title', text: '可询问人物' }),
-      el('div', { className: 'overview-grid' }, people),
-      el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1.5rem' } }, [
-        el(
-          'button',
-          {
-            className: 'btn',
-            type: 'button',
-            on: { click: () => navigate(`/case/${caseData.id}`) },
-          },
-          '返回简报',
-        ),
-        el(
-          'button',
-          {
-            className: 'btn btn--ghost',
-            type: 'button',
-            on: { click: () => navigate('/home') },
-          },
-          '首页',
-        ),
-      ]),
+function showClueModal(clues, title = '发现线索') {
+  if (!clues.length) return;
+  const nodes = clues.map((clue) =>
+    el('article', { className: 'clue-found' }, [
+      el('h3', { text: clue.name }),
+      el('p', { className: 'eyebrow', text: clue.type }),
+      el('p', { text: clue.detailDescription || clue.shortDescription }),
     ]),
   );
+  openModal({
+    title: clues.length > 1 ? `${title}（${clues.length}）` : title,
+    bodyNodes: nodes,
+    actions: [{ label: '收入档案', primary: true }],
+  });
+}
+
+function buildObjectives(caseData, state) {
+  const progress = getInvestigationProgress(caseData, state);
+  const items = [
+    {
+      done: progress.clueCount >= 3,
+      text: `收集线索（${progress.clueCount}/${caseData.clues.length}）`,
+    },
+    {
+      done: progress.hotspotInspected >= 3,
+      text: `调查现场热点（${progress.hotspotInspected}/${progress.hotspotUnlocked} 可用）`,
+    },
+    {
+      done: progress.topicsAsked >= 3,
+      text: `询问关键人物（已问 ${progress.topicsAsked}）`,
+    },
+    {
+      done: Boolean(state.flags.flag_time_gap),
+      text: '发现时间线矛盾',
+    },
+  ];
+  return items;
+}
+
+export function renderInvestigationView(root) {
+  const caseData = ensureCaseOrRedirect(root);
+  if (!caseData) return;
+
+  const shell = el('section', {
+    className: 'view investigation-shell',
+    attrs: { 'aria-labelledby': 'invest-title' },
+  });
+  root.append(shell);
+
+  const paint = () => {
+    const state = getState();
+    const locations = listLocations(caseData, state);
+    const defaultLocation =
+      locations.find((item) => item.location.id === state.currentLocationId && item.unlocked) ||
+      locations.find((item) => item.unlocked) ||
+      locations[0];
+
+    if (defaultLocation && state.currentLocationId !== defaultLocation.location.id) {
+      selectLocation(defaultLocation.location.id);
+    }
+
+    const currentId = getState().currentLocationId || defaultLocation?.location.id;
+    const location = getLocationById(caseData, currentId);
+    const hotspotEntries = listVisibleHotspots(location, getState());
+    const people = listInterviewableCharacters(caseData, getState());
+    const progress = getInvestigationProgress(caseData, getState());
+    const objectives = buildObjectives(caseData, getState());
+    const recentClues = getDiscoveredClues(caseData, getState()).slice(-4).reverse();
+
+    clear(shell);
+
+    const locationButtons = locations.map((item) =>
+      el(
+        'button',
+        {
+          type: 'button',
+          className: `side-list__btn${item.location.id === currentId ? ' is-active' : ''}${item.unlocked ? '' : ' is-locked'}`,
+          disabled: !item.unlocked,
+          attrs: {
+            'aria-current': item.location.id === currentId ? 'true' : null,
+            title: item.unlocked ? item.location.name : '尚未解锁',
+          },
+          on: {
+            click: () => {
+              selectLocation(item.location.id);
+              saveGame();
+              paint();
+            },
+          },
+        },
+        [
+          el('span', { text: item.location.name }),
+          el('small', {
+            text: item.unlocked
+              ? `${item.inspectedCount}/${item.location.hotspots.length}`
+              : '锁定',
+          }),
+        ],
+      ),
+    );
+
+    const peopleButtons = people.map((item) =>
+      el(
+        'button',
+        {
+          type: 'button',
+          className: 'side-list__btn',
+          on: {
+            click: () => navigate(`/dialogue/${item.character.id}`),
+          },
+        },
+        [
+          el('span', { text: item.character.name }),
+          el('small', {
+            text:
+              item.newCount > 0
+                ? `${item.askedCount}/${item.availableCount} · 新 ${item.newCount}`
+                : `${item.askedCount}/${item.availableCount}`,
+          }),
+        ],
+      ),
+    );
+
+    const hotspotButtons = hotspotEntries.map(({ hotspot, unlocked, inspected }) => {
+      if (!unlocked) {
+        return el(
+          'button',
+          {
+            type: 'button',
+            className: 'hotspot is-locked',
+            disabled: true,
+            attrs: {
+              style: `left:${hotspot.x}%;top:${hotspot.y}%`,
+              title: '尚未满足调查条件',
+              'aria-label': `${hotspot.label}（未解锁）`,
+            },
+          },
+          hotspot.label,
+        );
+      }
+
+      return el(
+        'button',
+        {
+          type: 'button',
+          className: `hotspot${inspected ? ' is-inspected' : ''}`,
+          attrs: {
+            style: `left:${hotspot.x}%;top:${hotspot.y}%`,
+            'aria-label': `${hotspot.label}${inspected ? '（已调查）' : '（未调查）'}`,
+          },
+          on: {
+            click: () => {
+              const result = inspectHotspot(caseData, location.id, hotspot.id);
+              if (!result.ok) {
+                showToast('无法调查该点');
+                return;
+              }
+              saveGame();
+              if (result.clues.length) {
+                showClueModal(result.clues);
+                showToast(`发现线索：${result.clues.map((c) => c.name).join('、')}`);
+              } else if (result.alreadyInspected) {
+                showToast(result.description || '已经调查过这里');
+                openModal({
+                  title: hotspot.label,
+                  bodyNodes: [el('p', { text: result.description || '没有更多发现。' })],
+                  actions: [{ label: '关闭', primary: true }],
+                });
+              } else {
+                showToast(result.description || '调查完成');
+                openModal({
+                  title: hotspot.label,
+                  bodyNodes: [el('p', { text: result.description || '你仔细检查了这里。' })],
+                  actions: [{ label: '关闭', primary: true }],
+                });
+              }
+              paint();
+            },
+          },
+        },
+        hotspot.label,
+      );
+    });
+
+    shell.append(
+      el('header', { className: 'investigation-top' }, [
+        el('div', {}, [
+          el('p', { className: 'eyebrow', text: 'Investigation' }),
+          el('h1', { id: 'invest-title', text: caseData.titleZh }),
+          el('p', {
+            className: 'save-status',
+            text: `自动保存 · 线索 ${progress.clueCount}/${progress.clueTotal}`,
+          }),
+        ]),
+        el('div', { className: 'btn-row' }, [
+          el(
+            'button',
+            {
+              type: 'button',
+              className: 'btn btn--ghost',
+              on: { click: () => navigate(`/case/${caseData.id}`) },
+            },
+            '简报',
+          ),
+          el(
+            'button',
+            {
+              type: 'button',
+              className: 'btn btn--ghost',
+              on: { click: () => navigate('/settings') },
+            },
+            '设置',
+          ),
+        ]),
+      ]),
+      el('div', { className: 'investigation-layout' }, [
+        el('aside', { className: 'investigation-side', attrs: { 'aria-label': '场景与人物' } }, [
+          el('h2', { text: '场景' }),
+          el('div', { className: 'side-list' }, locationButtons),
+          el('h2', { text: '人物' }),
+          el('div', { className: 'side-list' }, peopleButtons),
+        ]),
+        el('div', { className: 'investigation-stage' }, [
+          el('div', { className: 'stage-heading' }, [
+            el('h2', { text: location?.name || '选择场景' }),
+            el('p', { text: location?.description || '' }),
+          ]),
+          location
+            ? el(
+                'div',
+                {
+                  className: 'scene-board',
+                  attrs: { role: 'group', 'aria-label': `${location.name} 调查点` },
+                },
+                [
+                  el('img', {
+                    className: 'scene-board__image',
+                    src: assetUrl(location.image),
+                    alt: location.name,
+                  }),
+                  ...hotspotButtons,
+                ],
+              )
+            : el('div', { className: 'empty-state', text: '没有可进入的场景。' }),
+          el('div', { className: 'hotspot-legend', attrs: { 'aria-hidden': 'true' } }, [
+            el('span', { className: 'legend legend--new', text: '未调查' }),
+            el('span', { className: 'legend legend--done', text: '已调查' }),
+            el('span', { className: 'legend legend--lock', text: '未解锁' }),
+          ]),
+        ]),
+        el('aside', { className: 'investigation-rail', attrs: { 'aria-label': '任务与进度' } }, [
+          el('h2', { text: '任务进度' }),
+          el(
+            'ul',
+            { className: 'objective-list' },
+            objectives.map((item) =>
+              el('li', { className: item.done ? 'is-done' : '' }, [
+                el('span', {
+                  className: 'objective-mark',
+                  attrs: { 'aria-hidden': 'true' },
+                  text: item.done ? '+' : '-',
+                }),
+                el('span', { text: item.text }),
+              ]),
+            ),
+          ),
+          el('h2', { text: '最近线索' }),
+          recentClues.length
+            ? el(
+                'ul',
+                { className: 'recent-clues' },
+                recentClues.map((clue) =>
+                  el('li', {}, [
+                    el('strong', { text: clue.name }),
+                    el('span', { text: clue.shortDescription }),
+                  ]),
+                ),
+              )
+            : el('p', { className: 'placeholder-note', text: '点击场景中的调查点收集线索。' }),
+          el('h2', { text: '统计' }),
+          el('ul', { className: 'briefing-stats' }, [
+            el('li', {
+              text: `场景 ${progress.locationUnlocked}/${progress.locationTotal}`,
+            }),
+            el('li', {
+              text: `热点 ${progress.hotspotInspected}/${progress.hotspotTotal}`,
+            }),
+            el('li', { text: `询问 ${progress.topicsAsked}` }),
+          ]),
+        ]),
+      ]),
+      renderGameNav('investigation'),
+    );
+  };
+
+  paint();
+  saveGame();
 }

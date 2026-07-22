@@ -5,6 +5,7 @@ import { getState } from '../state/game-state.js';
 import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { renderGameNav } from '../components/game-nav.js';
+import { renderEmptyBlock } from '../components/status-block.js';
 import { filterClues, getDiscoveredClues, pinClue, getClueById } from '../systems/clue-system.js';
 import {
   compareEvidence,
@@ -140,7 +141,17 @@ export function renderArchiveView(root) {
             ],
           );
         })
-      : [el('div', { className: 'empty-state', text: '还没有符合筛选的线索。先去现场调查吧。' })];
+      : [
+          renderEmptyBlock({
+            title: '还没有符合筛选的线索',
+            message: '先去现场调查，或切换筛选条件。',
+            action: {
+              label: '前往调查',
+              primary: true,
+              onClick: () => navigate('/investigation'),
+            },
+          }),
+        ];
 
     const detail = selected
       ? el('article', { className: 'clue-detail panel', attrs: { 'aria-live': 'polite' } }, [
@@ -216,7 +227,10 @@ export function renderArchiveView(root) {
             ),
           ]),
         ])
-      : el('div', { className: 'empty-state', text: '选择一条线索查看详情。' });
+      : renderEmptyBlock({
+          title: '选择一条线索',
+          message: '从左侧列表打开详情，并标记重点或加入对比。',
+        });
 
     const comparePanel = el('section', { className: 'compare-panel panel' }, [
       el('h2', { text: '证据关联' }),

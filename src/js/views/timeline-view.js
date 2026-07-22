@@ -6,6 +6,7 @@ import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { renderGameNav } from '../components/game-nav.js';
 import { playSfx } from '../systems/audio-system.js';
+import { renderEmptyBlock } from '../components/status-block.js';
 import {
   getOrderedTimelineEvents,
   getTimelineConfig,
@@ -107,9 +108,14 @@ export function renderTimelineView(root) {
           ),
         )
       : [
-          el('div', {
-            className: 'empty-state',
-            text: '尚未发现时间线事件。继续调查现场与询问人物以解锁事件。',
+          renderEmptyBlock({
+            title: '尚未发现时间线事件',
+            message: '继续调查现场与询问人物以解锁事件，再回来排序。',
+            action: {
+              label: '返回调查',
+              primary: true,
+              onClick: () => navigate('/investigation'),
+            },
           }),
         ];
 

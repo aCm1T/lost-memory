@@ -4,6 +4,7 @@ import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 import { getState, startCase } from '../state/game-state.js';
 import { saveGame, readBestRanks } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
+import { renderEmptyBlock } from '../components/status-block.js';
 
 function difficultyLabel(value) {
   const map = {
@@ -117,7 +118,10 @@ export function renderCaseSelectView(root) {
       ]),
       cases.length
         ? el('div', { className: 'case-grid' }, cards)
-        : el('div', { className: 'empty-state', text: '暂无案件。' }),
+        : renderEmptyBlock({
+            title: '暂无案件',
+            message: '案件索引为空。请检查 case-index.json。',
+          }),
     ]),
   );
 }

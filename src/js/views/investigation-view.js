@@ -6,6 +6,8 @@ import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { openModal } from '../components/modal.js';
 import { renderGameNav } from '../components/game-nav.js';
+import { renderErrorBlock, renderEmptyBlock } from '../components/status-block.js';
+import { renderProgressIndicator } from '../components/progress-indicator.js';
 import { playSfx } from '../systems/audio-system.js';
 import {
   getInvestigationProgress,
@@ -22,18 +24,16 @@ function ensureCaseOrRedirect(root) {
   const state = getState();
   if (!state.caseId) {
     root.append(
-      el('section', { className: 'view panel' }, [
-        el('h1', { text: '尚未开始案件' }),
-        el('p', { text: '请先从案件列表进入简报。' }),
-        el(
-          'button',
-          {
-            className: 'btn btn--primary',
-            type: 'button',
-            on: { click: () => navigate('/cases') },
+      el('section', { className: 'view' }, [
+        renderEmptyBlock({
+          title: '尚未开始案件',
+          message: '请先从案件列表进入简报，再开始现场调查。',
+          action: {
+            label: '前往案件选择',
+            primary: true,
+            onClick: () => navigate('/cases'),
           },
-          '前往案件选择',
-        ),
+        }),
       ]),
     );
     return null;
@@ -42,9 +42,13 @@ function ensureCaseOrRedirect(root) {
   const loaded = loadCase(state.caseId);
   if (!loaded.ok) {
     root.append(
-      el('section', { className: 'view panel' }, [
-        el('h1', { text: '案件加载失败' }),
-        el('p', { text: loaded.error }),
+      el('section', { className: 'view' }, [
+        renderErrorBlock({
+          title: '案件加载失败',
+          message: loaded.error,
+          onRetry: () => navigate('/investigation'),
+          onHome: () => navigate('/home'),
+        }),
       ]),
     );
     return null;
@@ -96,13 +100,19 @@ export function renderInvestigationView(root) {
   const caseData = ensureCaseOrRedirect(root);
   if (!caseData) return;
 
+  let mobilePanel = 'stage';
+
   const shell = el('section', {
     className: 'view investigation-shell',
-    attrs: { 'aria-labelledby': 'invest-title' },
+    attrs: {
+      'aria-labelledby': 'invest-title',
+      'data-mobile-panel': mobilePanel,
+    },
   });
   root.append(shell);
 
   const paint = () => {
+    shell.dataset.mobilePanel = mobilePanel;
     const state = getState();
     const locations = listLocations(caseData, state);
     const defaultLocation =
@@ -270,14 +280,81 @@ export function renderInvestigationView(root) {
           ),
         ]),
       ]),
+      el(
+        'div',
+        { className: 'mobile-tabs', attrs: { role: 'tablist', 'aria-label': '调查面板' } },
+        [
+          el(
+            'button',
+            {
+              type: 'button',
+              className: `mobile-tabs__btn${mobilePanel === 'nav' ? ' is-active' : ''}`,
+              attrs: {
+                role: 'tab',
+                'aria-selected': String(mobilePanel === 'nav'),
+              },
+              on: {
+                click: () => {
+                  mobilePanel = 'nav';
+                  paint();
+                },
+              },
+            },
+            '导航',
+          ),
+          el(
+            'button',
+            {
+              type: 'button',
+              className: `mobile-tabs__btn${mobilePanel === 'stage' ? ' is-active' : ''}`,
+              attrs: {
+                role: 'tab',
+                'aria-selected': String(mobilePanel === 'stage'),
+              },
+              on: {
+                click: () => {
+                  mobilePanel = 'stage';
+                  paint();
+                },
+              },
+            },
+            '现场',
+          ),
+          el(
+            'button',
+            {
+              type: 'button',
+              className: `mobile-tabs__btn${mobilePanel === 'progress' ? ' is-active' : ''}`,
+              attrs: {
+                role: 'tab',
+                'aria-selected': String(mobilePanel === 'progress'),
+              },
+              on: {
+                click: () => {
+                  mobilePanel = 'progress';
+                  paint();
+                },
+              },
+            },
+            '进度',
+          ),
+        ],
+      ),
       el('div', { className: 'investigation-layout' }, [
-        el('aside', { className: 'investigation-side', attrs: { 'aria-label': '场景与人物' } }, [
-          el('h2', { text: '场景' }),
-          el('div', { className: 'side-list' }, locationButtons),
-          el('h2', { text: '人物' }),
-          el('div', { className: 'side-list' }, peopleButtons),
-        ]),
-        el('div', { className: 'investigation-stage' }, [
+        el(
+          'aside',
+          {
+            className: 'investigation-side investigation-panel',
+            attrs: { 'aria-label': '场景与人物' },
+          },
+          [
+            el('h2', { text: '场景' }),
+            el('div', { className: 'side-list' }, locationButtons),
+            el('h2', { text: '人物' }),
+            el('div', { className: 'side-list' }, peopleButtons),
+          ],
+        ),
+        el('div', { className: 'investigation-stage investigation-panel' }, [
           el('div', { className: 'stage-heading' }, [
             el('h2', { text: location?.name || '选择场景' }),
             el('p', { text: location?.description || '' }),
@@ -293,58 +370,74 @@ export function renderInvestigationView(root) {
                   el('img', {
                     className: 'scene-board__image',
                     src: assetUrl(location.image),
-                    alt: location.name,
+                    alt: `${location.name} 场景图`,
                   }),
                   ...hotspotButtons,
                 ],
               )
-            : el('div', { className: 'empty-state', text: '没有可进入的场景。' }),
+            : renderEmptyBlock({
+                title: '没有可进入的场景',
+                message: '继续收集线索以解锁更多地点。',
+              }),
           el('div', { className: 'hotspot-legend', attrs: { 'aria-hidden': 'true' } }, [
             el('span', { className: 'legend legend--new', text: '未调查' }),
             el('span', { className: 'legend legend--done', text: '已调查' }),
             el('span', { className: 'legend legend--lock', text: '未解锁' }),
           ]),
         ]),
-        el('aside', { className: 'investigation-rail', attrs: { 'aria-label': '任务与进度' } }, [
-          el('h2', { text: '任务进度' }),
-          el(
-            'ul',
-            { className: 'objective-list' },
-            objectives.map((item) =>
-              el('li', { className: item.done ? 'is-done' : '' }, [
-                el('span', {
-                  className: 'objective-mark',
-                  attrs: { 'aria-hidden': 'true' },
-                  text: item.done ? '+' : '-',
-                }),
-                el('span', { text: item.text }),
-              ]),
+        el(
+          'aside',
+          {
+            className: 'investigation-rail investigation-panel',
+            attrs: { 'aria-label': '任务与进度' },
+          },
+          [
+            el('h2', { text: '任务进度' }),
+            renderProgressIndicator({
+              label: '线索收集',
+              value: progress.clueCount,
+              max: progress.clueTotal,
+              id: 'clue-progress',
+            }),
+            el(
+              'ul',
+              { className: 'objective-list' },
+              objectives.map((item) =>
+                el('li', { className: item.done ? 'is-done' : '' }, [
+                  el('span', {
+                    className: 'objective-mark',
+                    attrs: { 'aria-hidden': 'true' },
+                    text: item.done ? '+' : '-',
+                  }),
+                  el('span', { text: item.text }),
+                ]),
+              ),
             ),
-          ),
-          el('h2', { text: '最近线索' }),
-          recentClues.length
-            ? el(
-                'ul',
-                { className: 'recent-clues' },
-                recentClues.map((clue) =>
-                  el('li', {}, [
-                    el('strong', { text: clue.name }),
-                    el('span', { text: clue.shortDescription }),
-                  ]),
-                ),
-              )
-            : el('p', { className: 'placeholder-note', text: '点击场景中的调查点收集线索。' }),
-          el('h2', { text: '统计' }),
-          el('ul', { className: 'briefing-stats' }, [
-            el('li', {
-              text: `场景 ${progress.locationUnlocked}/${progress.locationTotal}`,
-            }),
-            el('li', {
-              text: `热点 ${progress.hotspotInspected}/${progress.hotspotTotal}`,
-            }),
-            el('li', { text: `询问 ${progress.topicsAsked}` }),
-          ]),
-        ]),
+            el('h2', { text: '最近线索' }),
+            recentClues.length
+              ? el(
+                  'ul',
+                  { className: 'recent-clues' },
+                  recentClues.map((clue) =>
+                    el('li', {}, [
+                      el('strong', { text: clue.name }),
+                      el('span', { text: clue.shortDescription }),
+                    ]),
+                  ),
+                )
+              : el('p', { className: 'placeholder-note', text: '点击场景中的调查点收集线索。' }),
+            el('h2', { text: '统计' }),
+            el('ul', { className: 'briefing-stats' }, [
+              el('li', {
+                text: `场景 ${progress.locationUnlocked}/${progress.locationTotal}`,
+              }),
+              el('li', {
+                text: `热点 ${progress.hotspotInspected}/${progress.hotspotTotal}`,
+              }),
+              el('li', { text: `询问 ${progress.topicsAsked}` }),
+            ]),
+          ],
+        ),
       ]),
       renderGameNav('investigation'),
     );

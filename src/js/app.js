@@ -6,6 +6,7 @@ import { setState } from './state/game-state.js';
 import { applyPresentationSettings } from './systems/settings-system.js';
 import { bindAudioUnlockOnce } from './systems/audio-system.js';
 import { showToast } from './components/toast.js';
+import { renderLoadingBlock, renderErrorBlock } from './components/status-block.js';
 import { renderHomeView } from './views/home-view.js';
 import { renderCaseSelectView } from './views/case-select-view.js';
 import { renderBriefingView } from './views/briefing-view.js';
@@ -32,13 +33,41 @@ function updateNav(path) {
   });
 }
 
-function mount(renderFn) {
+function showLoading() {
   const main = getMain();
   if (!main) return;
   clear(main);
-  renderFn(main);
+  main.classList.add('is-loading');
+  main.append(renderLoadingBlock('正在切换页面…'));
+}
+
+function mount(renderFn) {
+  const main = getMain();
+  if (!main) return;
+  main.classList.remove('is-loading');
+  clear(main);
+  try {
+    renderFn(main);
+  } catch (error) {
+    console.error('View render failed', error);
+    main.append(
+      renderErrorBlock({
+        title: '页面渲染失败',
+        message: error?.message || '未知错误',
+        onRetry: () => window.location.reload(),
+        onHome: () => navigate('/home'),
+      }),
+    );
+  }
   updateNav(getCurrentPath());
   main.focus({ preventScroll: true });
+}
+
+async function mountRoute(renderFn) {
+  showLoading();
+  // Yield so the loading state is visible on slower devices / large views.
+  await Promise.resolve();
+  mount(renderFn);
 }
 
 function boot() {
@@ -60,62 +89,62 @@ function boot() {
 
   registerRoute('/home', async () => {
     setState({ view: 'home' });
-    mount(renderHomeView);
+    await mountRoute(renderHomeView);
   });
 
   registerRoute('/cases', async () => {
     setState({ view: 'cases' });
-    mount(renderCaseSelectView);
+    await mountRoute(renderCaseSelectView);
   });
 
   registerRoute('/case/:id', async ({ params }) => {
     setState({ view: 'briefing' });
-    mount((root) => renderBriefingView(root, params.id));
+    await mountRoute((root) => renderBriefingView(root, params.id));
   });
 
   registerRoute('/investigation', async () => {
     setState({ view: 'investigation' });
-    mount(renderInvestigationView);
+    await mountRoute(renderInvestigationView);
   });
 
   registerRoute('/people', async () => {
     setState({ view: 'people' });
-    mount(renderPeopleView);
+    await mountRoute(renderPeopleView);
   });
 
   registerRoute('/dialogue/:characterId', async ({ params }) => {
     setState({ view: 'dialogue' });
-    mount((root) => renderDialogueView(root, params.characterId));
+    await mountRoute((root) => renderDialogueView(root, params.characterId));
   });
 
   registerRoute('/archive', async () => {
     setState({ view: 'archive' });
-    mount(renderArchiveView);
+    await mountRoute(renderArchiveView);
   });
 
   registerRoute('/timeline', async () => {
     setState({ view: 'timeline' });
-    mount(renderTimelineView);
+    await mountRoute(renderTimelineView);
   });
 
   registerRoute('/deduction', async () => {
     setState({ view: 'deduction' });
-    mount(renderDeductionView);
+    await mountRoute(renderDeductionView);
   });
 
   registerRoute('/ending', async () => {
     setState({ view: 'ending' });
-    mount(renderEndingView);
+    await mountRoute(renderEndingView);
   });
 
   registerRoute('/settings', async () => {
     setState({ view: 'settings' });
-    mount(renderSettingsView);
+    await mountRoute(renderSettingsView);
   });
 
   registerRoute('/credits', async () => {
     setState({ view: 'credits' });
-    mount(renderCreditsView);
+    await mountRoute(renderCreditsView);
   });
 
   document.addEventListener('click', (event) => {

@@ -1,5 +1,13 @@
 let previousFocus = null;
 
+function getFocusable(container) {
+  return [
+    ...container.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  ].filter((node) => !node.hasAttribute('disabled') && node.getAttribute('aria-hidden') !== 'true');
+}
+
 export function openModal({ title, bodyNodes = [], actions = [], labelledBy = 'modal-title' }) {
   previousFocus = document.activeElement;
 
@@ -31,7 +39,7 @@ export function openModal({ title, bodyNodes = [], actions = [], labelledBy = 'm
 
   const close = () => {
     overlay.remove();
-    document.removeEventListener('keydown', onKeyDown);
+    document.removeEventListener('keydown', onKeyDown, true);
     if (previousFocus && typeof previousFocus.focus === 'function') {
       previousFocus.focus();
     }
@@ -41,6 +49,19 @@ export function openModal({ title, bodyNodes = [], actions = [], labelledBy = 'm
     if (event.key === 'Escape') {
       event.preventDefault();
       close();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = getFocusable(dialog);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   };
 
@@ -72,12 +93,10 @@ export function openModal({ title, bodyNodes = [], actions = [], labelledBy = 'm
   });
 
   document.body.append(overlay);
-  document.addEventListener('keydown', onKeyDown);
+  document.addEventListener('keydown', onKeyDown, true);
 
-  const focusable = dialog.querySelector(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-  );
-  if (focusable) focusable.focus();
+  const focusable = getFocusable(dialog);
+  if (focusable[0]) focusable[0].focus();
 
   return { close, overlay, dialog };
 }

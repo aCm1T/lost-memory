@@ -2,7 +2,7 @@ import { el, assetUrl } from '../utils/dom.js';
 import { navigate } from '../router.js';
 import { getCaseIndex, loadCase } from '../systems/case-loader.js';
 import { getState, startCase } from '../state/game-state.js';
-import { saveGame } from '../state/save-manager.js';
+import { saveGame, readBestRanks } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 
 function difficultyLabel(value) {
@@ -17,6 +17,7 @@ function difficultyLabel(value) {
 export function renderCaseSelectView(root) {
   const cases = getCaseIndex();
   const state = getState();
+  const bestRanks = readBestRanks();
 
   const cards = cases.map((item) => {
     const isActive = state.caseId === item.id && state.startedAt && !state.completed;
@@ -63,7 +64,7 @@ export function renderCaseSelectView(root) {
             }),
             el('span', {
               className: 'status-pill',
-              text: '最佳评价：—',
+              text: bestRanks[item.id] ? `最佳评价：${bestRanks[item.id]}` : '最佳评价：—',
             }),
           ]),
           el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1rem' } }, [

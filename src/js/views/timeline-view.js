@@ -5,6 +5,7 @@ import { getState } from '../state/game-state.js';
 import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { renderGameNav } from '../components/game-nav.js';
+import { playSfx } from '../systems/audio-system.js';
 import {
   getOrderedTimelineEvents,
   getTimelineConfig,
@@ -142,6 +143,7 @@ export function renderTimelineView(root) {
                 const result = submitTimeline(caseData);
                 feedback = result;
                 saveGame();
+                playSfx(result.solved ? 'correct' : 'wrong');
                 showToast(result.message);
                 paint();
               },

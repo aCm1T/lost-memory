@@ -1,13 +1,15 @@
 import { el } from '../utils/dom.js';
 import { navigate } from '../router.js';
 import { hasActiveSave, startCase, getState } from '../state/game-state.js';
-import { hasSave, loadGame, saveGame } from '../state/save-manager.js';
+import { hasSave, loadGame, saveGame, getContinuePath } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { getCaseIndex, loadCase } from '../systems/case-loader.js';
+import { playSfx } from '../systems/audio-system.js';
 
 export function renderHomeView(root) {
   const state = getState();
   const canContinue = hasSave() && hasActiveSave(state);
+  const canReviewEnding = Boolean(state.completed && state.endingId);
 
   const continueBtn = el(
     'button',
@@ -20,15 +22,99 @@ export function renderHomeView(root) {
         click: () => {
           const result = loadGame();
           if (!result.ok || !result.data?.caseId) {
-            showToast('没有可继续的存档');
+            showToast(
+              result.reason === 'corrupt' ? '存档损坏，请到设置中重置' : '没有可继续的存档',
+            );
             return;
           }
-          navigate('/investigation');
-          showToast('已读取存档');
+          playSfx('click');
+          navigate(getContinuePath(result.data));
+          showToast('已读取存档并继续');
         },
       },
     },
     '继续游戏',
+  );
+
+  const buttons = [
+    el(
+      'button',
+      {
+        className: 'btn btn--primary',
+        type: 'button',
+        on: {
+          click: () => {
+            const firstCase = getCaseIndex()[0];
+            if (!firstCase) {
+              showToast('暂无可用案件');
+              return;
+            }
+            const loaded = loadCase(firstCase.id);
+            if (!loaded.ok) {
+              showToast('案件数据无法加载');
+              console.error(loaded.error);
+              return;
+            }
+            startCase(firstCase.id, loaded.data);
+            saveGame();
+            playSfx('click');
+            navigate(`/case/${firstCase.id}`);
+          },
+        },
+      },
+      '开始游戏',
+    ),
+    continueBtn,
+  ];
+
+  if (canReviewEnding) {
+    buttons.push(
+      el(
+        'button',
+        {
+          className: 'btn',
+          type: 'button',
+          on: {
+            click: () => {
+              loadGame();
+              playSfx('click');
+              navigate('/ending');
+            },
+          },
+        },
+        '查看结局',
+      ),
+    );
+  }
+
+  buttons.push(
+    el(
+      'button',
+      {
+        className: 'btn',
+        type: 'button',
+        on: { click: () => navigate('/cases') },
+      },
+      '案件选择',
+    ),
+    el(
+      'button',
+      {
+        className: 'btn btn--ghost',
+        type: 'button',
+        on: { click: () => navigate('/settings') },
+      },
+      '设置',
+    ),
+    el(
+      'button',
+      {
+        className: 'btn btn--ghost',
+        type: 'button',
+        on: { click: () => navigate('/credits') },
+      },
+      '制作人员',
+    ),
   );
 
   root.append(
@@ -43,62 +129,7 @@ export function renderHomeView(root) {
           className: 'home-hero__lead',
           text: '一个人的记忆可能不可靠，但物证和时间不会撒谎。在港灯酒店的雨夜，还原 407 号房的失踪真相。',
         }),
-        el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1.5rem' } }, [
-          el(
-            'button',
-            {
-              className: 'btn btn--primary',
-              type: 'button',
-              on: {
-                click: () => {
-                  const firstCase = getCaseIndex()[0];
-                  if (!firstCase) {
-                    showToast('暂无可用案件');
-                    return;
-                  }
-                  const loaded = loadCase(firstCase.id);
-                  if (!loaded.ok) {
-                    showToast('案件数据无法加载');
-                    console.error(loaded.error);
-                    return;
-                  }
-                  startCase(firstCase.id, loaded.data);
-                  saveGame();
-                  navigate(`/case/${firstCase.id}`);
-                },
-              },
-            },
-            '开始游戏',
-          ),
-          continueBtn,
-          el(
-            'button',
-            {
-              className: 'btn',
-              type: 'button',
-              on: { click: () => navigate('/cases') },
-            },
-            '案件选择',
-          ),
-          el(
-            'button',
-            {
-              className: 'btn btn--ghost',
-              type: 'button',
-              on: { click: () => navigate('/settings') },
-            },
-            '设置',
-          ),
-          el(
-            'button',
-            {
-              className: 'btn btn--ghost',
-              type: 'button',
-              on: { click: () => navigate('/credits') },
-            },
-            '制作人员',
-          ),
-        ]),
+        el('div', { className: 'btn-row', attrs: { style: 'margin-top: 1.5rem' } }, buttons),
       ]),
       el('div', { className: 'home-hero__stage', attrs: { 'aria-hidden': 'true' } }, [
         el('p', {

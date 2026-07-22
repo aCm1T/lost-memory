@@ -19,6 +19,32 @@
   }
 }
 
+html[data-motion='off'] .view,
+html[data-motion='off'] .home-hero__stage,
+html[data-motion='reduced'] .view {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-text-speed='slow'] .dialogue-entry,
+html[data-text-speed='normal'] .dialogue-entry,
+html[data-text-speed='fast'] .dialogue-entry {
+  animation: text-in var(--text-speed-ms, 350ms) ease;
+}
+
+@keyframes text-in {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html[data-motion='off'] .dialogue-entry {
+  animation: none !important;
+}
+
 .home-hero {
   display: grid;
   gap: var(--space-6);

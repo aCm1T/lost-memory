@@ -1,4 +1,5 @@
 import { getState, setState } from '../state/game-state.js';
+import { recordBestRank } from '../state/save-manager.js';
 
 const RANK_ORDER = ['C', 'B', 'A', 'S'];
 
@@ -213,6 +214,10 @@ export function submitDeduction(caseData, submission) {
       at: new Date().toISOString(),
     },
   });
+
+  if (getState().caseId && finalEvaluation.rank) {
+    recordBestRank(getState().caseId, finalEvaluation.rank);
+  }
 
   return {
     ok: true,

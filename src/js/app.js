@@ -1,8 +1,11 @@
 import '../styles/main.css';
 import { clear, $all } from './utils/dom.js';
 import { registerRoute, startRouter, navigate, getCurrentPath } from './router.js';
-import { loadGame } from './state/save-manager.js';
+import { loadGame, recoverCorruptSave } from './state/save-manager.js';
 import { setState } from './state/game-state.js';
+import { applyPresentationSettings } from './systems/settings-system.js';
+import { bindAudioUnlockOnce } from './systems/audio-system.js';
+import { showToast } from './components/toast.js';
 import { renderHomeView } from './views/home-view.js';
 import { renderCaseSelectView } from './views/case-select-view.js';
 import { renderBriefingView } from './views/briefing-view.js';
@@ -39,12 +42,21 @@ function mount(renderFn) {
 }
 
 function boot() {
+  bindAudioUnlockOnce(document);
+  let bootNotice = null;
+
   const loaded = loadGame();
-  if (!loaded.ok && loaded.reason === 'corrupt') {
-    console.warn('Save data corrupt; starting clean.', loaded.error);
+  if (!loaded.ok && (loaded.reason === 'corrupt' || loaded.reason === 'invalid-shape')) {
+    const recovered = recoverCorruptSave();
+    bootNotice = recovered.message || '存档已损坏并重置。';
+    console.warn('Save data corrupt; recovered.', loaded.error);
   } else if (!loaded.ok && loaded.reason === 'unsupported-version') {
-    console.warn('Save version unsupported; starting clean.');
+    const recovered = recoverCorruptSave();
+    bootNotice = recovered.message || '存档版本不受支持，已安全重置。';
+    console.warn('Save version unsupported; recovered.');
   }
+
+  applyPresentationSettings();
 
   registerRoute('/home', async () => {
     setState({ view: 'home' });
@@ -116,6 +128,10 @@ function boot() {
   });
 
   startRouter(() => navigate('/home'));
+
+  if (bootNotice) {
+    window.setTimeout(() => showToast(bootNotice), 400);
+  }
 }
 
 boot();

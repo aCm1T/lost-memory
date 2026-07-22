@@ -1,11 +1,14 @@
 import { el } from '../utils/dom.js';
 import { navigate } from '../router.js';
-import { getState, setState } from '../state/game-state.js';
-import { saveGame, clearSave } from '../state/save-manager.js';
+import { getState } from '../state/game-state.js';
+import { saveGame, clearSave, restartCase, saveSettings } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
+import { updateSettings } from '../systems/settings-system.js';
+import { playSfx, syncAudioWithSettings, unlockAudio } from '../systems/audio-system.js';
+import { loadCase } from '../systems/case-loader.js';
 
 export function renderSettingsView(root) {
-  const { settings } = getState();
+  const { settings, caseId, caseTitle, completed, startedAt } = getState();
 
   const volumeInput = el('input', {
     type: 'range',
@@ -13,24 +16,43 @@ export function renderSettingsView(root) {
     max: 1,
     step: 0.05,
     value: settings.volume,
-    attrs: { id: 'setting-volume', 'aria-valuemin': '0', 'aria-valuemax': '1' },
+    attrs: {
+      id: 'setting-volume',
+      'aria-valuemin': '0',
+      'aria-valuemax': '1',
+      'aria-label': '主音量',
+    },
+    on: {
+      input: (event) => {
+        updateSettings({ volume: Number(event.target.value) });
+        saveSettings();
+        syncAudioWithSettings();
+      },
+    },
   });
+
+  const persist = (patch) => {
+    updateSettings(patch);
+    saveSettings();
+    saveGame();
+    playSfx('click');
+  };
 
   root.append(
     el('section', { className: 'view panel', attrs: { 'aria-labelledby': 'settings-title' } }, [
       el('header', { className: 'view-header' }, [
         el('p', { className: 'eyebrow', text: 'Settings' }),
         el('h1', { id: 'settings-title', text: '设置' }),
-        el('p', { text: '设置会写入本地存档。音频实际播放将在后续阶段接入。' }),
+        el('p', {
+          text: '音频、动画与文字速度会立即生效，并写入本地存储。缺少音频文件时会自动改用程序音效。',
+        }),
       ]),
       el(
         'form',
         {
           className: 'settings-list',
           on: {
-            submit: (event) => {
-              event.preventDefault();
-            },
+            submit: (event) => event.preventDefault(),
           },
         },
         [
@@ -39,12 +61,12 @@ export function renderSettingsView(root) {
             el(
               'select',
               {
-                attrs: { id: 'setting-bgm' },
-                value: settings.bgm ? 'on' : 'off',
+                attrs: { id: 'setting-bgm', 'aria-label': '背景音乐开关' },
                 on: {
                   change: (event) => {
-                    setState({ settings: { bgm: event.target.value === 'on' } });
-                    saveGame();
+                    unlockAudio();
+                    persist({ bgm: event.target.value === 'on' });
+                    syncAudioWithSettings();
                   },
                 },
               },
@@ -59,12 +81,11 @@ export function renderSettingsView(root) {
             el(
               'select',
               {
-                attrs: { id: 'setting-sfx' },
-                value: settings.sfx ? 'on' : 'off',
+                attrs: { id: 'setting-sfx', 'aria-label': '音效开关' },
                 on: {
                   change: (event) => {
-                    setState({ settings: { sfx: event.target.value === 'on' } });
-                    saveGame();
+                    unlockAudio();
+                    persist({ sfx: event.target.value === 'on' });
                   },
                 },
               },
@@ -80,13 +101,9 @@ export function renderSettingsView(root) {
             el(
               'select',
               {
-                attrs: { id: 'setting-motion' },
-                value: settings.motion,
+                attrs: { id: 'setting-motion', 'aria-label': '动画强度' },
                 on: {
-                  change: (event) => {
-                    setState({ settings: { motion: event.target.value } });
-                    saveGame();
-                  },
+                  change: (event) => persist({ motion: event.target.value }),
                 },
               },
               [
@@ -101,13 +118,9 @@ export function renderSettingsView(root) {
             el(
               'select',
               {
-                attrs: { id: 'setting-text-speed' },
-                value: settings.textSpeed,
+                attrs: { id: 'setting-text-speed', 'aria-label': '文字速度' },
                 on: {
-                  change: (event) => {
-                    setState({ settings: { textSpeed: event.target.value } });
-                    saveGame();
-                  },
+                  change: (event) => persist({ textSpeed: event.target.value }),
                 },
               },
               [
@@ -123,7 +136,6 @@ export function renderSettingsView(root) {
               'select',
               {
                 attrs: { id: 'setting-language', disabled: 'disabled' },
-                value: settings.language,
               },
               [
                 el('option', { value: 'zh', text: '中文' }),
@@ -141,13 +153,9 @@ export function renderSettingsView(root) {
             type: 'button',
             on: {
               click: () => {
-                setState({
-                  settings: {
-                    volume: Number(volumeInput.value),
-                  },
-                });
-                saveGame();
-                showToast('设置已保存');
+                persist({ volume: Number(volumeInput.value) });
+                syncAudioWithSettings();
+                showToast('设置已保存到本地');
               },
             },
           },
@@ -158,12 +166,46 @@ export function renderSettingsView(root) {
           {
             className: 'btn',
             type: 'button',
+            disabled: !caseId || !startedAt,
             on: {
               click: () => {
-                const confirmed = window.confirm('确定删除本地存档吗？此操作不可撤销。');
+                const confirmed = window.confirm(
+                  completed
+                    ? '确定重新开始当前案件吗？进度会被清空。'
+                    : '确定重新开始案件吗？当前调查进度将丢失。',
+                );
+                if (!confirmed) return;
+                const loaded = loadCase(caseId);
+                const result = restartCase(
+                  caseId,
+                  loaded.ok ? loaded.data : { titleZh: caseTitle },
+                );
+                if (!result.ok) {
+                  showToast('无法重新开始');
+                  return;
+                }
+                playSfx('click');
+                showToast('案件已重新开始');
+                navigate(`/case/${caseId}`);
+              },
+            },
+          },
+          '重新开始案件',
+        ),
+        el(
+          'button',
+          {
+            className: 'btn',
+            type: 'button',
+            on: {
+              click: () => {
+                const confirmed = window.confirm(
+                  '确定删除本地存档吗？此操作不可撤销。设置会保留。',
+                );
                 if (!confirmed) return;
                 clearSave();
-                showToast('存档已删除');
+                playSfx('wrong');
+                showToast('存档已删除，设置已保留');
                 navigate('/home');
               },
             },
@@ -183,9 +225,14 @@ export function renderSettingsView(root) {
     ]),
   );
 
-  // Ensure select values reflect state (value prop alone is unreliable pre-mount).
   const bgm = root.querySelector('#setting-bgm');
   const sfx = root.querySelector('#setting-sfx');
+  const motion = root.querySelector('#setting-motion');
+  const textSpeed = root.querySelector('#setting-text-speed');
+  const language = root.querySelector('#setting-language');
   if (bgm) bgm.value = settings.bgm ? 'on' : 'off';
   if (sfx) sfx.value = settings.sfx ? 'on' : 'off';
+  if (motion) motion.value = settings.motion || 'full';
+  if (textSpeed) textSpeed.value = settings.textSpeed || 'normal';
+  if (language) language.value = settings.language || 'zh';
 }

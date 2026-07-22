@@ -6,6 +6,7 @@ import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { openModal } from '../components/modal.js';
 import { renderGameNav } from '../components/game-nav.js';
+import { playSfx } from '../systems/audio-system.js';
 import {
   canAccessDeduction,
   getDeductionConfig,
@@ -221,15 +222,18 @@ export function renderDeductionView(root) {
                             if (!result.ok) {
                               showToast(result.message);
                               feedback = result.message;
+                              playSfx('wrong');
                               paint();
                               return;
                             }
                             if (result.retry) {
                               feedback = result.message;
                               showToast(result.message);
+                              playSfx('wrong');
                               paint();
                               return;
                             }
+                            playSfx('correct');
                             showToast('案件已结案');
                             navigate('/ending');
                           },

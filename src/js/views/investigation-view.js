@@ -6,6 +6,7 @@ import { saveGame } from '../state/save-manager.js';
 import { showToast } from '../components/toast.js';
 import { openModal } from '../components/modal.js';
 import { renderGameNav } from '../components/game-nav.js';
+import { playSfx } from '../systems/audio-system.js';
 import {
   getInvestigationProgress,
   getLocationById,
@@ -212,8 +213,10 @@ export function renderInvestigationView(root) {
               saveGame();
               if (result.clues.length) {
                 showClueModal(result.clues);
+                playSfx('clue');
                 showToast(`发现线索：${result.clues.map((c) => c.name).join('、')}`);
               } else if (result.alreadyInspected) {
+                playSfx('click');
                 showToast(result.description || '已经调查过这里');
                 openModal({
                   title: hotspot.label,

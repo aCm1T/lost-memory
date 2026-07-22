@@ -5,6 +5,7 @@ import { loadGame, recoverCorruptSave } from './state/save-manager.js';
 import { setState } from './state/game-state.js';
 import { applyPresentationSettings } from './systems/settings-system.js';
 import { bindAudioUnlockOnce } from './systems/audio-system.js';
+import { registerServiceWorker } from './pwa.js';
 import { showToast } from './components/toast.js';
 import { renderLoadingBlock, renderErrorBlock } from './components/status-block.js';
 import { renderHomeView } from './views/home-view.js';
@@ -72,6 +73,7 @@ async function mountRoute(renderFn) {
 
 function boot() {
   bindAudioUnlockOnce(document);
+  registerServiceWorker();
   let bootNotice = null;
 
   const loaded = loadGame();

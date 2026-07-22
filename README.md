@@ -14,6 +14,7 @@
 - Phase 6：最终推理、评分、多结局与结案评价完成
 - Phase 7：存档恢复/续玩、设置持久化、音频系统完成
 - Phase 8：响应式精修、状态反馈、无障碍与动效完善
+- Phase 9：PWA（manifest / Service Worker）、GitHub Pages Actions 部署完成
 
 ## 本地开发
 
@@ -35,7 +36,11 @@ npm run preview
 npm run validate:case
 ```
 
-构建产物输出到 `dist/`，`vite.config.js` 已设置 `base: '/lost-memory/'` 以兼容 GitHub Pages 子路径。
+构建产物输出到 `dist/`，`vite.config.js` 已设置 `base: '/lost-memory/'` 以兼容 GitHub Pages 子路径。生产构建会生成 `dist/sw.js`（仅生产环境注册）。
+
+## 部署
+
+推送到 `main` 后由 GitHub Actions 自动构建并部署到 Pages。首次使用请在仓库 **Settings → Pages** 将 Source 设为 **GitHub Actions**。详情见 [部署指南](docs/DEPLOYMENT.md)。
 
 ## 隐私
 
@@ -47,3 +52,4 @@ npm run validate:case
 - [技术设计](docs/TECHNICAL_DESIGN.md)
 - [第一案设计](docs/CASE_001_DESIGN.md)
 - [案件编写指南](docs/CASE_AUTHORING.md)
+- [部署指南](docs/DEPLOYMENT.md)

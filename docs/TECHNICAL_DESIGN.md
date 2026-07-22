@@ -254,14 +254,17 @@ GitHub Actions (Phase 9): on push to `main`, build and deploy `dist/` with offic
 
 ---
 
-## 10. PWA (Phase 9, optional if unstable)
+## 10. PWA
 
-- `manifest.webmanifest` with name, short_name, `start_url` under `/lost-memory/`, theme color, icons
-- Service worker caches core shell + case assets
-- Update strategy: network-first for `index.html`/SW, cache-first for hashed assets; never brick updates
-- Disable SW registration in Vite dev by default
+Implemented for v1:
 
-If PWA risks v1 stability, document deferral in roadmap and ship Pages without SW first.
+- `public/manifest.webmanifest` — name, `start_url` / `scope` under `/lost-memory/`, theme color, SVG icons
+- Build plugin `scripts/vite-sw-plugin.js` emits `dist/sw.js` with versioned precache
+- Update strategy: network-first for HTML / navigations; cache-first for same-origin assets; old caches deleted on activate
+- `src/js/pwa.js` registers the SW only when `import.meta.env.PROD` (disabled in Vite dev)
+- Deploy docs: `docs/DEPLOYMENT.md`
+
+GitHub Actions workflow `.github/workflows/deploy-pages.yml` runs lint, format check, tests, case validation, build, then deploys `dist/` on push to `main`.
 
 ---
 

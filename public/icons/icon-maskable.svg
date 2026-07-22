@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Lost Memory">
+  <rect width="512" height="512" rx="0" fill="#1a2332"/>
+  <path d="M140 330 V180 h70 c55 0 90 28 90 72 s-35 72-90 72 H140zm70-44 h28 c22 0 36-11 36-28s-14-28-36-28h-28v56z" fill="#c4a574"/>
+  <circle cx="350" cy="220" r="58" fill="none" stroke="#8fa3b8" stroke-width="28"/>
+  <path d="M392 262 L448 324" stroke="#8fa3b8" stroke-width="28" stroke-linecap="round"/>
+  <text x="256" y="455" text-anchor="middle" fill="#a7b6c7" font-family="Georgia, serif" font-size="36">LM</text>
+</svg>

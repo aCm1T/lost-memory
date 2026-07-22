@@ -10,6 +10,8 @@ import { renderInvestigationView } from './views/investigation-view.js';
 import { renderPeopleView, renderDialogueView } from './views/dialogue-view.js';
 import { renderArchiveView } from './views/archive-view.js';
 import { renderTimelineView } from './views/timeline-view.js';
+import { renderDeductionView } from './views/deduction-view.js';
+import { renderEndingView } from './views/ending-view.js';
 import { renderSettingsView } from './views/settings-view.js';
 import { renderCreditsView } from './views/credits-view.js';
 
@@ -82,6 +84,16 @@ function boot() {
   registerRoute('/timeline', async () => {
     setState({ view: 'timeline' });
     mount(renderTimelineView);
+  });
+
+  registerRoute('/deduction', async () => {
+    setState({ view: 'deduction' });
+    mount(renderDeductionView);
+  });
+
+  registerRoute('/ending', async () => {
+    setState({ view: 'ending' });
+    mount(renderEndingView);
   });
 
   registerRoute('/settings', async () => {

@@ -1,0 +1,113 @@
+.deduction-shell,
+.ending-shell {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.lock-banner {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.deduction-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.deduction-fieldset {
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: rgba(30, 41, 56, 0.72);
+}
+
+.deduction-fieldset:disabled {
+  opacity: 0.62;
+}
+
+.deduction-fieldset legend {
+  padding: 0 var(--space-2);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.choice-grid,
+.evidence-grid {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.choice-btn {
+  min-height: var(--touch-min);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+}
+
+.choice-btn.is-selected,
+.choice-btn[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  box-shadow: inset 3px 0 0 var(--color-accent);
+  color: var(--color-accent-hot);
+}
+
+.evidence-option {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  min-height: var(--touch-min);
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+}
+
+.evidence-option.is-disabled {
+  opacity: 0.5;
+}
+
+.evidence-option input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}
+
+.deduction-feedback {
+  padding: var(--space-4);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+}
+
+.ending-hero {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ending-rank {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: var(--color-accent-hot);
+  line-height: 1;
+}
+
+.ending-breakdown,
+.ending-truth {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 800px) {
+  .choice-grid,
+  .evidence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

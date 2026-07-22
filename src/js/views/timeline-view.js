@@ -164,9 +164,9 @@ export function renderTimelineView(root) {
               {
                 type: 'button',
                 className: 'btn btn--ghost',
-                on: { click: () => showToast('最终推理将在 Phase 6 开放') },
+                on: { click: () => navigate('/deduction') },
               },
-              '前往推理（预告）',
+              '前往最终推理',
             )
           : null,
       ]),

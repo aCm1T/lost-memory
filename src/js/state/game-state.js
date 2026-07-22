@@ -18,6 +18,8 @@ function createInitialState() {
     timelineOrder: [],
     timelineSolved: false,
     deductionAttempts: 0,
+    deductionWrongAttempts: 0,
+    lastDeduction: null,
     endingId: null,
     rank: null,
     settings: { ...DEFAULT_SETTINGS },
@@ -99,6 +101,8 @@ export function startCase(caseId, meta = {}) {
     timelineOrder: [],
     timelineSolved: false,
     deductionAttempts: 0,
+    deductionWrongAttempts: 0,
+    lastDeduction: null,
     endingId: null,
     rank: null,
   });

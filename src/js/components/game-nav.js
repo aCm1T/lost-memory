@@ -1,6 +1,5 @@
 import { el } from '../utils/dom.js';
 import { navigate } from '../router.js';
-import { showToast } from './toast.js';
 
 export function renderGameNav(active) {
   const items = [
@@ -8,11 +7,7 @@ export function renderGameNav(active) {
     { id: 'people', label: '询问', href: '/people' },
     { id: 'archive', label: '档案', href: '/archive' },
     { id: 'timeline', label: '时间线', href: '/timeline' },
-    {
-      id: 'deduction',
-      label: '推理',
-      onClick: () => showToast('最终推理将在 Phase 6 开放'),
-    },
+    { id: 'deduction', label: '推理', href: '/deduction' },
   ];
 
   return el(
@@ -26,10 +21,7 @@ export function renderGameNav(active) {
           className: `game-nav__btn${active === item.id ? ' is-active' : ''}`,
           attrs: { 'aria-current': active === item.id ? 'page' : null },
           on: {
-            click: () => {
-              if (item.href) navigate(item.href);
-              else if (item.onClick) item.onClick();
-            },
+            click: () => navigate(item.href),
           },
         },
         item.label,

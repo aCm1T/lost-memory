@@ -18,6 +18,8 @@ export function serializeSave(state = getState()) {
     timelineOrder: [...(state.timelineOrder || [])],
     timelineSolved: Boolean(state.timelineSolved),
     deductionAttempts: Number(state.deductionAttempts) || 0,
+    deductionWrongAttempts: Number(state.deductionWrongAttempts) || 0,
+    lastDeduction: state.lastDeduction || null,
     endingId: state.endingId,
     rank: state.rank,
     settings: { ...DEFAULT_SETTINGS, ...(state.settings || {}) },

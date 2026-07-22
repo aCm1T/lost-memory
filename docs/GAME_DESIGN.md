@@ -198,6 +198,8 @@ Mobile: single column, bottom nav, panels as drawers/modals, no horizontal page 
 | 9     | PWA + GitHub Pages Actions                              |
 | 10    | Full QA, README/CREDITS/LICENSE, release checklist      |
 
+Phase 10 deliverables: `LICENSE`, `CREDITS.md`, finalized `README.md`, `docs/QA_CHECKLIST.md`, `docs/RELEASE_CHECKLIST.md`.
+
 ---
 
 ## 11. Future Roadmap (post-v1)

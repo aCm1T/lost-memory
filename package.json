@@ -1,8 +1,9 @@
 {
   "name": "lost-memory",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Lost Memory — a pure front-end interactive mystery game",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

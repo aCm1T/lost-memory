@@ -288,7 +288,7 @@ GitHub Actions workflow `.github/workflows/deploy-pages.yml` runs lint, format c
 | Timeline        | Correct/incorrect orders                    |
 | Deduction       | Score matrix, ending selection              |
 
-Manual checklist (Phase 10): Chromium/Firefox, mobile viewport, new/continue/delete, wrong/right deduction, refresh on hash routes, Pages base path, offline cache if SW enabled, muted audio path.
+Manual checklist (Phase 10): see `docs/QA_CHECKLIST.md` and `docs/RELEASE_CHECKLIST.md` (Chromium/Firefox, mobile viewport, new/continue/delete, wrong/right deduction, refresh on hash routes, Pages base path, offline cache if SW enabled, muted audio path).
 
 ---
 

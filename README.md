@@ -2,19 +2,20 @@
 
 《失落的记忆》— 纯前端互动推理游戏。
 
-在线试玩（部署后生效）：https://acm1t.github.io/lost-memory/
+**在线试玩：** https://acm1t.github.io/lost-memory/
 
-## 当前进度
+第一案：**《407 号房的失踪者》**（The Vanishing at Room 407）
 
-- Phase 1：产品 / 技术 / 第一案设计文档完成
-- Phase 2：Vite 项目骨架、Hash 路由、首页与案件选择完成
-- Phase 3：案件 JSON、数据校验、加载器、完整简报与调查概览完成
-- Phase 4：场景调查点、人物询问、条件解锁、对话历史与任务进度完成
-- Phase 5：证据档案、证据关联、时间线排序与验证完成
-- Phase 6：最终推理、评分、多结局与结案评价完成
-- Phase 7：存档恢复/续玩、设置持久化、音频系统完成
-- Phase 8：响应式精修、状态反馈、无障碍与动效完善
-- Phase 9：PWA（manifest / Service Worker）、GitHub Pages Actions 部署完成
+## 特点
+
+- 无需账号、后端或运行时 AI；打开页面即可游玩
+- 场景调查、人物询问、证据关联、时间线与最终推理
+- 本地存档与设置；可选 PWA / 离线壳缓存
+- 为 GitHub Pages 子路径设计（Hash 路由 + `base: '/lost-memory/'`）
+
+## 当前状态
+
+v1.0 发布就绪（Phase 1–10）。进度与验收见 [发布检查清单](docs/RELEASE_CHECKLIST.md)、[QA 清单](docs/QA_CHECKLIST.md)。
 
 ## 本地开发
 
@@ -36,15 +37,20 @@ npm run preview
 npm run validate:case
 ```
 
-构建产物输出到 `dist/`，`vite.config.js` 已设置 `base: '/lost-memory/'` 以兼容 GitHub Pages 子路径。生产构建会生成 `dist/sw.js`（仅生产环境注册）。
+构建产物在 `dist/`。生产构建会生成 `dist/sw.js`（仅生产环境注册 Service Worker）。
 
 ## 部署
 
-推送到 `main` 后由 GitHub Actions 自动构建并部署到 Pages。首次使用请在仓库 **Settings → Pages** 将 Source 设为 **GitHub Actions**。详情见 [部署指南](docs/DEPLOYMENT.md)。
+推送到 `main` 后由 GitHub Actions 自动构建并部署到 Pages。首次使用请在仓库 **Settings → Pages** 将 Source 设为 **GitHub Actions**。详见 [部署指南](docs/DEPLOYMENT.md)。
 
 ## 隐私
 
-游戏存档仅保存在用户浏览器本地。
+游戏存档与设置仅保存在用户浏览器本地（`localStorage`）。不收集个人信息，不含分析或广告。
+
+## 许可与致谢
+
+- 源代码：[MIT License](LICENSE)
+- 制作与素材致谢：[CREDITS.md](CREDITS.md)
 
 ## 文档
 
@@ -53,3 +59,5 @@ npm run validate:case
 - [第一案设计](docs/CASE_001_DESIGN.md)
 - [案件编写指南](docs/CASE_AUTHORING.md)
 - [部署指南](docs/DEPLOYMENT.md)
+- [QA 清单](docs/QA_CHECKLIST.md)
+- [发布检查清单](docs/RELEASE_CHECKLIST.md)

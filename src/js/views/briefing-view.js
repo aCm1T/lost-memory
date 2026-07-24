@@ -25,6 +25,34 @@ function renderError(root, title, message, caseId) {
   );
 }
 
+function beginInvestigation(caseId, caseData) {
+  const state = getState();
+  const sameCaseStarted = state.caseId === caseId && Boolean(state.startedAt);
+  const sameCaseActive = sameCaseStarted && hasActiveSave(state);
+
+  if (sameCaseActive) {
+    saveGame();
+    navigate('/investigation');
+    return;
+  }
+
+  if (
+    !confirmNewCaseStart(
+      state,
+      sameCaseStarted && state.completed
+        ? '重新开始本案将覆盖当前结案存档。确定继续吗？'
+        : '已有进行中的调查进度，开始本案将清空当前进度。确定继续吗？',
+    )
+  ) {
+    showToast('已取消开始调查');
+    return;
+  }
+
+  startCase(caseId, caseData);
+  saveGame();
+  navigate('/investigation');
+}
+
 export function renderBriefingView(root, caseId) {
   const summary = getCaseSummary(caseId);
   if (!summary) {
@@ -42,26 +70,16 @@ export function renderBriefingView(root, caseId) {
   const caseData = loaded.data;
   const state = getState();
   const sameCaseStarted = state.caseId === caseId && Boolean(state.startedAt);
-
-  if (!sameCaseStarted) {
-    if (hasActiveSave(state)) {
-      if (
-        !confirmNewCaseStart(
-          state,
-          '已有进行中的调查进度，打开该案简报并开始将清空当前进度。确定继续吗？',
-        )
-      ) {
-        showToast('已取消开始新案件');
-        navigate('/cases');
-        return;
-      }
-    }
-    startCase(caseId, caseData);
-    saveGame();
-  }
-
+  const sameCaseActive = sameCaseStarted && hasActiveSave(state);
   const victim = caseData.briefing.victim;
+  const victimLabel = caseData.briefing.victimLabel || '当事人';
   const objectives = caseData.briefing.objectives.map((item) => el('li', { text: item }));
+
+  const primaryLabel = sameCaseActive
+    ? '继续调查'
+    : sameCaseStarted && state.completed
+      ? '重新调查'
+      : '开始调查';
 
   root.append(
     el(
@@ -96,7 +114,7 @@ export function renderBriefingView(root, caseId) {
                 el('dd', { text: caseData.briefing.time }),
                 el('dt', { text: '地点' }),
                 el('dd', { text: caseData.briefing.place }),
-                el('dt', { text: '失踪者' }),
+                el('dt', { text: victimLabel }),
                 el('dd', {
                   text: `${victim.name}${victim.nameEn ? `（${victim.nameEn}）` : ''} · ${victim.role}`,
                 }),
@@ -128,13 +146,10 @@ export function renderBriefingView(root, caseId) {
                 className: 'btn btn--primary',
                 type: 'button',
                 on: {
-                  click: () => {
-                    saveGame();
-                    navigate('/investigation');
-                  },
+                  click: () => beginInvestigation(caseId, caseData),
                 },
               },
-              '开始调查',
+              primaryLabel,
             ),
             el(
               'button',
@@ -148,7 +163,9 @@ export function renderBriefingView(root, caseId) {
           ]),
           el('p', {
             className: 'placeholder-note',
-            text: '案件数据已校验并载入。进入调查后可点击场景热点与询问人物。',
+            text: sameCaseActive
+              ? '本案进度仍在。可继续调查，或返回案件列表。'
+              : '当前为只读简报。点击“开始调查”后才会写入存档并进入场景。',
           }),
         ]),
       ],

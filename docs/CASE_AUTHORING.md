@@ -78,7 +78,7 @@
 - `endings`（≥ 2）
 - `flags`
 
-完整字段示例见 `src/data/cases/case-001.json` 与 `docs/CASE_001_DESIGN.md`。
+完整字段示例见 `src/data/cases/case-001.json`、`src/data/cases/case-002.json`，以及对应的 `docs/CASE_001_DESIGN.md` / `docs/CASE_002_DESIGN.md`。
 
 ## 6. 验证命令
 

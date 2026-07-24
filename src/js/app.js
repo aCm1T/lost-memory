@@ -139,6 +139,11 @@ function boot() {
     await mountRoute(renderEndingView);
   });
 
+  registerRoute('/ending/:caseId', async ({ params }) => {
+    setState({ view: 'ending' });
+    await mountRoute((root) => renderEndingView(root, params.caseId));
+  });
+
   registerRoute('/settings', async () => {
     setState({ view: 'settings' });
     await mountRoute(renderSettingsView);

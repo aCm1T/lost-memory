@@ -86,5 +86,5 @@ Mark when exercised in a real browser.
 ## Known deferred (post-v1)
 
 - Optional richer install-prompt UX
-- Additional cases / language packs
+- Further cases / language packs (case-002 shipped)
 - Real BGM/SFX files (placeholders only today)

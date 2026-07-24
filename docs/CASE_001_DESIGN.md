@@ -260,11 +260,11 @@ Wrong full submit increments `deductionAttempts` and shows non-spoiling feedback
 
 ### 10.3 Endings (2+)
 
-| ID                               | Condition                                                                             | Summary                                                                      |
-| -------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `ending-true-rescue`             | Correct core deduction (person + method at minimum, or full correct per scoring gate) | 412 opened in time; Su Wan saved; Zhou detained                              |
-| `ending-partial`                 | Person correct but method/motive wrong or evidence thin                               | Police take Zhou for questioning; Su Wan found later with delay; bittersweet |
-| `ending-missed` (optional third) | Person wrong                                                                          | Wrong suspect pressure; true trail goes cold for the night                   |
+| ID                               | Condition                                                                               | Summary                                                                      |
+| -------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `ending-true-rescue`             | Rank S (full correct chain)                                                             | 412 opened in time; Su Wan saved; Zhou detained                              |
+| `ending-partial`                 | Person correct but method/motive/evidence incomplete (includes A/B/C with right person) | Police take Zhou for questioning; Su Wan found later with delay; bittersweet |
+| `ending-missed` (optional third) | Person wrong                                                                            | Wrong suspect pressure; true trail goes cold for the night                   |
 
 v1 must ship **at least two** reachable endings.
 

@@ -166,7 +166,7 @@ Audio starts only after first user gesture; missing files must not break gamepla
 | Route (hash)              | Purpose                                             |
 | ------------------------- | --------------------------------------------------- |
 | `#/home`                  | Title, New / Continue / Cases / Settings / Credits  |
-| `#/cases`                 | Case list (extensible; v1 has one case)             |
+| `#/cases`                 | Case list (extensible; ships case-001 and case-002) |
 | `#/case/:id`              | Briefing                                            |
 | `#/investigation`         | Locations, hotspots, progress                       |
 | `#/dialogue/:characterId` | Interview                                           |
@@ -204,7 +204,7 @@ Phase 10 deliverables: `LICENSE`, `CREDITS.md`, finalized `README.md`, `docs/QA_
 
 ## 11. Future Roadmap (post-v1)
 
-- Additional cases via data packs only
+- Additional cases via data packs only (case-002 shipped; further cases follow the same path)
 - Optional language packs (`en` / `zh`) using existing string fields
 - Richer evidence board visualization
 - Achievements stored locally

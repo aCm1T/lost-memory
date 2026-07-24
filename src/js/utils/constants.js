@@ -3,6 +3,7 @@ export const APP_NAME_ZH = '失落的记忆';
 export const SAVE_KEY = 'lost-memory.save.v1';
 export const SETTINGS_KEY = 'lost-memory.settings.v1';
 export const BEST_RANKS_KEY = 'lost-memory.best-ranks.v1';
+export const ENDINGS_ARCHIVE_KEY = 'lost-memory.endings.v1';
 export const DATA_VERSION = 1;
 export const BASE_PATH = '/lost-memory/';
 

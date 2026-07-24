@@ -2,50 +2,15 @@ import { el } from '../utils/dom.js';
 import { navigate } from '../router.js';
 import { loadCase, getLoadedCase } from '../systems/case-loader.js';
 import { getState } from '../state/game-state.js';
-import { getRankLabel } from '../systems/deduction-system.js';
-import { getDeductionConfig } from '../systems/deduction-system.js';
+import { getCaseEnding } from '../state/save-manager.js';
+import { getRankLabel, getDeductionConfig } from '../systems/deduction-system.js';
 
 function labelOf(options, id) {
   return options.find((option) => option.id === id)?.label || id || '—';
 }
 
-export function renderEndingView(root) {
-  const state = getState();
-  if (!state.caseId) {
-    navigate('/cases');
-    return;
-  }
-
-  const loaded = loadCase(state.caseId);
-  if (!loaded.ok) {
-    root.append(el('section', { className: 'view panel' }, [el('p', { text: loaded.error })]));
-    return;
-  }
-
-  const caseData = getLoadedCase(state.caseId);
-  if (!state.completed || !state.endingId) {
-    root.append(
-      el('section', { className: 'view panel' }, [
-        el('h1', { text: '尚未结案' }),
-        el('p', { text: '请先完成最终推理提交。' }),
-        el(
-          'button',
-          {
-            type: 'button',
-            className: 'btn btn--primary',
-            on: { click: () => navigate('/deduction') },
-          },
-          '前往推理',
-        ),
-      ]),
-    );
-    return;
-  }
-
-  const ending = caseData.endings.find((item) => item.id === state.endingId);
+function renderEndingShell(root, { caseData, ending, rank, last, archiveMode }) {
   const deduction = getDeductionConfig(caseData);
-  const last = state.lastDeduction;
-  const rank = state.rank || last?.rank || 'C';
 
   root.append(
     el(
@@ -53,11 +18,17 @@ export function renderEndingView(root) {
       { className: 'view ending-shell', attrs: { 'aria-labelledby': 'ending-title' } },
       [
         el('header', { className: 'ending-hero panel' }, [
-          el('p', { className: 'eyebrow', text: 'Case Closed' }),
+          el('p', { className: 'eyebrow', text: archiveMode ? 'Case Archive' : 'Case Closed' }),
           el('p', { className: 'ending-rank', text: `评价 ${rank}` }),
           el('h1', { id: 'ending-title', text: getRankLabel(rank) }),
           el('h2', { text: ending?.title || '结案' }),
           el('p', { text: ending?.summary || '' }),
+          archiveMode
+            ? el('p', {
+                className: 'placeholder-note',
+                text: '这是已归档的结案记录，不会改动当前进行中的存档。',
+              })
+            : null,
         ]),
         el('section', { className: 'panel ending-breakdown' }, [
           el('h2', { text: '本次推理' }),
@@ -143,4 +114,75 @@ export function renderEndingView(root) {
       ],
     ),
   );
+}
+
+export function renderEndingView(root, archiveCaseId = null) {
+  if (archiveCaseId) {
+    const archive = getCaseEnding(archiveCaseId);
+    if (!archive?.endingId) {
+      navigate('/cases');
+      return;
+    }
+
+    const loaded = loadCase(archiveCaseId);
+    if (!loaded.ok) {
+      root.append(el('section', { className: 'view panel' }, [el('p', { text: loaded.error })]));
+      return;
+    }
+
+    const caseData = getLoadedCase(archiveCaseId);
+    const ending = caseData.endings.find((item) => item.id === archive.endingId);
+    renderEndingShell(root, {
+      caseData,
+      ending: ending || { title: archive.title, summary: archive.summary },
+      rank: archive.rank || 'C',
+      last: archive.lastDeduction,
+      archiveMode: true,
+    });
+    return;
+  }
+
+  const state = getState();
+  if (!state.caseId) {
+    navigate('/cases');
+    return;
+  }
+
+  const loaded = loadCase(state.caseId);
+  if (!loaded.ok) {
+    root.append(el('section', { className: 'view panel' }, [el('p', { text: loaded.error })]));
+    return;
+  }
+
+  const caseData = getLoadedCase(state.caseId);
+  if (!state.completed || !state.endingId) {
+    root.append(
+      el('section', { className: 'view panel' }, [
+        el('h1', { text: '尚未结案' }),
+        el('p', { text: '请先完成最终推理提交。' }),
+        el(
+          'button',
+          {
+            type: 'button',
+            className: 'btn btn--primary',
+            on: { click: () => navigate('/deduction') },
+          },
+          '前往推理',
+        ),
+      ]),
+    );
+    return;
+  }
+
+  const ending = caseData.endings.find((item) => item.id === state.endingId);
+  const last = state.lastDeduction;
+  const rank = state.rank || last?.rank || 'C';
+
+  renderEndingShell(root, {
+    caseData,
+    ending,
+    rank,
+    last,
+    archiveMode: false,
+  });
 }

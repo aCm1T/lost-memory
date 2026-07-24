@@ -7,6 +7,7 @@
 | Concept / design / case writing | aCm1T                                            |
 | Implementation                  | aCm1T                                            |
 | First case                      | 《407 号房的失踪者》 / The Vanishing at Room 407 |
+| Second case                     | 《零点十三分的回声》 / The Echo at 00:13         |
 
 ## Technology
 

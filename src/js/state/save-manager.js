@@ -2,6 +2,7 @@ import {
   BEST_RANKS_KEY,
   DATA_VERSION,
   DEFAULT_SETTINGS,
+  ENDINGS_ARCHIVE_KEY,
   SAVE_KEY,
   SETTINGS_KEY,
 } from '../utils/constants.js';
@@ -243,4 +244,44 @@ export function recordBestRank(caseId, rank, storage = getLocalStorage()) {
     }
   }
   return current;
+}
+
+export function readCaseEndings(storage = getLocalStorage()) {
+  try {
+    const raw = storage.getItem(ENDINGS_ARCHIVE_KEY);
+    if (!raw) return {};
+    const parsed = safeParse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Persist the latest closing result per case so endings remain reviewable
+ * after switching to another investigation.
+ */
+export function recordCaseEnding(caseId, endingRecord, storage = getLocalStorage()) {
+  if (!caseId || !endingRecord) return readCaseEndings(storage);
+  const current = readCaseEndings(storage);
+  current[caseId] = {
+    caseId,
+    endingId: endingRecord.endingId || null,
+    rank: endingRecord.rank || null,
+    title: endingRecord.title || '',
+    summary: endingRecord.summary || '',
+    lastDeduction: endingRecord.lastDeduction || null,
+    completedAt: endingRecord.completedAt || new Date().toISOString(),
+  };
+  try {
+    storage.setItem(ENDINGS_ARCHIVE_KEY, JSON.stringify(current));
+  } catch {
+    /* ignore quota errors */
+  }
+  return current;
+}
+
+export function getCaseEnding(caseId, storage = getLocalStorage()) {
+  if (!caseId) return null;
+  return readCaseEndings(storage)[caseId] || null;
 }
